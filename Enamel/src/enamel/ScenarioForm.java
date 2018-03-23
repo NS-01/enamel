@@ -72,7 +72,7 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 @SuppressWarnings({ "unused", "rawtypes", "serial" })
 public class ScenarioForm {
 
-	private JFrame sCreatorFrame;
+	JFrame sCreatorFrame;
 	private int numCells = 1; // assuming 1 selected by default. i.e. always non
 								// zero
 	private int numButtons = 1; // assuming 1 selected by default. i.e. always
@@ -82,6 +82,7 @@ public class ScenarioForm {
 	private JComboBox<String> comboCellBox;
 	private JLabel lblNumberOfButtons;
 	private JComboBox<String> comboButtonBox;
+	private ArrayList<Card> cards;
 	// non zero
 
 	/**
@@ -104,6 +105,11 @@ public class ScenarioForm {
 	 * Create the application.
 	 */
 	public ScenarioForm() {
+		this(new ArrayList<Card>());
+	}
+	
+	public ScenarioForm(ArrayList<Card> cards) {
+		this.cards = cards;
 		initialize();
 	}
 
@@ -290,7 +296,7 @@ public class ScenarioForm {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				int state = itemEvent.getStateChange();
 				ItemSelectable is = itemEvent.getItemSelectable();
-				numCells = Integer.parseInt(selectedString(is).toString());
+				numCells = Character.getNumericValue(selectedString(is).charAt(0));
 				System.out.println("Selected: " + selectedString(is));
 			}
 		});
@@ -314,7 +320,7 @@ public class ScenarioForm {
 			public void itemStateChanged(ItemEvent itemEvent) {
 				int state = itemEvent.getStateChange();
 				ItemSelectable is = itemEvent.getItemSelectable();
-				numButtons = Integer.parseInt(selectedString(is).toString());
+				numButtons = Character.getNumericValue(selectedString(is).charAt(0));
 				System.out.println("Selected: " + selectedString(is));
 			}
 		});
@@ -344,14 +350,28 @@ public class ScenarioForm {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<Card> cards = new ArrayList<Card>();
-				Card temp = new Card(1, "Card 1", "");
-				cards.add(temp);
-				cards.get(0).getCells().add(new BrailleCell());
-				AuthoringViewer av = new AuthoringViewer(comboCellBox.getSelectedIndex() + 1,
-						comboButtonBox.getSelectedIndex() + 1, cards, getTitle(), "");
-				av.setCardList();
-				sCreatorFrame.dispose();
+				if (cards.isEmpty()) {
+					ArrayList<Card> cards = new ArrayList<Card>();
+					Card temp = new Card(1, "Card 1", "");
+					cards.add(temp);
+					cards.get(0).getCells().add(new BrailleCell());
+					AuthoringViewer av = new AuthoringViewer(comboCellBox.getSelectedIndex() + 1,
+							comboButtonBox.getSelectedIndex() + 1, cards, getTitle(), "");
+					av.setCardList();
+					sCreatorFrame.dispose();
+				}
+				else {
+					System.out.println("******************************************************************************");
+					AuthoringViewer av = new AuthoringViewer(comboCellBox.getSelectedIndex() + 1,
+							comboButtonBox.getSelectedIndex() + 1, cards, getTitle(), "");
+					av.setCardList();
+					av.setPromptText(cards.get(0).getText());
+					av.setCurrCellPins(cards.get(0).getCells().get(0));
+					av.setButtonText(cards.get(0).getButtonList().get(0).getText());
+					av.setCardList();
+					av.setEdited();
+					sCreatorFrame.dispose();
+				}
 			}
 		};
 		btnSaveAndCreate.setAction(buttonAction);
