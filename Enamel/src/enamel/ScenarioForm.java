@@ -80,6 +80,7 @@ import org.eclipse.wb.swing.FocusTraversalOnArray;
 @SuppressWarnings({ "unused", "rawtypes", "serial" })
 public class ScenarioForm {
 
+	//conflict resolved
 	JFrame sCreatorFrame;
 	private int numCells = 1; // assuming 1 selected by default. i.e. always non
 	private int numButtons = 1; // assuming 1 selected by default. i.e. always
