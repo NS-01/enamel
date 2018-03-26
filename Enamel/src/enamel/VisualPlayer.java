@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
@@ -69,12 +72,14 @@ public class VisualPlayer extends Player {
 				frame = new JFrame();
 				frame.setTitle("Simulator");
 				frame.setBounds(100, 100, 627, 459);
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);//(JFrame.DISPOSE_ON_CLOSE);
+				frame.addWindowListener(new confirmClose());
 				frame.getContentPane().setLayout(new BorderLayout());
 
 				for (int i = 0; i < brailleCellNumber; i++) {
 
 				    BrailleCellPanel bcp = new BrailleCellPanel();
+				    bcp.setEnabled(true);
 				    brailleCellPanelList.add(bcp);
 				    centerPanel.add(bcp);
 
@@ -226,6 +231,13 @@ public class VisualPlayer extends Player {
 			for (int x = 0; x < aList.length; x++) {
 				getButton(index).removeActionListener(getButton(index).getActionListeners()[x]);
 			}
+		}
+	}
+	
+	private class confirmClose extends WindowAdapter {
+		public void windowClosing(WindowEvent e) {
+			ScenarioParser.exit = true;
+			frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		}
 	}
 }

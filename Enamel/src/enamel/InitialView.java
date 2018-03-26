@@ -20,6 +20,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Set;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -37,9 +45,9 @@ import javax.swing.filechooser.FileFilter;
 import enamel.ScenarioParser;
 
 /**
- * 
+ *
  * @author Jeremy, Nisha, Tyler
- * 
+ *
  *         GUI class to display initial view of Authoring app. This class allows
  *         user to create new scenario, edit saved scenario, test saved
  *         scenario. Accessibility features are implemented.
@@ -51,7 +59,12 @@ public class InitialView {
 	private boolean ctrlPressed = false;
 	private JFrame frmAuthoringApp;
 	private Thread starterCodeThread;// thread to run visual player
+//<<<<<<< HEAD
+	
+	public Logger logger = Logger.getLogger(this.getClass().getName());
+//=======
 	private JButton exitButton;
+//>>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
 
 	/**
 	 * Launch the application.
@@ -68,13 +81,24 @@ public class InitialView {
 			}
 		});
 
-	}
+	} 
 
 	/**
 	 * Create the application.
 	 */
 	public InitialView() {
 		initialize();
+		ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setFormatter(new Formatter() {
+    		private String format = "[%1$s] [%2$s] %3$s %n";
+			private SimpleDateFormat dateWithMillis = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
+			@Override
+			public String format(LogRecord record) {
+				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(), formatMessage(record));
+			}
+    	});
+    	logger.addHandler(consoleHandler);
+    	logger.setUseParentHandlers(false);
 	}
 
 	/**
@@ -174,22 +198,38 @@ public class InitialView {
 		 * //frmAuthoringApp.setFocusable(true); Action exAction = new AbstractAction()
 		 * {
 		 * 
-		 * @Override public void actionPerformed(ActionEvent e) {
+		 * @Override public void actionPerformed(ActionEvent e) { // TODO Auto-generated
 		 * method stub testExtract(exitButton); } };
 		 * exitButton.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
 		 * ActionEvent.CTRL_MASK), "exiting"); exitButton.getActionMap().put("exiting",
 		 * exAction); //exitButton.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
 		 * ActionEvent.CTRL_MASK));
 		 */
-		System.out.println(Thread.currentThread().getName().toString());
+		// System.out.println(Thread.currentThread().getName().toString());
+		/*
+		 * if( Thread.getAllStackTraces().containsKey(starterCodeThread)==true){
+		 * //Thread c = Thread.getAllStackTraces().containsValue(starterCodeThread);
+		 * System.out.println(""+
+		 * Thread.getAllStackTraces().get(starterCodeThread).toString()); }
+		 */
+		// Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+		// Walk up all the way to the root thread group
 
 	}
 
 	private void newAction(JButton newButton) {
+//<<<<<<< HEAD
+//		newButton.addActionListener(new ActionListener() {
+//			int count = 0;
+//=======
 		Action buttonAction = new AbstractAction("New") {
-
+			int count = 0;
 			@Override
+//>>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
 			public void actionPerformed(ActionEvent e) {
+				count ++;
+				logger.log(Level.INFO, "New Button was pressed.");
+				logger.log(Level.INFO, "New Button was pressed {0} times", count);
 				ScenarioForm sf = new ScenarioForm();
 				sf.displayForm();
 			}
@@ -201,11 +241,19 @@ public class InitialView {
 	}
 
 	private void editAction(JButton editButton) {
+//<<<<<<< HEAD
+//		editButton.addActionListener(new ActionListener() {
+//			int count = 0;
+//=======
 
 		Action buttonAction = new AbstractAction("Edit") {
-
+			int count = 0;
 			@Override
+//>>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
 			public void actionPerformed(ActionEvent e) {
+				count ++;
+				logger.log(Level.INFO, "Edit Button was pressed.");
+				logger.log(Level.INFO, "Edit Button was pressed {0} times", count);
 				new Thread(new Runnable() {
 					public void run() {
 						JButton open = new JButton();
@@ -216,7 +264,7 @@ public class InitialView {
 							f.setFile(fc.getSelectedFile().getPath());
 							AuthoringViewer av = new AuthoringViewer(f.getCells(), f.getButtons(), f.getCards(),
 									f.getInitial(), f.getEnding()); // newActionListener(){public void
-																	// actionPerformed(ActionEvente2) {}});
+							// actionPerformed(ActionEvente2) {}});
 							av.setPromptText(f.getCards().get(0).getText());
 							av.setCurrCellPins(f.getCards().get(0).getCells().get(0));
 							av.setButtonText(f.getCards().get(0).getButtonList().get(0).getText());
@@ -235,11 +283,42 @@ public class InitialView {
 	}
 
 	private void testAction(JButton testButton) {
+//<<<<<<< HEAD
+//		testButton.addActionListener(new ActionListener() {
+//			int count = 0;
+//=======
 
 		Action buttonAction = new AbstractAction("Test") {
-
+			int count = 0;
 			@Override
+//>>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
 			public void actionPerformed(ActionEvent e) {
+//<<<<<<< HEAD
+				count ++;
+				logger.log(Level.INFO, "Test Button was pressed.");
+				logger.log(Level.INFO, "Test Button was pressed {0} times", count);
+				// ToyAuthoring ta = new ToyAuthoring();
+				// ta.launchToyAuthoring();
+				// ta.main(null);
+
+				// frame.dispose();
+				/*
+				 * JButton open = new JButton();
+				 * 
+				 * JFileChooser fc = new JFileChooser();
+				 * fc.setCurrentDirectory(new
+				 * java.io.File("./FactoryScenarios"));
+				 * fc.setDialogTitle("Please Choose File to Open");
+				 * fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				 * if (fc.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
+				 * 
+				 * } ScenarioParser s = new ScenarioParser(true);
+				 * s.setScenarioFile(fc.getSelectedFile().getPath());
+				 */
+
+				// Running Starter code as separate thread
+//=======
+//>>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
 				starterCodeThread = new Thread("Starter Code Thread") {
 					public void run() {
 						JButton open = new JButton();
@@ -252,9 +331,22 @@ public class InitialView {
 					}
 				};// ).start();
 				starterCodeThread.start();
-				// System.out.println(Thread.currentThread().getName().toString());
+				ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
+				int noThreads = currentGroup.activeCount();
+				Thread[] lstThreads = new Thread[noThreads];
+				currentGroup.enumerate(lstThreads);
+
+				for (int i = 0; i < noThreads; i++)
+					System.out.println("Thread No:" + i + " = " + lstThreads[i].getName());
 			}
+
 		};
+		// System.out.println(Thread.currentThread().getName().toString());
+		/*
+		 * ThreadGroup rootGroup = Thread.currentThread().getThreadGroup(); ThreadGroup
+		 * parent; while ((parent = rootGroup.getParent()) != null) { rootGroup =
+		 * parent; listThreads(rootGroup, ""); }
+		 */
 		testButton.setAction(buttonAction);
 		testButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
 				.put(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK), "Test");
@@ -262,10 +354,18 @@ public class InitialView {
 	}
 
 	private void exitAction(JButton exitButton) {
+//<<<<<<< HEAD
+//		exitButton.addActionListener(new ActionListener() {
+//			int count=0;
+//=======
 		Action buttonAction = new AbstractAction("Exit") {
-
+			int count = 0;
 			@Override
+//>>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
 			public void actionPerformed(ActionEvent e) {
+				count ++;
+				logger.log(Level.INFO, "Exit Button was pressed.");
+				logger.log(Level.INFO, "Exit Button was pressed {0} times", count);
 				frmAuthoringApp.setVisible(false);
 				frmAuthoringApp.dispose();
 				System.exit(0);
@@ -300,5 +400,28 @@ public class InitialView {
 		fc.setDialogTitle("Please Choose File to Open");
 		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
 
+	}
+
+	// List all threads and recursively list all subgroup
+	public static void listThreads(ThreadGroup group, String indent) {
+		System.out.println(indent + "Group[" + group.getName() + ":" + group.getClass() + "]");
+		int nt = group.activeCount();
+		Thread[] threads = new Thread[nt * 2 + 10]; // nt is not accurate
+		nt = group.enumerate(threads, false);
+
+		// List every thread in the group
+		for (int i = 0; i < nt; i++) {
+			Thread t = threads[i];
+			System.out.println(indent + "  Thread[" + t.getName() + ":" + t.getClass() + "]");
+		}
+
+		// Recursively list all subgroups
+		int ng = group.activeGroupCount();
+		ThreadGroup[] groups = new ThreadGroup[ng * 2 + 10];
+		ng = group.enumerate(groups, false);
+
+		for (int i = 0; i < ng; i++) {
+			listThreads(groups[i], indent + "  ");
+		}
 	}
 }

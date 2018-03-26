@@ -21,7 +21,9 @@ public class ScenarioParser {
 	public boolean userInput;
 	private String scenarioFilePath;
 	private boolean isVisual;
-
+	private Thread[] lstThreads;
+	
+	public static boolean exit;
 	public ScenarioParser(boolean isVisual) {
 
 		//String currDir = System.getProperty("user.dir");
@@ -32,13 +34,29 @@ public class ScenarioParser {
         repeatedText = new ArrayList<String> ();
         userInput = false;
         this.isVisual = isVisual;
+        exit=false;
+        ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
+	      int noThreads = currentGroup.activeCount();
+	      lstThreads = new Thread[noThreads];
+	      currentGroup.enumerate(lstThreads);
+	      
+	      for (int i = 0; i < noThreads; i++) System.out.println("Thread No:" + i + " = " + lstThreads[i].getName());
 	}
 	
 	/*
 	 * This method exits the program.
 	 */
-	private void exit() {
+	private void exit() {			
+		//ScenarioParser.exit = true;
+
 		Thread.currentThread().interrupt();
+		//for (int i = 0; i < lstThreads.length; i++){
+		//if(lstThreads[i].equals("Thread-5")){
+			//lstThreads[Thread.getAllStackTraces().size()-1].interrupt();;
+			/*Thread.currentThread().getThreadGroup().interrupt();;//lstThreads[i].interrupt();
+			try { Thread.sleep(300); } catch(InterruptedException ex){}*/
+		//}
+		//}
 	}
 
 	/*
@@ -385,8 +403,13 @@ public class ScenarioParser {
 	 */
 	private void play() {
 		String fileLine;
+		if(exit == true){
+				fileScanner.close();
+				System.out.println("exit true and has nxt line");
+				exit();			
+			}
 		try {
-			while (fileScanner.hasNextLine()) {
+			while (exit == false && fileScanner.hasNextLine()) {
 				// This while loop is created to wait for a user to press a
 				// button.
 				while (userInput) {
@@ -395,7 +418,9 @@ public class ScenarioParser {
 				fileLine = fileScanner.nextLine();
 				performAction(fileLine);
 			}
-			if (!fileScanner.hasNextLine()) {
+			
+			if (exit == true || !fileScanner.hasNextLine()) {
+				System.out.println("exit true or no has nxt line");
 				fileScanner.close();
 				// The if statement is created to check if there is an
 				// /~endrepeat for a previously
