@@ -199,8 +199,6 @@ public class AuthoringApp {
 		aViewFrame.setBounds(100, 100, 1000, 612);
 		aViewFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
-		
-
 		JMenuBar menuBar = new JMenuBar();
 		aViewFrame.setJMenuBar(menuBar);
 
@@ -212,7 +210,8 @@ public class AuthoringApp {
 		mntmNew.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// to do: first check if unsaved work, close old window before opening
+				// to do: first check if unsaved work, close old window before
+				// opening
 				ScenarioForm sf = new ScenarioForm();
 				sf.displayForm();
 			}
@@ -288,7 +287,8 @@ public class AuthoringApp {
 		mnFile.add(mntmOpen);
 		mntmOpen.addActionListener(new ActionListener() {
 			// Currently just runs edit text from InitialView
-			// to do: check if doc is saved before opening, close old window on open
+			// to do: check if doc is saved before opening, close old window on
+			// open
 			public void actionPerformed(ActionEvent e) {
 				new Thread(new Runnable() {
 					public void run() {
@@ -478,7 +478,8 @@ public class AuthoringApp {
 		mntmCourseWebsite.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// launch browser to https://wiki.eecs.yorku.ca/course_archive/2017-18/W/2311/
+				// launch browser to
+				// https://wiki.eecs.yorku.ca/course_archive/2017-18/W/2311/
 				if (Desktop.isDesktopSupported()) {
 					try {
 						Desktop.getDesktop()
@@ -535,7 +536,7 @@ public class AuthoringApp {
 
 		JPanel buttonPanel = new JPanel();
 		center_south.add(buttonPanel);
-		buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
 
 		JLabel label = new JLabel("");
 		buttonPanel.add(label);
@@ -584,7 +585,7 @@ public class AuthoringApp {
 			button_1.setSize(75, 30);
 			buttonPanel.add(button_1);
 		}
-		if (this.numButtons >= 3) {
+		if (this.numButtons >= 3) { 
 			JButton button_2 = new JButton("3");
 			button_2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -731,7 +732,7 @@ public class AuthoringApp {
 		});
 		button_7.setToolTipText("Right Cell Button");
 		cellPane.add(button_7);
-		
+
 		lblCurrCell = new JLabel("1/" + this.numCells);
 		cellPane.add(lblCurrCell);
 		lblCurrCell.setBounds(105, 189, 31, 16);
@@ -806,11 +807,10 @@ public class AuthoringApp {
 		list.setLayoutOrientation(JList.VERTICAL);
 		list.setVisibleRowCount(-1);
 		listScroller = new JScrollPane(list);
-		listScroller = new JScrollPane(list);
 		listScroller.setViewportView(list);
 		listScroller.setAlignmentX(0.0f);
 		east.add(listScroller);
-		
+
 		JLabel lblOrder = new JLabel("ORDER");
 		listScroller.setColumnHeaderView(lblOrder);
 		lblOrder.setVerticalAlignment(SwingConstants.BOTTOM);
@@ -825,6 +825,7 @@ public class AuthoringApp {
 		btnCardUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int selected = list.getSelectedIndex();
+				System.out.println("****************************************************\n" + selected);
 				if (selected == 0) {
 					JOptionPane.showMessageDialog(null, "This card is already at the top", "Alert",
 							JOptionPane.ERROR_MESSAGE);
@@ -921,6 +922,7 @@ public class AuthoringApp {
 					System.out.println(cards.size());
 					Card temp = new Card(currCard + 1, "Card " + (currCard + 2), "");
 					cards.add(temp);
+					System.out.println("New Size: " + cards.size());
 					temp.getButtonList().add(new DataButton(0));
 					temp.getCells().add(new BrailleCell());
 					nextCard();
@@ -1116,14 +1118,14 @@ public class AuthoringApp {
 	 * @param cell
 	 */
 	public void setCurrCellPins(BrailleCell cell) {
-		rspOne.setSelected(cell.getPinState(0));
-		rspTwo.setSelected(cell.getPinState(1));
-		rspThree.setSelected(cell.getPinState(2));
-		rspFour.setSelected(cell.getPinState(3));
-		rspFive.setSelected(cell.getPinState(4));
-		rspSix.setSelected(cell.getPinState(5));
-		rspSeven.setSelected(cell.getPinState(6));
-		rspEight.setSelected(cell.getPinState(7));
+		pOne.setSelected(cell.getPinState(0));
+		pTwo.setSelected(cell.getPinState(1));
+		pThree.setSelected(cell.getPinState(2));
+		pFour.setSelected(cell.getPinState(3));
+		pFive.setSelected(cell.getPinState(4));
+		pSix.setSelected(cell.getPinState(5));
+		pSeven.setSelected(cell.getPinState(6));
+		pEight.setSelected(cell.getPinState(7));
 	}
 
 	/**
@@ -1144,7 +1146,7 @@ public class AuthoringApp {
 		for (Card cards : this.cards) {
 			listModel.addElement(cards.getName());
 		}
-		// list.setSelectedIndex(currCard);
+		list.setSelectedIndex(currCard);
 	}
 
 	/**
@@ -1198,14 +1200,14 @@ public class AuthoringApp {
 	public void updateCell() {
 		BrailleCell temp = new BrailleCell();
 		String s = "";
-		s += rspOne.isSelected() ? "1" : "0";
-		s += rspTwo.isSelected() ? "1" : "0";
-		s += rspThree.isSelected() ? "1" : "0";
-		s += rspFour.isSelected() ? "1" : "0";
-		s += rspFive.isSelected() ? "1" : "0";
-		s += rspSix.isSelected() ? "1" : "0";
-		s += rspSeven.isSelected() ? "1" : "0";
-		s += rspEight.isSelected() ? "1" : "0";
+		s += pOne.isSelected() ? "1" : "0";
+		s += pTwo.isSelected() ? "1" : "0";
+		s += pThree.isSelected() ? "1" : "0";
+		s += pFour.isSelected() ? "1" : "0";
+		s += pFive.isSelected() ? "1" : "0";
+		s += pSix.isSelected() ? "1" : "0";
+		s += pSeven.isSelected() ? "1" : "0";
+		s += pEight.isSelected() ? "1" : "0";
 		temp.setPins(s);
 		cards.get(currCard).getCells().set(currCell, temp);
 	}

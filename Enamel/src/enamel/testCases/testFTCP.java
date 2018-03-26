@@ -228,10 +228,10 @@ public class testFTCP {
 						+ "Press the button 1 for pins 1 and 3, or press button 2 for pins 4 and 6.",
 				cards.get(0).getText());
 		assertEquals(
-				"That's correct! The pins being displayed are 1 and 3, which are the top and bottom pins on the left side of the cell.",
+				"/~sound:correct.wav\nThat's correct! The pins being displayed are 1 and 3, which are the top and bottom pins on the left side of the cell.",
 				cards.get(0).getButtonList().get(0).getText());
 		assertEquals(
-				"I'm sorry! That's incorrect. The pins being displayed are 1 and 3, which are the top and bottom pins on the left side of the cell, \n"
+				"/~sound:wrong.wav\nI'm sorry! That's incorrect. The pins being displayed are 1 and 3, which are the top and bottom pins on the left side of the cell, \n"
 						+ "and not 4 and 6,\n" + "\n" + "/Pins on 0: 00010100\n"
 						+ "which are on the right side of the cell.",
 				cards.get(0).getButtonList().get(1).getText());
@@ -249,7 +249,7 @@ public class testFTCP {
 						+ "What pins are up right now? Are they the pins 1 and 4, or are they the pins 3 and 6?\n"
 						+ "Press the button 1 for pins 1 and 4, or press button 2 for pins 3 and 6.",
 				cards.get(2).getText());
-		assertEquals("That's correct! The pins being displayed are 3 and 6, which are the two bottom pins.",
+		assertEquals("/~sound:correct.wav\nThat's correct! The pins being displayed are 3 and 6, which are the two bottom pins.",
 				cards.get(2).getButtonList().get(1).getText());
 		assertEquals(false, cards.get(2).getCells().get(0).getPinState(0));
 		assertEquals(false, cards.get(2).getCells().get(0).getPinState(1));

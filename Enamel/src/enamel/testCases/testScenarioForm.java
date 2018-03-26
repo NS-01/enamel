@@ -25,7 +25,7 @@ public class testScenarioForm {
 	 * Test if the GUI is created
 	 */
 	@Test
-	public void test() {
+	public void testGUICreation() {
 		assertNotNull(sf);
 	}
 
@@ -33,17 +33,9 @@ public class testScenarioForm {
 	 * Ensure the GUI is capable of having multiple iterations of itself
 	 */
 	@Test
-	public void test2() {
+	public void testMultipleGUIs() {
 		ScenarioForm temp = new ScenarioForm();
 		assertNotSame(sf, temp);
-
-	}
-
-	/*
-	 * 
-	 */
-	@Test
-	public void test3() {
 
 	}
 }

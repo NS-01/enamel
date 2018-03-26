@@ -30,7 +30,7 @@ public class testAuthoringView {
 	 * Test if the GUI is created
 	 */
 	@Test
-	public void test() {
+	public void testGUICreation() {
 		assertNotNull(aw);
 	}
 
@@ -38,16 +38,8 @@ public class testAuthoringView {
 	 * Ensure the GUI is capable of having multiple iterations of itself
 	 */
 	@Test
-	public void test2() {
+	public void testMultipleGUIs() {
 		AuthoringViewer fw = new AuthoringViewer(0, 0, array, null, null);
 		assertNotSame(aw, fw);
-	}
-
-	/*
-	 * 
-	 */
-	@Test
-	public void test3() {
-
 	}
 }
