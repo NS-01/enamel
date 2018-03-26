@@ -585,7 +585,7 @@ public class AuthoringApp {
 			button_1.setSize(75, 30);
 			buttonPanel.add(button_1);
 		}
-		if (this.numButtons >= 3) {
+		if (this.numButtons >= 3) { 
 			JButton button_2 = new JButton("3");
 			button_2.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
