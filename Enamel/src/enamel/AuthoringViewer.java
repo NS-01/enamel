@@ -23,6 +23,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import java.awt.GridBagConstraints;
 import javax.swing.DefaultComboBoxModel;
@@ -46,15 +48,18 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.JPanel;
 import javax.swing.JEditorPane;
 import javax.swing.JRadioButton;
 import java.awt.GridLayout;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BoxLayout;
 import java.lang.Object;
 import enamel.ScenarioParser;
-
 
 /**
  *
@@ -92,7 +97,7 @@ public class AuthoringViewer {
         private JList list;
         private DefaultListModel<String> listModel;
         private static String testPins;
-        
+
         private String title;
 
         private int currButton;
@@ -460,9 +465,9 @@ public class AuthoringViewer {
                                 fc.setCurrentDirectory(new java.io.File("./FactoryScenarios"));
                                 fc.setDialogTitle("Save as");
                                 fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-                                //if(!title.equals(null)){
-                                	fc.setSelectedFile(new File(title+".txt"));
-                                //}
+                                // if(!title.equals(null)){
+                                fc.setSelectedFile(new File(title + ".txt"));
+                                // }
                                 FileFilter txtFilter = new FileFilter() {
                                         @Override
                                         public String getDescription() {
@@ -502,8 +507,7 @@ public class AuthoringViewer {
                                                 JOptionPane.showMessageDialog(null, "Saved the Scenario file to:\n" + path);
 
                                         } catch (IOException ex) {
-                                                JOptionPane.showMessageDialog(null, "Error", "Failed to save file!",
-                                                                JOptionPane.ERROR_MESSAGE);
+                                                JOptionPane.showMessageDialog(null, "Error", "Failed to save file!", JOptionPane.ERROR_MESSAGE);
                                                 ex.printStackTrace();
                                         }
                                 }
@@ -779,6 +783,12 @@ public class AuthoringViewer {
                 btnPreviousCard.setBounds(694, 525, 117, 29);
                 aViewFrame.getContentPane().add(btnPreviousCard);
 
+                JButton settingsButton = new JButton("Settings");
+                settingsButton.getAccessibleContext().setAccessibleDescription("Creates a new file");
+                settingsButton.setBounds(260, 525, 75, 50);
+                settingsAction(settingsButton);
+                aViewFrame.getContentPane().add(settingsButton);
+
                 JLabel lblCell = new JLabel("Cell:");
                 lblCell.getAccessibleContext().setAccessibleDescription("Indicates Cell number of the cell being displayed");
                 lblCell.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -806,6 +816,43 @@ public class AuthoringViewer {
                                 // do nothing
                         }
                 }
+        }
+
+        /**
+         * Action for settings button
+         *
+         * @param settingsButton
+         */
+        private void settingsAction(JButton settingsButton) {
+                Action buttonAction = new AbstractAction("Settings") {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                                if (buttonEdit == false) {
+                                        buttonEditor.setText("");
+                                }
+                                if (promptEdit == false) {
+                                        dtrpnEnterAPrompt.setText("");
+                                }
+                                updateButton();
+                                updatePrompt();
+                                updateCell();
+                                EventQueue.invokeLater(new Runnable() {
+                                        public void run() {
+                                                try {
+                                                        ScenarioForm window = new ScenarioForm(cards, numCells, numButtons);
+                                                        window.sCreatorFrame.setVisible(true);
+                                                } catch (Exception e) {
+                                                        e.printStackTrace();
+                                                }
+                                        }
+                                });
+                                aViewFrame.dispose();
+                        }
+                };
+                settingsButton.setAction(buttonAction);
+                settingsButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+                                .put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK), "Settings");
+                settingsButton.getActionMap().put("Settings", buttonAction);
         }
 
         /**
@@ -925,7 +972,7 @@ public class AuthoringViewer {
         }
 
         /**
-         * Method to go to next card 
+         * Method to go to next card
          */
         public void nextCard() {
                 updateButton();
