@@ -36,6 +36,7 @@ import java.util.Date;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
+import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
@@ -144,8 +145,8 @@ public class ScenarioForm {
 				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(), formatMessage(record));
 			}
     	});
-    	logger.addHandler(consoleHandler);
-    	logger.setUseParentHandlers(true);
+//    	logger.addHandler(consoleHandler);
+//    	logger.setUseParentHandlers(true);
 	}
 
 	/**
@@ -465,30 +466,15 @@ public class ScenarioForm {
 	}
 
 	private void saveButtonListener(JComboBox comboCellBox, JComboBox comboButtonBox, JButton btnSaveAndCreate) {
-//<<<<<<< HEAD
-//		btnSaveAndCreate.addActionListener(new ActionListener() {
-//			int count = 0;
-//=======
 
 		System.out.println("Cells: " + numCells + " Buttons: " + numButtons);
 		Action buttonAction = new AbstractAction("Create a Scenario") {
 			int count = 0;
 			@Override
-//>>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
 			public void actionPerformed(ActionEvent e) {
-//<<<<<<< HEAD
 				count ++;
 				logger.log(Level.INFO, "Create a Scenario Button was pressed.");
 				logger.log(Level.INFO, "Create a Scenario Button was pressed {0} times", count);
-//				ArrayList<Card> cards = new ArrayList<Card>();
-//				Card temp = new Card(1, "Card 1", "");
-//				cards.add(temp);
-//				cards.get(0).getCells().add(new BrailleCell());
-//				AuthoringViewer av = new AuthoringViewer(comboCellBox.getSelectedIndex() + 1,
-//						comboButtonBox.getSelectedIndex() + 1, cards, getTitle(), "");
-//				av.setCardList();
-//				sCreatorFrame.dispose();
-//=======
 				if (cards.isEmpty()) {
 					ArrayList<Card> cards = new ArrayList<Card>();
 					Card temp = new Card(1, "Card 1", "");
@@ -587,8 +573,9 @@ public class ScenarioForm {
 					"Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (option == JOptionPane.YES_OPTION) {
 				sCreatorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				
 			} else {
-				JOptionPane.getRootFrame().dispose();
+				//JOptionPane.getRootFrame().dispose();
 				// do nothing
 			}
 		}
