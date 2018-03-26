@@ -19,7 +19,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
@@ -50,6 +57,8 @@ public class InitialView {
 
 	private JFrame frmAuthoringApp;
 	private Thread starterCodeThread;// thread to run visual player
+	
+	public Logger logger = Logger.getLogger(this.getClass().getName());
 
 	/**
 	 * Launch the application.
@@ -72,6 +81,17 @@ public class InitialView {
 	 */
 	public InitialView() {
 		initialize();
+		ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setFormatter(new Formatter() {
+    		private String format = "[%1$s] [%2$s] %3$s %n";
+			private SimpleDateFormat dateWithMillis = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
+			@Override
+			public String format(LogRecord record) {
+				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(), formatMessage(record));
+			}
+    	});
+    	logger.addHandler(consoleHandler);
+    	logger.setUseParentHandlers(false);
 	}
 
 	/**
@@ -192,7 +212,11 @@ public class InitialView {
 
 	private void newAction(JButton newButton) {
 		newButton.addActionListener(new ActionListener() {
+			int count = 0;
 			public void actionPerformed(ActionEvent e) {
+				count ++;
+				logger.log(Level.INFO, "New Button was pressed.");
+				logger.log(Level.INFO, "New Button was pressed {0} times", count);
 				ScenarioForm sf = new ScenarioForm();
 				sf.displayForm();
 			}
@@ -201,7 +225,11 @@ public class InitialView {
 
 	private void editAction(JButton editButton) {
 		editButton.addActionListener(new ActionListener() {
+			int count = 0;
 			public void actionPerformed(ActionEvent e) {
+				count ++;
+				logger.log(Level.INFO, "Edit Button was pressed.");
+				logger.log(Level.INFO, "Edit Button was pressed {0} times", count);
 				new Thread(new Runnable() {
 					public void run() {
 						JButton open = new JButton();
@@ -253,7 +281,11 @@ public class InitialView {
 
 	private void testAction(JButton testButton) {
 		testButton.addActionListener(new ActionListener() {
+			int count = 0;
 			public void actionPerformed(ActionEvent e) {
+				count ++;
+				logger.log(Level.INFO, "Test Button was pressed.");
+				logger.log(Level.INFO, "Test Button was pressed {0} times", count);
 				// ToyAuthoring ta = new ToyAuthoring();
 				// ta.launchToyAuthoring();
 				// ta.main(null);
@@ -326,7 +358,11 @@ public class InitialView {
 
 	private void exitAction(JButton exitButton) {
 		exitButton.addActionListener(new ActionListener() {
+			int count=0;
 			public void actionPerformed(ActionEvent e) {
+				count ++;
+				logger.log(Level.INFO, "Exit Button was pressed.");
+				logger.log(Level.INFO, "Exit Button was pressed {0} times", count);
 				frmAuthoringApp.setVisible(false);
 				frmAuthoringApp.dispose();
 				System.exit(0);

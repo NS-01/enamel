@@ -29,7 +29,14 @@ import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Formatter;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
@@ -74,6 +81,8 @@ public class ScenarioForm {
 	private JTextField titleTextField;
 	private JTextField audioFileTextField;
 	// non zero
+	
+	private Logger logger = Logger.getLogger(this.getClass().getName());
 
 	/**
 	 * Launch the application.
@@ -96,6 +105,17 @@ public class ScenarioForm {
 	 */
 	public ScenarioForm() {
 		initialize();
+		ConsoleHandler consoleHandler = new ConsoleHandler();
+        consoleHandler.setFormatter(new Formatter() {
+    		private String format = "[%1$s] [%2$s] %3$s %n";
+			private SimpleDateFormat dateWithMillis = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
+			@Override
+			public String format(LogRecord record) {
+				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(), formatMessage(record));
+			}
+    	});
+    	logger.addHandler(consoleHandler);
+    	logger.setUseParentHandlers(true);
 	}
 
 	/**
@@ -149,7 +169,13 @@ public class ScenarioForm {
 		sCreatorFrame.getContentPane().add(comboCellBox);
 
 		comboCellBox.addItemListener(new ItemListener() {
+			int count = 0;
 			public void itemStateChanged(ItemEvent itemEvent) {
+				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+					count++;
+					logger.log(Level.INFO, "Cell Combo Box was used.");
+					logger.log(Level.INFO, "Cell Combo Box was used {0} times", count);
+				}
 				int state = itemEvent.getStateChange();
 				ItemSelectable is = itemEvent.getItemSelectable();
 				numButtons = Integer.parseInt(selectedString(is).toString());
@@ -171,7 +197,13 @@ public class ScenarioForm {
 		sCreatorFrame.getContentPane().add(comboButtonBox);
 
 		comboButtonBox.addItemListener(new ItemListener() {
+			int count = 0;
 			public void itemStateChanged(ItemEvent itemEvent) {
+				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+					count++;
+					logger.log(Level.INFO, "Button Combo Box was used.");
+					logger.log(Level.INFO, "Button Combo Box was used {0} times", count);
+				}
 				int state = itemEvent.getStateChange();
 				ItemSelectable is = itemEvent.getItemSelectable();
 				numCells = Integer.parseInt(selectedString(is).toString());
@@ -283,7 +315,11 @@ public class ScenarioForm {
 		 * "CheckBox.background"));
 		 */
 		btnExitWithoutSaving.addActionListener(new ActionListener() {
+			int count = 0;
 			public void actionPerformed(ActionEvent e) {
+				count ++;
+				logger.log(Level.INFO, "Exit Without Save was pressed.");
+				logger.log(Level.INFO, "Exit Without Save was pressed {0} times", count);
 				// sCreatorFrame.setVisible(false);
 				int option = JOptionPane.showConfirmDialog(null, "Do you want to EXIT? \nNo changes will be saved!!!",
 						"Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
@@ -314,7 +350,11 @@ public class ScenarioForm {
 
 	private void saveButtonListener(JComboBox comboCellBox, JComboBox comboButtonBox, JButton btnSaveAndCreate) {
 		btnSaveAndCreate.addActionListener(new ActionListener() {
+			int count = 0;
 			public void actionPerformed(ActionEvent e) {
+				count ++;
+				logger.log(Level.INFO, "Create a Scenario Button was pressed.");
+				logger.log(Level.INFO, "Create a Scenario Button was pressed {0} times", count);
 				ArrayList<Card> cards = new ArrayList<Card>();
 				Card temp = new Card(1, "Card 1", "");
 				cards.add(temp);
