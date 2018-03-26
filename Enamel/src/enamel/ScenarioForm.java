@@ -144,8 +144,8 @@ public class ScenarioForm {
 				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(), formatMessage(record));
 			}
     	});
-    	logger.addHandler(consoleHandler);
-    	logger.setUseParentHandlers(true);
+    	/*logger.addHandler(consoleHandler);
+    	logger.setUseParentHandlers(true);*/
 	}
 
 	/**
