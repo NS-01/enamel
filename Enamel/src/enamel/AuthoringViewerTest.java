@@ -357,18 +357,18 @@ public class AuthoringViewerTest {
 						if (fc.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
 							FileToCardsParser f = new FileToCardsParser();
 							f.setFile(fc.getSelectedFile().getPath());
-							AuthoringApp ap = new AuthoringApp(f.getCells(), f.getButtons(), f.getCards(),
+							AuthoringViewerTest avt = new AuthoringViewerTest(f.getCells(), f.getButtons(), f.getCards(),
 									f.getInitial(), f.getEnding()); // new
 																	// ActionListener()
 																	// {public
 																	// void
 																	// actionPerformed(ActionEvent
 																	// e2) {}});
-							ap.setPromptText(f.getCards().get(0).getText());
-							ap.setCurrCellPins(f.getCards().get(0).getCells().get(0));
-							ap.setButtonText(f.getCards().get(0).getButtonList().get(0).getText());
-							ap.setCardList();
-							ap.setEdited();
+							avt.setPromptText(f.getCards().get(0).getText());
+							avt.setCurrCellPins(f.getCards().get(0).getCells().get(0));
+							avt.setButtonText(f.getCards().get(0).getButtonList().get(0).getText());
+							avt.setCardList();
+							avt.setEdited();
 						}
 
 					}
@@ -472,15 +472,6 @@ public class AuthoringViewerTest {
 
 		JMenuItem mntmRecord = new JMenuItem("Record");
 		mnAudio.add(mntmRecord);
-
-		JMenu mnInsert = new JMenu("Insert...");
-		mnAudio.add(mnInsert);
-
-		JMenuItem mntmToCard = new JMenuItem("to Card");
-		mnInsert.add(mntmToCard);
-
-		JMenuItem mntmToButton = new JMenuItem("to Button");
-		mnInsert.add(mntmToButton);
 		mntmRecord.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -488,6 +479,47 @@ public class AuthoringViewerTest {
 				RecorderFrame.displayRecorder();
 			}
 		});
+
+		JMenu mnInsert = new JMenu("Insert...");
+		mnAudio.add(mnInsert);
+
+		JMenuItem mntmToCard = new JMenuItem("to Card");
+		mnInsert.add(mntmToCard);
+		mntmToCard.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser();
+				FileFilter wavFilter = new FileFilter() {
+					@Override
+					public String getDescription() {
+						return "Sound file (*.WAV)";
+					}
+
+					@Override
+					public boolean accept(File file) {
+						if (file.isDirectory()) {
+							return true;
+						} else {
+							return file.getName().toLowerCase().endsWith(".wav");
+						}
+					}
+				};
+
+				fc.setFileFilter(wavFilter);
+				fc.setAcceptAllFileFilterUsed(false);
+				fc.setCurrentDirectory(new java.io.File("./FactoryScenarios/AudioFiles"));
+				fc.setDialogTitle("Please Choose File to Open");
+				fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				if (fc.showOpenDialog(mntmToCard) == JFileChooser.APPROVE_OPTION) {
+					String temp = fc.getSelectedFile().getName().toString();
+					txtAudiofilenamemp.setText(temp);
+					cards.get(currCard).setSound(temp);
+				}
+			}
+		});
+
+		JMenuItem mntmToButton = new JMenuItem("to Button");
+		mnInsert.add(mntmToButton);
+		
 
 		JMenu mnHelp = new JMenu("HELP");
 		menuBar.add(mnHelp);
