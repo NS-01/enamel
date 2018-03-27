@@ -43,6 +43,9 @@ import java.awt.Dimension;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 import enamel.ScenarioParser;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 /**
  *
@@ -129,71 +132,96 @@ public class InitialView {
 		this.frmAuthoringApp.setLocationRelativeTo(null);
 
 		frmAuthoringApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmAuthoringApp.getContentPane().setLayout(null);
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[]{53, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{60, 70, 50, 50, 50, 50, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		frmAuthoringApp.getContentPane().setLayout(gridBagLayout);
+						
+								JLabel lblNewLabel = new JLabel("AUTHORING APP");
+								lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+								lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 21));
+								lblNewLabel.setForeground(Color.BLACK);
+								GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+								gbc_lblNewLabel.fill = GridBagConstraints.BOTH;
+								gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+								gbc_lblNewLabel.gridx = 1;
+								gbc_lblNewLabel.gridy = 1;
+								frmAuthoringApp.getContentPane().add(lblNewLabel, gbc_lblNewLabel);
+						
+								JButton newButton = new JButton("New");
+								newButton.getAccessibleContext().setAccessibleDescription("Creates a new file");
+								newAction(newButton);
+								newButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+								
+										// newButton.getActionMap().put(key, buttonAction);
+										// newButton.setBackground(Color.WHITE);
+										// newButton.setContentAreaFilled(false);
+										// newButton.setOpaque(true);
+								
+										newButton.setForeground(new Color(0, 0, 205));
+										newButton.setToolTipText("Create New Scenario");
+										GridBagConstraints gbc_newButton = new GridBagConstraints();
+										gbc_newButton.fill = GridBagConstraints.BOTH;
+										gbc_newButton.insets = new Insets(0, 0, 5, 5);
+										gbc_newButton.gridx = 1;
+										gbc_newButton.gridy = 2;
+										frmAuthoringApp.getContentPane().add(newButton, gbc_newButton);
+				
+						JButton editButton = new JButton("Edit");
+						editButton.getAccessibleContext().setAccessibleDescription("Loads and allows you to edit a file");
+						editButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+						editButton.setForeground(new Color(255, 140, 0));
+						// editButton.setContentAreaFilled(false);
+						// editButton.setOpaque(true);
+						// editButton.setBackground(Color.WHITE);
 
-		JLabel lblNewLabel = new JLabel("AUTHORING APP");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 21));
-		lblNewLabel.setForeground(Color.BLACK);
-		lblNewLabel.setBounds(379, 60, 185, 70);
-		frmAuthoringApp.getContentPane().add(lblNewLabel);
-
-		JButton newButton = new JButton("New");
-		newButton.getAccessibleContext().setAccessibleDescription("Creates a new file");
-		newAction(newButton);
-		newButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-
-		// newButton.getActionMap().put(key, buttonAction);
-		// newButton.setBackground(Color.WHITE);
-		// newButton.setContentAreaFilled(false);
-		// newButton.setOpaque(true);
-
-		newButton.setForeground(new Color(0, 0, 205));
-		newButton.setToolTipText("Create New Scenario");
-		newButton.setBounds(389, 139, 165, 50);
-		frmAuthoringApp.getContentPane().add(newButton);
-
-		JButton editButton = new JButton("Edit");
-		editButton.getAccessibleContext().setAccessibleDescription("Loads and allows you to edit a file");
-		editButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-		editButton.setForeground(new Color(255, 140, 0));
-		// editButton.setContentAreaFilled(false);
-		// editButton.setOpaque(true);
-		// editButton.setBackground(Color.WHITE);
-
-		editAction(editButton);
-		editButton.setToolTipText("Edit a Scenario");
-		editButton.setBounds(389, 200, 165, 50);
-		frmAuthoringApp.getContentPane().add(editButton);
-
-		JButton testButton = new JButton("Test");
-		testButton.getAccessibleContext().setAccessibleDescription("Tests a file");
-		testButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-		// testButton.setBackground(Color.WHITE);
-		// testButton.setContentAreaFilled(false);
-		// testButton.setOpaque(true);
-		testButton.setForeground(new Color(0, 128, 128));
-
-		testAction(testButton);
-		testButton.setToolTipText("Test a Scenario");
-		testButton.setBounds(389, 259, 165, 50);
-		frmAuthoringApp.getContentPane().add(testButton);
-
-		exitButton = new JButton("Exit");
-		exitButton.getAccessibleContext().setAccessibleDescription("Closes the application");
-		exitButton.setFont(new Font("Tahoma", Font.BOLD, 16));
-		exitButton.setForeground(new Color(139, 0, 0));
-		// exitButton.setContentAreaFilled(false);
-		// exitButton.setOpaque(true);
-		// exitButton.setBackground(Color.WHITE);
-
-		exitButton.setBounds(389, 319, 165, 50);
-		frmAuthoringApp.getContentPane().add(exitButton);
-		// frmAuthoringApp.setFocusTraversalPolicy(new FocusTraversalOnArray(new
-		// Component[]{frmAuthoringApp.getContentPane(), lblNewLabel, newButton,
-		// btnEdit, testButton, exitButton}));
-		exitAction(exitButton);
-		exitButton.setToolTipText("Exit the App");
+						editAction(editButton);
+						editButton.setToolTipText("Edit a Scenario");
+						GridBagConstraints gbc_editButton = new GridBagConstraints();
+						gbc_editButton.fill = GridBagConstraints.BOTH;
+						gbc_editButton.insets = new Insets(0, 0, 5, 5);
+						gbc_editButton.gridx = 1;
+						gbc_editButton.gridy = 3;
+						frmAuthoringApp.getContentPane().add(editButton, gbc_editButton);
+				
+						JButton testButton = new JButton("Test");
+						testButton.getAccessibleContext().setAccessibleDescription("Tests a file");
+						testButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+						// testButton.setBackground(Color.WHITE);
+						// testButton.setContentAreaFilled(false);
+						// testButton.setOpaque(true);
+						testButton.setForeground(new Color(0, 128, 128));
+						
+								testAction(testButton);
+								testButton.setToolTipText("Test a Scenario");
+								GridBagConstraints gbc_testButton = new GridBagConstraints();
+								gbc_testButton.fill = GridBagConstraints.BOTH;
+								gbc_testButton.insets = new Insets(0, 0, 5, 5);
+								gbc_testButton.gridx = 1;
+								gbc_testButton.gridy = 4;
+								frmAuthoringApp.getContentPane().add(testButton, gbc_testButton);
+				
+						exitButton = new JButton("Exit");
+						exitButton.getAccessibleContext().setAccessibleDescription("Closes the application");
+						exitButton.setFont(new Font("Tahoma", Font.BOLD, 16));
+						exitButton.setForeground(new Color(139, 0, 0));
+						GridBagConstraints gbc_exitButton = new GridBagConstraints();
+						gbc_exitButton.insets = new Insets(0, 0, 5, 5);
+						gbc_exitButton.fill = GridBagConstraints.BOTH;
+						gbc_exitButton.gridx = 1;
+						gbc_exitButton.gridy = 5;
+						frmAuthoringApp.getContentPane().add(exitButton, gbc_exitButton);
+						// frmAuthoringApp.setFocusTraversalPolicy(new FocusTraversalOnArray(new
+						// Component[]{frmAuthoringApp.getContentPane(), lblNewLabel, newButton,
+						// btnEdit, testButton, exitButton}));
+						exitAction(exitButton);
+						exitButton.setToolTipText("Exit the App");
+		/*newButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});*/
 		/*
 		 * //frmAuthoringApp.setFocusable(true); Action exAction = new AbstractAction()
 		 * {
