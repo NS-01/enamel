@@ -73,7 +73,7 @@ import java.awt.CardLayout;
 /**
  *
  * @author Jeremy, Nisha, Tyler
- *
+ * 
  *         GUI class to that opens after setting up cells and buttons for new
  *         scenario or after choosing to edit a scenario. This class allows user
  *         to create flow of scenario: ask question, receive response, add
