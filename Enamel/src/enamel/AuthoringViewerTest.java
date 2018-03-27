@@ -250,9 +250,32 @@ public class AuthoringViewerTest {
 		mntmNew.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// to do: first check if unsaved work, close old window before opening
-				ScenarioForm sf = new ScenarioForm();
-				sf.displayForm();
+				// to do: close old window before opening
+				if (path.equals("")) {
+					JOptionPane.showMessageDialog(null, "Please save first", "Alert", JOptionPane.ERROR_MESSAGE);
+				} else {
+					if (buttonEdit == false) {
+						buttonEditor.setText("");
+					}
+					if (promptEdit == false) {
+						promptTextField.setText("");
+					}
+					updateButton();
+					updatePrompt();
+					updateCell();
+					updateResponseCell();
+					EventQueue.invokeLater(new Runnable() {
+						public void run() {
+							try {
+								ScenarioForm window = new ScenarioForm(cards, numCells, numButtons);
+								window.sCreatorFrame.setVisible(true);
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					});
+					aViewFrame.dispose();
+				}
 			}
 		});
 
@@ -330,47 +353,52 @@ public class AuthoringViewerTest {
 			public void actionPerformed(ActionEvent e) {
 				new Thread(new Runnable() {
 					public void run() {
-						JButton open = new JButton();
+						if (path.equals("")) {
+							JOptionPane.showMessageDialog(null, "Please save first", "Alert",
+									JOptionPane.ERROR_MESSAGE);
+						} else {
+							JButton open = new JButton();
 
-						JFileChooser fc = new JFileChooser();
-						FileFilter txtFilter = new FileFilter() {
-							@Override
-							public String getDescription() {
-								return "Text file (*.TXT)";
-							}
-
-							@Override
-							public boolean accept(File file) {
-								if (file.isDirectory()) {
-									return true;
-								} else {
-									return file.getName().toLowerCase().endsWith(".txt");
+							JFileChooser fc = new JFileChooser();
+							FileFilter txtFilter = new FileFilter() {
+								@Override
+								public String getDescription() {
+									return "Text file (*.TXT)";
 								}
+
+								@Override
+								public boolean accept(File file) {
+									if (file.isDirectory()) {
+										return true;
+									} else {
+										return file.getName().toLowerCase().endsWith(".txt");
+									}
+								}
+							};
+
+							fc.setFileFilter(txtFilter);
+							fc.setAcceptAllFileFilterUsed(false);
+							fc.setCurrentDirectory(new java.io.File("./FactoryScenarios"));
+							fc.setDialogTitle("Please Choose File to Open");
+							fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+							if (fc.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
+								FileToCardsParser f = new FileToCardsParser();
+								f.setFile(fc.getSelectedFile().getPath());
+								AuthoringViewerTest avt = new AuthoringViewerTest(f.getCells(), f.getButtons(),
+										f.getCards(), f.getInitial(), f.getEnding()); // new
+																						// ActionListener()
+																						// {public
+																						// void
+																						// actionPerformed(ActionEvent
+																						// e2) {}});
+								avt.setPromptText(f.getCards().get(0).getText());
+								avt.setCurrCellPins(f.getCards().get(0).getCells().get(0));
+								avt.setButtonText(f.getCards().get(0).getButtonList().get(0).getText());
+								avt.setCardList();
+								avt.setEdited();
 							}
-						};
 
-						fc.setFileFilter(txtFilter);
-						fc.setAcceptAllFileFilterUsed(false);
-						fc.setCurrentDirectory(new java.io.File("./FactoryScenarios"));
-						fc.setDialogTitle("Please Choose File to Open");
-						fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-						if (fc.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
-							FileToCardsParser f = new FileToCardsParser();
-							f.setFile(fc.getSelectedFile().getPath());
-							AuthoringViewerTest avt = new AuthoringViewerTest(f.getCells(), f.getButtons(), f.getCards(),
-									f.getInitial(), f.getEnding()); // new
-																	// ActionListener()
-																	// {public
-																	// void
-																	// actionPerformed(ActionEvent
-																	// e2) {}});
-							avt.setPromptText(f.getCards().get(0).getText());
-							avt.setCurrCellPins(f.getCards().get(0).getCells().get(0));
-							avt.setButtonText(f.getCards().get(0).getButtonList().get(0).getText());
-							avt.setCardList();
-							avt.setEdited();
 						}
-
 					}
 				}).start();
 			}
@@ -519,7 +547,35 @@ public class AuthoringViewerTest {
 
 		JMenuItem mntmToButton = new JMenuItem("to Button");
 		mnInsert.add(mntmToButton);
-		
+		mntmToButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fc = new JFileChooser();
+				FileFilter wavFilter = new FileFilter() {
+					@Override
+					public String getDescription() {
+						return "Sound file (*.WAV)";
+					}
+
+					@Override
+					public boolean accept(File file) {
+						if (file.isDirectory()) {
+							return true;
+						} else {
+							return file.getName().toLowerCase().endsWith(".wav");
+						}
+					}
+				};
+
+				fc.setFileFilter(wavFilter);
+				fc.setAcceptAllFileFilterUsed(false);
+				fc.setCurrentDirectory(new java.io.File("./FactoryScenarios/AudioFiles"));
+				fc.setDialogTitle("Please Choose File to Open");
+				fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+				if (fc.showOpenDialog(mntmToButton) == JFileChooser.APPROVE_OPTION) {
+
+				}
+			}
+		});
 
 		JMenu mnHelp = new JMenu("HELP");
 		menuBar.add(mnHelp);
