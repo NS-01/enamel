@@ -481,7 +481,8 @@ public class ScenarioForm {
 					Card temp = new Card(1, "Card 1", "");
 					cards.add(temp);
 					cards.get(0).getCells().add(new BrailleCell());
-					AuthoringApp av = new AuthoringApp(comboCellBox.getSelectedIndex() + 1,
+					cards.get(0).getButtonList().add(new DataButton(0));
+					AuthoringViewerTest av = new AuthoringViewerTest(comboCellBox.getSelectedIndex() + 1,
 							comboButtonBox.getSelectedIndex() + 1, cards, getTitle(), "");
 					av.setCardList();
 					sCreatorFrame.dispose();
@@ -514,11 +515,12 @@ public class ScenarioForm {
 	}
 
 	private void createAuthoringViewer(JComboBox comboCellBox, JComboBox comboButtonBox) {
-		AuthoringViewer av = new AuthoringViewer(comboCellBox.getSelectedIndex() + 1,
+		AuthoringViewerTest av = new AuthoringViewerTest(comboCellBox.getSelectedIndex() + 1,
 				comboButtonBox.getSelectedIndex() + 1, cards, getTitle(), "");
 		av.setCardList();
 		av.setPromptText(cards.get(0).getText());
 		av.setCurrCellPins(cards.get(0).getCells().get(0));
+		av.setResponseCellPins(cards.get(0).getButtonList().get(0).getCells().get(0));
 		av.setButtonText(cards.get(0).getButtonList().get(0).getText());
 		av.setCardList();
 		av.setEdited();

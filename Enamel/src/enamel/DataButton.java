@@ -1,5 +1,7 @@
 package enamel;
 
+import java.util.ArrayList;
+
 /**
  * 
  * @author Jeremy, Nisha, Tyler Class for DataButton objects. Each DataButton
@@ -12,6 +14,7 @@ public class DataButton {
 	private int bID;
 	private String text;
 	private String audioFile;
+	private ArrayList<BrailleCell> cells;
 
 	// Constructors
 	/**
@@ -23,6 +26,8 @@ public class DataButton {
 		this.bID = id;
 		this.audioFile = "";
 		this.text = "";
+		this.cells = new ArrayList<BrailleCell>();
+		this.cells.add(new BrailleCell());
 	}
 
 	/**
@@ -34,6 +39,7 @@ public class DataButton {
 		this.bID = other.bID;
 		this.text = other.text;
 		this.audioFile = other.audioFile;
+		this.cells = new ArrayList<BrailleCell>(other.cells);
 	}
 
 	// utility methods
@@ -46,6 +52,24 @@ public class DataButton {
 		return this.bID;
 	}
 
+	/**
+	 * Method to get list of cells
+	 * 
+	 * @return cell list
+	 */
+	public ArrayList<BrailleCell> getCells() {
+		return this.cells;
+	}
+	
+	/**
+	 * Method to set cell list
+	 * 
+	 * @param newList
+	 */
+	public void setCells(ArrayList<BrailleCell> newList) {
+		this.cells = newList;
+	}
+	
 	/**
 	 * Method to get Recording file associated with the button
 	 * 
