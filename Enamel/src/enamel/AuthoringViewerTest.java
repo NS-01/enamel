@@ -132,6 +132,8 @@ public class AuthoringViewerTest {
 	private JRadioButton rspSix;
 	private JRadioButton rspSeven;
 	private JRadioButton rspEight;
+	private JPanel buttonPanel;
+	private JPanel generalCellPanel;
 
 	// public static void main(String[] args) {
 	// EventQueue.invokeLater(new Runnable() {
@@ -234,6 +236,23 @@ public class AuthoringViewerTest {
 		txtCardName.setText(cards.get(currCard).getName());
 		txtCardName.setColumns(10);
 		cardNamePanel.add(txtCardName, BorderLayout.NORTH);
+		JButton btnEnableUserResponse = new JButton("Enable User Response");
+		btnEnableUserResponse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// on button Press Enable the button panel and button pane
+//				buttonEditor.setEnabled(true);
+//				buttonPanel.setVisible(true);
+//				generalCellPanel.setVisible(true);
+				cards.get(currCard).setEnabled(true);
+				setVisible(true);
+			}
+		});
+		btnEnableUserResponse.setFont(new Font("Tahoma", Font.BOLD, 14));
+		GridBagConstraints gbc_btnEnableUserResponse = new GridBagConstraints();
+		gbc_btnEnableUserResponse.insets = new Insets(0, 0, 5, 5);
+		gbc_btnEnableUserResponse.gridx = 1;
+		gbc_btnEnableUserResponse.gridy = 1;
+		aViewFrame.getContentPane().add(btnEnableUserResponse, gbc_btnEnableUserResponse);
 
 		displayFrame();
 	}
@@ -349,7 +368,8 @@ public class AuthoringViewerTest {
 		mnFile.add(mntmOpen);
 		mntmOpen.addActionListener(new ActionListener() {
 			// Currently just runs edit text from InitialView
-			// to do: check if doc is saved before opening, close old window on open
+			// to do: check if doc is saved before opening, close old window on
+			// open
 			public void actionPerformed(ActionEvent e) {
 				new Thread(new Runnable() {
 					public void run() {
@@ -620,7 +640,8 @@ public class AuthoringViewerTest {
 		mntmCourseWebsite.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// launch browser to https://wiki.eecs.yorku.ca/course_archive/2017-18/W/2311/
+				// launch browser to
+				// https://wiki.eecs.yorku.ca/course_archive/2017-18/W/2311/
 				if (Desktop.isDesktopSupported()) {
 					try {
 						Desktop.getDesktop()
@@ -637,6 +658,7 @@ public class AuthoringViewerTest {
 
 	private void createPrevNextButtons() {
 		JButton btnPreviousCard = new JButton("Previous Card");
+		btnPreviousCard.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnPreviousCard.getAccessibleContext().setAccessibleDescription("Click to switch to the previus card");
 		btnPreviousCard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -650,14 +672,18 @@ public class AuthoringViewerTest {
 		});
 
 		JButton btnNextCard = new JButton("Next Card");
+		btnNextCard.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnNextCard.getAccessibleContext().setAccessibleDescription("Click to switch to the next card");
 		btnNextCard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				buttonEditor.setEnabled(false);
+				buttonPanel.setVisible(false);
+				generalCellPanel.setVisible(false);
 				if (cards.size() > currCard + 1) {
 					nextCard();
 				} else {
 					System.out.println(cards.size());
-					Card temp = new Card(currCard + 1, "Card " + (currCard + 2), "");
+					Card temp = new Card(currCard + 1, "Card " + (currCard + 2), "", false);
 					cards.add(temp);
 					temp.getButtonList().add(new DataButton(0));
 					temp.getCells().add(new BrailleCell());
@@ -694,6 +720,7 @@ public class AuthoringViewerTest {
 		responseText.gridy = 2;
 
 		buttonEditor = new JEditorPane();
+		buttonEditor.setEnabled(false);
 		buttonEditor.getAccessibleContext().setAccessibleDescription("Enter a response for this button");
 		buttonEditor.setText("Enter a response for this button");
 		buttonEditor.addFocusListener(new FocusListener() {
@@ -726,10 +753,12 @@ public class AuthoringViewerTest {
 		buttonLabelPanel.setLayout(new BorderLayout(0, 5));
 
 		JLabel lblButtons = new JLabel("BUTTONS");
+		lblButtons.setFont(new Font("Tahoma", Font.BOLD, 14));
 		buttonLabelPanel.add(lblButtons, BorderLayout.NORTH);
 		buttonLabelPanel.setBackground(new Color(217, 217, 217));
 
-		JPanel buttonPanel = new JPanel();
+		buttonPanel = new JPanel();
+		buttonPanel.setVisible(false);
 		buttonLabelPanel.add(buttonPanel, BorderLayout.CENTER);
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 15));
 
@@ -816,6 +845,7 @@ public class AuthoringViewerTest {
 		listScroller.setColumnHeaderView(lblOrder);
 
 		JButton btnCardUp = new JButton("Card Up");
+		btnCardUp.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCardUp.getAccessibleContext().setAccessibleDescription("Press to move selected card up in card list order");
 		btnCardUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -839,6 +869,7 @@ public class AuthoringViewerTest {
 		});
 
 		JButton btnCardDown = new JButton("Card Down");
+		btnCardDown.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCardDown.getAccessibleContext()
 				.setAccessibleDescription("Press to move selected card down in card list order");
 		btnCardDown.addActionListener(new ActionListener() {
@@ -893,14 +924,18 @@ public class AuthoringViewerTest {
 	}
 
 	private void createResponseCell() {
-		JPanel generalCellPanel = new JPanel();
+		generalCellPanel = new JPanel();
+		generalCellPanel.repaint();
 		generalCellPanel.setBackground(new Color(217, 217, 217));
 		aViewFrame.getContentPane().add(generalCellPanel);
 		generalCellPanel.setLayout(null);
+		// generalCellPanel.setEnabled(enable);
 
 		JButton button_6 = new JButton("<");
+		button_6.setFont(new Font("Tahoma", Font.BOLD, 14));
 		button_6.getAccessibleContext().setAccessibleDescription("Go to previous cell to change raised pins");
 		button_6.setToolTipText("Left Cell Button");
+		// button_6.setEnabled(enable);
 		button_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (responseCell == 0) {
@@ -919,6 +954,8 @@ public class AuthoringViewerTest {
 		generalCellPanel.add(button_6);
 
 		JButton button_7 = new JButton(">");
+		// button_7.setEnabled(enable);
+		button_7.setFont(new Font("Tahoma", Font.BOLD, 14));
 		button_7.getAccessibleContext().setAccessibleDescription("Go to Next cell within button to change raised pins");
 		button_7.setToolTipText("Right Cell Button");
 		button_7.addActionListener(new ActionListener() {
@@ -954,46 +991,55 @@ public class AuthoringViewerTest {
 		cellPanel.setBounds(70, 20, 75, 140);
 		generalCellPanel.add(cellPanel);
 		cellPanel.setLayout(null);
+		// cellPanel.setEnabled(enable);
 
 		rspOne = new JRadioButton("");
 		rspOne.setToolTipText("Pin One");
 		rspOne.setBounds(6, 6, 28, 23);
 		cellPanel.add(rspOne);
+		// rspOne.setEnabled(enable);
 
 		rspFour = new JRadioButton("");
 		rspFour.setToolTipText("Pin Four");
 		rspFour.setBounds(46, 6, 28, 23);
 		cellPanel.add(rspFour);
+		// rspFour.setEnabled(enable);
 
 		rspTwo = new JRadioButton("");
 		rspTwo.setToolTipText("Pin  Two");
 		rspTwo.setBounds(6, 41, 28, 23);
 		cellPanel.add(rspTwo);
+		// rspTwo.setEnabled(enable);
 
 		rspFive = new JRadioButton("");
 		rspFive.setToolTipText("Pin  Five");
 		rspFive.setBounds(46, 41, 28, 23);
 		cellPanel.add(rspFive);
+		// rspFive.setEnabled(enable);
 
 		rspThree = new JRadioButton("");
 		rspThree.setToolTipText("Pin  Three");
 		rspThree.setBounds(6, 76, 28, 23);
 		cellPanel.add(rspThree);
+		// rspThree.setEnabled(enable);
 
 		rspSix = new JRadioButton("");
 		rspSix.setToolTipText("Pin  Six");
 		rspSix.setBounds(46, 76, 28, 23);
 		cellPanel.add(rspSix);
+		// rspSix.setEnabled(enable);
 
 		rspSeven = new JRadioButton("");
 		rspSeven.setToolTipText("Pin  Seven");
 		rspSeven.setBounds(6, 111, 28, 23);
 		cellPanel.add(rspSeven);
+		// rspSeven.setEnabled(enable);
 
 		rspEight = new JRadioButton("");
 		rspEight.setToolTipText("Pin  Eight");
 		rspEight.setBounds(46, 111, 28, 23);
 		cellPanel.add(rspEight);
+		// rspEight.setEnabled(enable);
 
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(10, 5, 0, 5);
@@ -1002,9 +1048,10 @@ public class AuthoringViewerTest {
 		gbc_panel.gridy = 2;
 		aViewFrame.getContentPane().add(generalCellPanel, gbc_panel);
 		responseCellLabel = new JLabel("CELL: 1/" + this.numCells);
-		responseCellLabel.setBounds(82, 0, 80, 15);
+		responseCellLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		responseCellLabel.setBounds(70, 0, 104, 15);
 		generalCellPanel.add(responseCellLabel);
-
+		generalCellPanel.setVisible(false);
 	}
 
 	private void createPromptCell() {
@@ -1014,6 +1061,7 @@ public class AuthoringViewerTest {
 		generalCellPanel.setLayout(null);
 
 		JButton button_6 = new JButton("<");
+		button_6.setFont(new Font("Tahoma", Font.BOLD, 14));
 		button_6.getAccessibleContext().setAccessibleDescription("Go to previous cell to change raised pins");
 		button_6.setToolTipText("Left Cell Button");
 		button_6.addActionListener(new ActionListener() {
@@ -1033,6 +1081,7 @@ public class AuthoringViewerTest {
 		generalCellPanel.add(button_6);
 
 		JButton button_7 = new JButton(">");
+		button_7.setFont(new Font("Tahoma", Font.BOLD, 14));
 		button_7.getAccessibleContext().setAccessibleDescription("Go to Next cell to change raised pins");
 		button_7.setToolTipText("Right Cell Button");
 		button_7.addActionListener(new ActionListener() {
@@ -1114,7 +1163,8 @@ public class AuthoringViewerTest {
 		gbc_panel.gridy = 0;
 		aViewFrame.getContentPane().add(generalCellPanel, gbc_panel);
 		promptCellLabel = new JLabel("CELL: 1/" + this.numCells);
-		promptCellLabel.setBounds(82, 0, 80, 15);
+		promptCellLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
+		promptCellLabel.setBounds(70, 0, 98, 15);
 		generalCellPanel.add(promptCellLabel);
 	}
 
@@ -1142,6 +1192,7 @@ public class AuthoringViewerTest {
 		aViewFrame.getContentPane().add(promptPane, promptText);
 
 		JLabel lblPrompt = new JLabel("PROMPT");
+		lblPrompt.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblPrompt.setBounds(10, 40, 30, 30);
 		promptPane.setColumnHeaderView(lblPrompt);
 	}
@@ -1377,6 +1428,13 @@ public class AuthoringViewerTest {
 		setCurrCellPins(cards.get(currCard).getCells().get(currCell));
 		setResponseCellPins(cards.get(currCard).getButtonList().get(currButton).getCells().get(0));
 		setCardList();
+		setVisible(cards.get(currCard).getEnbled());
+	}
+	
+	private void setVisible(Boolean b){
+		buttonEditor.setEnabled(b);
+		buttonPanel.setVisible(b);
+		generalCellPanel.setVisible(b);
 	}
 
 	/**
@@ -1401,6 +1459,7 @@ public class AuthoringViewerTest {
 		setCurrCellPins(cards.get(currCard).getCells().get(currCell));
 		setResponseCellPins(cards.get(currCard).getButtonList().get(currButton).getCells().get(0));
 		setCardList();
+		setVisible(cards.get(currCard).getEnbled());
 	}
 
 	/**
