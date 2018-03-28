@@ -39,6 +39,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
@@ -93,7 +94,7 @@ public class ScenarioForm {
 	private JComboBox<String> comboButtonBox;
 	private ArrayList<Card> cards;
 	// non zero
-	
+
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
 	/**
@@ -118,36 +119,47 @@ public class ScenarioForm {
 	public ScenarioForm() {
 		this(new ArrayList<Card>(), 1, 1);
 		initialize();
-//		ConsoleHandler consoleHandler = new ConsoleHandler();
-//        consoleHandler.setFormatter(new Formatter() {
-//    		private String format = "[%1$s] [%2$s] %3$s %n";
-//			private SimpleDateFormat dateWithMillis = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
-//			@Override
-//			public String format(LogRecord record) {
-//				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(), formatMessage(record));
-//			}
-//    	});
-//    	logger.addHandler(consoleHandler);
-//    	logger.setUseParentHandlers(true);
+		// ConsoleHandler consoleHandler = new ConsoleHandler();
+		// consoleHandler.setFormatter(new Formatter() {
+		// private String format = "[%1$s] [%2$s] %3$s %n";
+		// private SimpleDateFormat dateWithMillis = new
+		// SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
+		// @Override
+		// public String format(LogRecord record) {
+		// return String.format(format, dateWithMillis.format(new Date()),
+		// record.getSourceClassName(), formatMessage(record));
+		// }
+		// });
+		// logger.addHandler(consoleHandler);
+		// logger.setUseParentHandlers(true);
 	}
 
+	/**
+	 * @wbp.parser.constructor
+	 * @param cards
+	 * @param numCells
+	 * @param numButtons
+	 */
 	public ScenarioForm(ArrayList<Card> cards, int numCells, int numButtons) {
 		this.cards = cards;
 		this.numButtons = numButtons;
 		this.numCells = numCells;
 		initialize();
 		ConsoleHandler consoleHandler = new ConsoleHandler();
-        consoleHandler.setFormatter(new Formatter() {
-    		private String format = "[%1$s] [%2$s] %3$s %n";
+		consoleHandler.setFormatter(new Formatter() {
+			private String format = "[%1$s] [%2$s] %3$s %n";
 			private SimpleDateFormat dateWithMillis = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
+
 			@Override
 			public String format(LogRecord record) {
-				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(), formatMessage(record));
+				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(),
+						formatMessage(record));
 			}
-    	});
+		});
 
-    	/*logger.addHandler(consoleHandler);
-    	logger.setUseParentHandlers(true);*/
+		/*
+		 * logger.addHandler(consoleHandler); logger.setUseParentHandlers(true);
+		 */
 	}
 
 	/**
@@ -158,187 +170,27 @@ public class ScenarioForm {
 
 		// *****************************************************************************
 		findDimensions();
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[] { 36, 144, 248, 130, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 30, 27, 0, 33, 21, 0, 21, 0, 27, 45, 0, 46, 11, 46, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				1.0, Double.MIN_VALUE };
+		sCreatorFrame.getContentPane().setLayout(gridBagLayout);
+
+		comboButtonBox = new JComboBox<String>();
+		comboButtonBox.getAccessibleContext().setAccessibleDescription("Select number of buttons");
 
 		// exit
 
 		JLabel lblNewLabel = new JLabel("Initial Set Up");
-		lblNewLabel.setBounds(456, 30, 151, 27);
-		lblNewLabel.setFont(new Font("Cambria", Font.BOLD, 16));
-		sCreatorFrame.getContentPane().add(lblNewLabel);
-
-		createCellLabelAndBox();
-
-		createButtonLabelAndBox();
-
-//<<<<<<< HEAD
-//		comboCellBox.addItemListener(new ItemListener() {
-//			int count = 0;
-//			public void itemStateChanged(ItemEvent itemEvent) {
-//				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-//					count++;
-//					logger.log(Level.INFO, "Cell Combo Box was used.");
-//					logger.log(Level.INFO, "Cell Combo Box was used {0} times", count);
-//				}
-//				int state = itemEvent.getStateChange();
-//				ItemSelectable is = itemEvent.getItemSelectable();
-//				numButtons = Integer.parseInt(selectedString(is).toString());
-//				System.out.println("Selected: " + selectedString(is));
-//			}
-//		});
-/*		JLabel lblNumberOfButtons = new JLabel("Number of Buttons");
-		lblNumberOfButtons.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNumberOfButtons.setBounds(322, 152, 181, 16);
-		sCreatorFrame.getContentPane().add(lblNumberOfButtons);
-		lblNumberOfCells.setLabelFor(comboCellBox);
-		JComboBox comboButtonBox = new JComboBox();
-		comboButtonBox.getAccessibleContext().setAccessibleDescription("Select number of buttons");
-		comboButtonBox.setFont(new Font("Tahoma", Font.BOLD, 12));
-		comboButtonBox.setBounds(513, 150, 64, 21);
-		comboButtonBox.setBackground(new Color(238, 238, 238));
-
-		comboButtonBox.setModel(new DefaultComboBoxModel(new String[] { "1", "2", "3", "4", "5", "6" }));
-		sCreatorFrame.getContentPane().add(comboButtonBox);*/
-
-/*		comboButtonBox.addItemListener(new ItemListener() {
-			int count = 0;
-			public void itemStateChanged(ItemEvent itemEvent) {
-				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-					count++;
-					logger.log(Level.INFO, "Button Combo Box was used.");
-					logger.log(Level.INFO, "Button Combo Box was used {0} times", count);
-				}
-				int state = itemEvent.getStateChange();
-				ItemSelectable is = itemEvent.getItemSelectable();
-				numCells = Integer.parseInt(selectedString(is).toString());
-				System.out.println("Selected: " + selectedString(is));
-			}
-		});*/
-
-		JLabel lblScenarioTitle = new JLabel("Scenario Title");
-		lblScenarioTitle.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblScenarioTitle.setBounds(322, 200, 181, 16);
-		sCreatorFrame.getContentPane().add(lblScenarioTitle);
-
-		titleTextField = new JTextField();
-		titleTextField.getAccessibleContext().setAccessibleDescription("Title of the scenario");
-		titleTextField.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		titleTextField.setBounds(513, 195, 130, 27);
-		titleTextField.setToolTipText("Enter a Title for your Scenario");
-		sCreatorFrame.getContentPane().add(titleTextField);
-		titleTextField.setColumns(10);
-		titleTextField.setText("New Scenario");
-//=======
-//		JLabel lblScenarioTitle = createTitle();
-//>>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
-
-		/*
-		 * JLabel lblAddAudioFile = new JLabel("Add Audio File (Optional)");
-		 * lblAddAudioFile.setFont(new Font("Tahoma", Font.BOLD, 12));
-		 * lblAddAudioFile.setBounds(321, 248, 182, 16);
-		 * sCreatorFrame.getContentPane().add(lblAddAudioFile);
-		 */
-
-		/*
-		 * audioFileTextField = new JTextField(); audioFileTextField.setFont(new
-		 * Font("Tahoma", Font.PLAIN, 12));
-		 *
-		 * audioFileTextField.setEditable(false);
-		 * audioFileTextField.getAccessibleContext().
-		 * setAccessibleDescription("Selected audio file");
-		 * audioFileTextField.setBounds(513, 243, 130, 27);
-		 * audioFileTextField.setColumns(10);
-		 * sCreatorFrame.getContentPane().add(audioFileTextField);
-		 */
-
-		/*
-		 * JButton btnBrowse = new JButton("Browse"); btnBrowse.setFont(new
-		 * Font("Tahoma", Font.BOLD, 12)); btnBrowse.getAccessibleContext().
-		 * setAccessibleDescription("Search for sound file"); btnBrowse.setBounds(680,
-		 * 243, 94, 27); btnBrowse.addActionListener(new ActionListener() { public void
-		 * actionPerformed(ActionEvent e) { JFileChooser fc = new JFileChooser();
-		 * FileFilter wavFilter = new FileFilter() {
-		 *
-		 * @Override public String getDescription() { return "Sound file (*.WAV)"; }
-		 *
-		 * @Override public boolean accept(File file) { if (file.isDirectory()) { return
-		 * true; } else { return file.getName().toLowerCase().endsWith(".wav"); } } };
-		 *
-		 * fc.setFileFilter(wavFilter); fc.setAcceptAllFileFilterUsed(false);
-		 * fc.setCurrentDirectory(new java.io.File("./FactoryScenarios/AudioFiles"));
-		 * fc.setDialogTitle("Please Choose File to Open");
-		 * fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES); if
-		 * (fc.showOpenDialog(btnBrowse) == JFileChooser.APPROVE_OPTION) {
-		 * audioFileTextField.setText(fc.getSelectedFile().getName().toString()) ; } }
-		 * }); sCreatorFrame.getContentPane().add(btnBrowse);
-		 */
-
-		/*
-		 * JLabel lblS = new JLabel("Record and Save a New Audio \".wav\" File");
-		 * lblS.setBounds(33, 212, 278, 19); sCreatorFrame.getContentPane().add(lblS);
-		 * lblS.setFont(new Font("Tahoma", Font.BOLD, 12));
-		 *
-		 * JButton btnRecordAudio = new JButton("Record Audio");
-		 * btnRecordAudio.getAccessibleContext().
-		 * setAccessibleDescription("Click to record new audio");
-		 * btnRecordAudio.setBounds(321, 210, 111, 21);
-		 * sCreatorFrame.getContentPane().add(btnRecordAudio);
-		 * btnRecordAudio.setFont(new Font("Tahoma", Font.BOLD, 11));
-		 * btnRecordAudio.addActionListener(new ActionListener() {
-		 *
-		 * @Override public void actionPerformed(ActionEvent e) { RecorderFrame rf = new
-		 * RecorderFrame(); rf.displayRecorder(); } });
-		 */
-
-		JButton btnSaveAndCreate = new JButton("Create a Scenario");
-		btnSaveAndCreate.getAccessibleContext().setAccessibleDescription("Saves information and opens editor");
-		saveButtonListener(comboCellBox, comboButtonBox, btnSaveAndCreate);
-		btnSaveAndCreate.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnSaveAndCreate.setBounds(406, 336, 201, 29);
-
-		btnSaveAndCreate.setToolTipText("Saves information and opens editor");
-		/*
-		 * btnSaveAndCreate.setForeground(Color.BLACK);
-		 * btnSaveAndCreate.setContentAreaFilled(false);
-		 * btnSaveAndCreate.setOpaque(true);
-		 */
-		btnSaveAndCreate.setBackground(UIManager.getColor("CheckBox.background"));
-		sCreatorFrame.getContentPane().add(btnSaveAndCreate);
-
-		JButton btnExitWithoutSaving = new JButton("Exit Without Saving");
-		btnExitWithoutSaving.getAccessibleContext().setAccessibleDescription("Doesn't save and closes current window");
-		exitButtonListener(btnExitWithoutSaving);
-		btnExitWithoutSaving.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnExitWithoutSaving.setBounds(406, 376, 201, 29);
-		btnExitWithoutSaving.setToolTipText(" ");
-		/*
-		 * btnExitWithoutSaving.setForeground(Color.BLACK);
-		 * btnExitWithoutSaving.setContentAreaFilled(false);
-		 * btnExitWithoutSaving.setOpaque(true);
-		 * btnExitWithoutSaving.setBackground(UIManager.getColor(
-		 * "CheckBox.background"));
-		 */
-//<<<<<<< HEAD
-/*		btnExitWithoutSaving.addActionListener(new ActionListener() {
-			int count = 0;
-			public void actionPerformed(ActionEvent e) {
-				count ++;
-				logger.log(Level.INFO, "Exit Without Save was pressed.");
-				logger.log(Level.INFO, "Exit Without Save was pressed {0} times", count);
-				// sCreatorFrame.setVisible(false);
-				int option = JOptionPane.showConfirmDialog(null, "Do you want to EXIT? \nNo changes will be saved!!!",
-						"Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-				if (option == JOptionPane.YES_OPTION) {
-					sCreatorFrame.dispose();
-				} else {
-					// do nothing
-					JOptionPane.getRootFrame().dispose();
-				}
-			}
-		});*/
-//=======
-		//
-//>>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
-		sCreatorFrame.getContentPane().add(btnExitWithoutSaving);
+		lblNewLabel.setFont(new Font("Cambria", Font.BOLD, 19));
+		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
+		gbc_lblNewLabel.fill = GridBagConstraints.VERTICAL;
+		gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNewLabel.gridx = 2;
+		gbc_lblNewLabel.gridy = 1;
+		sCreatorFrame.getContentPane().add(lblNewLabel, gbc_lblNewLabel);
 
 		// sCreatorFrame.getContentPane().setFocusTraversalPolicy(new
 		// FocusTraversalOnArray(new Component[]{lblNewLabel, lblNumberOfCells,
@@ -350,11 +202,184 @@ public class ScenarioForm {
 		// comboCellBox, lblNumberOfButtons, comboButtonBox, lblScenarioTitle,
 		// titleTextField, lblAddAudioFile, btnBrowse, audioFileTextField,
 		// btnSaveAndCreate, btnExitWithoutSaving}));
-		sCreatorFrame.getContentPane()
-				.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { lblNewLabel, lblNumberOfCells,
-						comboCellBox, lblNumberOfButtons, comboButtonBox, lblScenarioTitle, titleTextField,
-						// btnSaveAndCreate, btnExitWithoutSaving }));
-						btnExitWithoutSaving }));
+
+		lblNumberOfCells = new JLabel("Number of Cells");
+		lblNumberOfCells.setFont(new Font("Tahoma", Font.BOLD, 14));
+		GridBagConstraints gbc_lblNumberOfCells = new GridBagConstraints();
+		gbc_lblNumberOfCells.fill = GridBagConstraints.BOTH;
+		gbc_lblNumberOfCells.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNumberOfCells.gridx = 1;
+		gbc_lblNumberOfCells.gridy = 4;
+		sCreatorFrame.getContentPane().add(lblNumberOfCells, gbc_lblNumberOfCells);
+
+		comboCellBox = new JComboBox<String>();
+		comboCellBox.getAccessibleContext().setAccessibleDescription("Select number of cells");
+		comboCellBox.setFont(new Font("Tahoma", Font.BOLD, 14));
+		comboCellBox.setModel(new DefaultComboBoxModel<String>(new String[] { "1 Cell", "2 Cells", "3 Cells", "4 Cells",
+				"5 Cells", "6 Cells", "7 Cells", "8 Cells", "9 Cells", "10 Cells" }));
+		GridBagConstraints gbc_comboCellBox = new GridBagConstraints();
+		gbc_comboCellBox.fill = GridBagConstraints.BOTH;
+		gbc_comboCellBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboCellBox.gridx = 3;
+		gbc_comboCellBox.gridy = 4;
+		sCreatorFrame.getContentPane().add(comboCellBox, gbc_comboCellBox);
+
+		comboCellBox.addItemListener(new ItemListener() {
+			int count = 0;
+
+			public void itemStateChanged(ItemEvent itemEvent) {
+				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+					count++;
+					logger.log(Level.INFO, "Cell Combo Box was used.");
+					logger.log(Level.INFO, "Cell Combo Box was used {0} times", count);
+				}
+				int state = itemEvent.getStateChange();
+				ItemSelectable is = itemEvent.getItemSelectable();
+				selectedCells = comboCellBox.getSelectedIndex() + 1;
+				System.out.println("Selected: " + selectedString(is));
+			}
+		});
+		lblNumberOfButtons = new JLabel("Number of Buttons");
+		lblNumberOfButtons.setFont(new Font("Tahoma", Font.BOLD, 14));
+		GridBagConstraints gbc_lblNumberOfButtons = new GridBagConstraints();
+		gbc_lblNumberOfButtons.fill = GridBagConstraints.BOTH;
+		gbc_lblNumberOfButtons.insets = new Insets(0, 0, 5, 5);
+		gbc_lblNumberOfButtons.gridx = 1;
+		gbc_lblNumberOfButtons.gridy = 6;
+		sCreatorFrame.getContentPane().add(lblNumberOfButtons, gbc_lblNumberOfButtons);
+		comboButtonBox.setFont(new Font("Tahoma", Font.BOLD, 14));
+		comboButtonBox.setBackground(new Color(238, 238, 238));
+
+		comboButtonBox.setModel(new DefaultComboBoxModel<String>(
+				new String[] { "1 Button", "2 Buttons", "3 Buttons", "4 Buttons", "5 Buttons", "6 Buttons" }));
+		GridBagConstraints gbc_comboButtonBox = new GridBagConstraints();
+		gbc_comboButtonBox.fill = GridBagConstraints.BOTH;
+		gbc_comboButtonBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboButtonBox.gridx = 3;
+		gbc_comboButtonBox.gridy = 6;
+		sCreatorFrame.getContentPane().add(comboButtonBox, gbc_comboButtonBox);
+
+		comboButtonBox.addItemListener(new ItemListener() {
+			int count = 0;
+
+			public void itemStateChanged(ItemEvent itemEvent) {
+				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
+					count++;
+					logger.log(Level.INFO, "Button Combo Box was used.");
+					logger.log(Level.INFO, "Button Combo Box was used {0} times", count);
+				}
+				int state = itemEvent.getStateChange();
+				ItemSelectable is = itemEvent.getItemSelectable();
+				selectedButtons = comboButtonBox.getSelectedIndex() + 1;
+				System.out.println("Selected: " + selectedString(is));
+			}
+		});
+
+		JLabel lblScenarioTitle = new JLabel("Scenario Title");
+		lblScenarioTitle.setFont(new Font("Tahoma", Font.BOLD, 14));
+		GridBagConstraints gbc_lblScenarioTitle = new GridBagConstraints();
+		gbc_lblScenarioTitle.fill = GridBagConstraints.BOTH;
+		gbc_lblScenarioTitle.insets = new Insets(0, 0, 5, 5);
+		gbc_lblScenarioTitle.gridx = 1;
+		gbc_lblScenarioTitle.gridy = 8;
+		sCreatorFrame.getContentPane().add(lblScenarioTitle, gbc_lblScenarioTitle);
+
+		titleTextField = new JTextField();
+		titleTextField.getAccessibleContext().setAccessibleDescription("Title of the scenario");
+		titleTextField.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		titleTextField.setToolTipText("Enter a Title for your Scenario");
+		GridBagConstraints gbc_titleTextField = new GridBagConstraints();
+		gbc_titleTextField.fill = GridBagConstraints.BOTH;
+		gbc_titleTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_titleTextField.gridx = 3;
+		gbc_titleTextField.gridy = 8;
+		sCreatorFrame.getContentPane().add(titleTextField, gbc_titleTextField);
+		titleTextField.setColumns(10);
+		titleTextField.setText("New Scenario");
+
+
+		JButton btnSaveAndCreate = new JButton("Create a Scenario");
+		//btnSaveAndCreate.setEnabled(false);
+		btnSaveAndCreate.getAccessibleContext().setAccessibleDescription("Saves information and opens editor");
+		btnSaveAndCreate.setFont(new Font("Tahoma", Font.BOLD, 14));
+
+		btnSaveAndCreate.setToolTipText("Saves information and opens editor");
+		btnSaveAndCreate.setBackground(UIManager.getColor("CheckBox.background"));
+		saveButtonListener(comboCellBox, comboButtonBox, btnSaveAndCreate);
+		
+/*		titleTextField.addFocusListener(new FocusListener() {
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+				// TODO Auto-generated method stub
+				if (!titleTextField.getText().isEmpty()) {
+					if (!titleTextField.getText().matches(".*\\w.*")) {
+						btnSaveAndCreate.setEnabled(true);
+						saveButtonListener(comboCellBox, comboButtonBox, btnSaveAndCreate);
+					} else {
+						btnSaveAndCreate.setEnabled(false);
+					}
+				}
+				else {
+					btnSaveAndCreate.setEnabled(false);
+				}
+			}
+
+			@Override
+			public void focusGained(FocusEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});*/
+//		titleTextField.addActionListener(new ActionListener() {
+//			
+//			@Override
+//			public void actionPerformed(ActionEvent e) {
+//				if(jTextField1KeyPressed){
+//					
+//				}
+//				/*// TODO Auto-generated method stub
+//				if(!titleTextField.getText().isEmpty()){
+//			//if(!titleTextField.getText().matches(".*\\w.*")){
+//			btnSaveAndCreate.setEnabled(true);
+//			saveButtonListener(comboCellBox, comboButtonBox, btnSaveAndCreate);
+//		}else{btnSaveAndCreate.setEnabled(false);
+//		//}
+//		}*/
+//				
+//			}
+//		});
+//		
+		GridBagConstraints gbc_btnSaveAndCreate = new GridBagConstraints();
+		gbc_btnSaveAndCreate.fill = GridBagConstraints.BOTH;
+		gbc_btnSaveAndCreate.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSaveAndCreate.gridx = 2;
+		gbc_btnSaveAndCreate.gridy = 11;
+		sCreatorFrame.getContentPane().add(btnSaveAndCreate, gbc_btnSaveAndCreate);
+		// disable save if name not specified
+		
+		
+		JButton btnExitWithoutSaving = new JButton("Exit Without Saving");
+		btnExitWithoutSaving.getAccessibleContext().setAccessibleDescription("Doesn't save and closes current window");
+		exitButtonListener(btnExitWithoutSaving);
+		btnExitWithoutSaving.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnExitWithoutSaving.setToolTipText(" ");
+		// =======
+		//
+		// >>>>>>> branch 'TestingUpdates' of
+		// https://github.com/NS-01/forked_enamel
+		GridBagConstraints gbc_btnExitWithoutSaving = new GridBagConstraints();
+		gbc_btnExitWithoutSaving.fill = GridBagConstraints.BOTH;
+		gbc_btnExitWithoutSaving.insets = new Insets(0, 0, 5, 5);
+		gbc_btnExitWithoutSaving.gridx = 2;
+		gbc_btnExitWithoutSaving.gridy = 13;
+		sCreatorFrame.getContentPane().add(btnExitWithoutSaving, gbc_btnExitWithoutSaving);
+		sCreatorFrame.getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblNewLabel, lblNumberOfCells, comboCellBox, lblNumberOfButtons, comboButtonBox, lblScenarioTitle, titleTextField, btnSaveAndCreate, btnExitWithoutSaving}));
+
+		createCellLabelAndBox();
+
+		createButtonLabelAndBox();
 	}
 
 	private void findDimensions() {
@@ -373,6 +398,13 @@ public class ScenarioForm {
 		this.sCreatorFrame.setLocationRelativeTo(null);
 	}
 
+	private boolean jTextField1KeyPressed(java.awt.event.KeyEvent evt) {
+		  if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
+		      // Enter was pressed. Your code goes here.
+			  return true;
+		   }
+		  return false;
+		} 
 	private void createFrame() {
 		sCreatorFrame = new JFrame();
 		sCreatorFrame.getContentPane().setBackground(UIManager.getColor("CheckBox.background"));
@@ -382,71 +414,13 @@ public class ScenarioForm {
 		sCreatorFrame.setBounds(100, 100, 490, 455);
 		sCreatorFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		sCreatorFrame.addWindowListener(new confirmClose());
-		sCreatorFrame.getContentPane().setLayout(null);
 	}
 
 	private void createButtonLabelAndBox() {
-		lblNumberOfButtons = new JLabel("Number of Buttons");
-		lblNumberOfButtons.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNumberOfButtons.setBounds(322, 152, 181, 16);
-		sCreatorFrame.getContentPane().add(lblNumberOfButtons);
 		lblNumberOfCells.setLabelFor(comboCellBox);
-
-		comboButtonBox = new JComboBox<String>();
-		comboButtonBox.getAccessibleContext().setAccessibleDescription("Select number of buttons");
-		comboButtonBox.setFont(new Font("Tahoma", Font.BOLD, 12));
-		comboButtonBox.setBounds(513, 150, 90, 21);
-		comboButtonBox.setBackground(new Color(238, 238, 238));
-
-		comboButtonBox.setModel(new DefaultComboBoxModel<String>(
-				new String[] { "1 Button", "2 Buttons", "3 Buttons", "4 Buttons", "5 Buttons", "6 Buttons" }));
-		sCreatorFrame.getContentPane().add(comboButtonBox);
-
-		comboButtonBox.addItemListener(new ItemListener() {
-			int count = 0;
-			public void itemStateChanged(ItemEvent itemEvent) {
-				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-					count++;
-					logger.log(Level.INFO, "Button Combo Box was used.");
-					logger.log(Level.INFO, "Button Combo Box was used {0} times", count);
-				}
-				int state = itemEvent.getStateChange();
-				ItemSelectable is = itemEvent.getItemSelectable();
-				selectedButtons = comboButtonBox.getSelectedIndex() + 1;
-				System.out.println("Selected: " + selectedString(is));
-			}
-		});
 	}
 
 	private void createCellLabelAndBox() {
-		lblNumberOfCells = new JLabel("Number of Cells");
-		lblNumberOfCells.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblNumberOfCells.setBounds(322, 100, 181, 16);
-		sCreatorFrame.getContentPane().add(lblNumberOfCells);
-
-		comboCellBox = new JComboBox<String>();
-		comboCellBox.getAccessibleContext().setAccessibleDescription("Select number of cells");
-		comboCellBox.setFont(new Font("Tahoma", Font.BOLD, 12));
-		comboCellBox.setBounds(513, 98, 90, 21);
-		comboCellBox.setModel(new DefaultComboBoxModel<String>(new String[] { "1 Cell", "2 Cells", "3 Cells", "4 Cells",
-				"5 Cells", "6 Cells", "7 Cells", "8 Cells", "9 Cells", "10 Cells" }));
-		sCreatorFrame.getContentPane().add(comboCellBox);
-
-		comboCellBox.addItemListener(new ItemListener() {
-			int count = 0;
-
-			public void itemStateChanged(ItemEvent itemEvent) {
-				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-					count++;
-					logger.log(Level.INFO, "Cell Combo Box was used.");
-					logger.log(Level.INFO, "Cell Combo Box was used {0} times", count);
-				}
-				int state = itemEvent.getStateChange();
-				ItemSelectable is = itemEvent.getItemSelectable();
-				selectedCells = comboCellBox.getSelectedIndex() + 1;
-				System.out.println("Selected: " + selectedString(is));
-			}
-		});
 	}
 
 	private JLabel createTitle() {
@@ -467,16 +441,35 @@ public class ScenarioForm {
 	}
 
 	private void saveButtonListener(JComboBox comboCellBox, JComboBox comboButtonBox, JButton btnSaveAndCreate) {
-
+		//btnSaveAndCreate.setEnabled(true);
 		System.out.println("Cells: " + numCells + " Buttons: " + numButtons);
 		Action buttonAction = new AbstractAction("Create a Scenario") {
 			int count = 0;
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				count ++;
+				count++;
 				logger.log(Level.INFO, "Create a Scenario Button was pressed.");
 				logger.log(Level.INFO, "Create a Scenario Button was pressed {0} times", count);
-				if (cards.isEmpty()) {
+				if(titleTextField.getText().isEmpty() || titleTextField.getText().trim().length() == 0 || !validName(titleTextField.getText())){
+					//||validName(titleTextField.getText()) == false){
+					Object[] buttons = {"OK"};
+//					int option = JOptionPane.showConfirmDialog(null,
+//							"Title Name is either empty or Invalid. Return to edit again",
+//							"Confirm", JOptionPane.OK_OPTION);
+					//int option == 
+							JOptionPane.showOptionDialog(null,
+			                   "Title Name is either empty or Invalid. Press OK to return and edit again.","Error!",
+			                   JOptionPane.OK_OPTION,
+			                   JOptionPane.CANCEL_OPTION, null, buttons , buttons[0]);
+//					if (option == JOptionPane.OK_OPTION) {
+//						removeExtra((comboCellBox.getSelectedIndex() + 1), (comboButtonBox.getSelectedIndex() + 1));
+//						createAuthoringViewer(comboCellBox, comboButtonBox);
+//					} else {
+//						// do nothing
+//					}
+				}
+				else if (cards.isEmpty()) {
 					ArrayList<Card> cards = new ArrayList<Card>();
 					Card temp = new Card(1, "Card 1", "");
 					cards.add(temp);
@@ -487,9 +480,9 @@ public class ScenarioForm {
 					av.setCardList();
 					sCreatorFrame.dispose();
 				} else {
-					System.out.println("Cells: " + numCells + " Buttons: " + numButtons + " " + selectedCells + " " + selectedButtons + " ");
-					if ( selectedCells >= numCells 
-							&& selectedButtons >= numButtons) {
+					System.out.println("Cells: " + numCells + " Buttons: " + numButtons + " " + selectedCells + " "
+							+ selectedButtons + " ");
+					if (selectedCells >= numCells && selectedButtons >= numButtons) {
 						createAuthoringViewer(comboCellBox, comboButtonBox);
 					} else {
 						int option = JOptionPane.showConfirmDialog(null,
@@ -504,7 +497,8 @@ public class ScenarioForm {
 					}
 
 				}
-//>>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
+				// >>>>>>> branch 'TestingUpdates' of
+				// https://github.com/NS-01/forked_enamel
 			}
 
 		};
@@ -541,8 +535,9 @@ public class ScenarioForm {
 	private void exitButtonListener(JButton exitButton) {
 		Action buttonAction = new AbstractAction("Exit Without Saving") {
 			int count = 0;
+
 			public void actionPerformed(ActionEvent e) {
-				count ++;
+				count++;
 				logger.log(Level.INFO, "Exit Without Save was pressed.");
 				logger.log(Level.INFO, "Exit Without Save was pressed {0} times", count);
 				int option = JOptionPane.showConfirmDialog(null, "Do you want to EXIT? \nNo changes will be saved!!!",
@@ -570,15 +565,37 @@ public class ScenarioForm {
 		return this.titleTextField.getText();
 	}
 
+	private boolean validName(String s){
+		Boolean valid = false;
+		//if(s.matches("[0-9]+")||s.matches("[a-z,A-z]+")){
+		if(s.matches("[a-zA-Z_0-9\\s]+")){
+		valid = true;
+		}
+		return valid;
+//		char ch;
+//		for (int i = 0; i < s.length(); i++)
+//		{
+//		     ch = s.charAt(i);
+//		       
+//		     // We have detected a non letter or non whitespace, end this right now. 
+//		     // Flip the flag to false, break out of the for loop, it will go back to the while loop, see valid is false
+//		     // and kick out of the while loop.
+//		     if (!Character.isLetter(ch) || Character.isWhitespace(ch) || !Character.isDigit(ch));
+//		     {
+//		        valid = false;
+//		     } 
+//		}  
+//		return valid;
+	}
 	private class confirmClose extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			int option = JOptionPane.showConfirmDialog(null, "Do you want to EXIT? \nNo changes will be saved!!!",
 					"Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if (option == JOptionPane.YES_OPTION) {
 				sCreatorFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				
+
 			} else {
-				//JOptionPane.getRootFrame().dispose();
+				// JOptionPane.getRootFrame().dispose();
 				// do nothing
 			}
 		}
