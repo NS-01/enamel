@@ -92,7 +92,7 @@ public class functionView {
 				// System.exit( 0 );
 				funcFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 			} else {
-				// do nothing
+				//  do nothing
 			}
 		}
 	}
