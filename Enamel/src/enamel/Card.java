@@ -25,6 +25,7 @@ public class Card {
 	private String text;
 	private ArrayList<BrailleCell> cells;
 	private String sound;
+	private Boolean enableUserResponse;
 
 	/**
 	 * Constructor to create card object
@@ -33,13 +34,14 @@ public class Card {
 	 * @param name
 	 * @param type
 	 */
-	public Card(int id, String name, String type) {
+	public Card(int id, String name, String type, Boolean enable) {
 		this.id = id;
 		this.cardName = name;
 		this.type = type;
 		this.bList = new ArrayList<>();
 		this.cells = new ArrayList<>();
 		this.sound = "";
+		this.enableUserResponse = enable;
 	}
 
 	// Methods
@@ -162,5 +164,14 @@ public class Card {
 	 */
 	public void setName(String s) {
 		this.cardName = s;
+	}
+	
+	public Boolean getEnbled() {
+		// TODO Auto-generated method stub
+		return this.enableUserResponse;
+	}
+	
+	public void setEnabled(Boolean enable){
+		this.enableUserResponse = enable;
 	}
 }

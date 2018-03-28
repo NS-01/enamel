@@ -242,7 +242,7 @@ public class FileToCardsParser {
 		cells.clear();
 		cards.add(currCard);
 		cardNum++;
-		currCard = new Card(cardNum - 1, "Card " + cardNum, "notSure");
+		currCard = new Card(cardNum - 1, "Card " + cardNum, "notSure", true);
 	}
 
 	private void setUp() {
@@ -256,7 +256,7 @@ public class FileToCardsParser {
 			currLineNum++;
 
 		}
-		currCard = new Card(cardNum - 1, "Card " + cardNum, "notSure");
+		currCard = new Card(cardNum - 1, "Card " + cardNum, "notSure",true);
 		buttons = new ArrayList<DataButton>(numButtons);
 		cells = new ArrayList<BrailleCell>(numCells);
 		currButton = new DataButton(buttonNum);

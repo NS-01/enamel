@@ -920,7 +920,7 @@ public class AuthoringApp {
 					nextCard();
 				} else {
 					System.out.println(cards.size());
-					Card temp = new Card(currCard + 1, "Card " + (currCard + 2), "");
+					Card temp = new Card(currCard + 1, "Card " + (currCard + 2), "", false);
 					cards.add(temp);
 					System.out.println("New Size: " + cards.size());
 					temp.getButtonList().add(new DataButton(0));

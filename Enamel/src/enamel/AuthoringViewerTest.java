@@ -133,6 +133,7 @@ public class AuthoringViewerTest {
 	private JRadioButton rspSeven;
 	private JRadioButton rspEight;
 	private JPanel buttonPanel;
+	private JPanel generalCellPanel;
 
 	// public static void main(String[] args) {
 	// EventQueue.invokeLater(new Runnable() {
@@ -202,7 +203,7 @@ public class AuthoringViewerTest {
 
 		createResponsePanel();
 
-		// createResponseCell();
+		createResponseCell();
 
 		createPrevNextButtons();
 
@@ -235,6 +236,23 @@ public class AuthoringViewerTest {
 		txtCardName.setText(cards.get(currCard).getName());
 		txtCardName.setColumns(10);
 		cardNamePanel.add(txtCardName, BorderLayout.NORTH);
+		JButton btnEnableUserResponse = new JButton("Enable User Response");
+		btnEnableUserResponse.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// on button Press Enable the button panel and button pane
+//				buttonEditor.setEnabled(true);
+//				buttonPanel.setVisible(true);
+//				generalCellPanel.setVisible(true);
+				cards.get(currCard).setEnabled(true);
+				setVisible(true);
+			}
+		});
+		btnEnableUserResponse.setFont(new Font("Tahoma", Font.BOLD, 14));
+		GridBagConstraints gbc_btnEnableUserResponse = new GridBagConstraints();
+		gbc_btnEnableUserResponse.insets = new Insets(0, 0, 5, 5);
+		gbc_btnEnableUserResponse.gridx = 1;
+		gbc_btnEnableUserResponse.gridy = 1;
+		aViewFrame.getContentPane().add(btnEnableUserResponse, gbc_btnEnableUserResponse);
 
 		displayFrame();
 	}
@@ -323,21 +341,6 @@ public class AuthoringViewerTest {
 
 			}
 		});
-		JButton btnEnableUserResponse = new JButton("Enable User Response");
-		btnEnableUserResponse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				// on button Press Enable the button panel and button pane
-				buttonEditor.setEnabled(true);
-				buttonPanel.setVisible(true);
-				createResponseCell();
-			}
-		});
-		btnEnableUserResponse.setFont(new Font("Tahoma", Font.BOLD, 14));
-		GridBagConstraints gbc_btnEnableUserResponse = new GridBagConstraints();
-		gbc_btnEnableUserResponse.insets = new Insets(0, 0, 5, 5);
-		gbc_btnEnableUserResponse.gridx = 1;
-		gbc_btnEnableUserResponse.gridy = 1;
-		aViewFrame.getContentPane().add(btnEnableUserResponse, gbc_btnEnableUserResponse);
 
 		JMenuItem mntmOpen = new JMenuItem("Open");
 		mnFile.add(mntmOpen);
@@ -586,11 +589,14 @@ public class AuthoringViewerTest {
 		btnNextCard.getAccessibleContext().setAccessibleDescription("Click to switch to the next card");
 		btnNextCard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				buttonEditor.setEnabled(false);
+				buttonPanel.setVisible(false);
+				generalCellPanel.setVisible(false);
 				if (cards.size() > currCard + 1) {
 					nextCard();
 				} else {
 					System.out.println(cards.size());
-					Card temp = new Card(currCard + 1, "Card " + (currCard + 2), "");
+					Card temp = new Card(currCard + 1, "Card " + (currCard + 2), "", false);
 					cards.add(temp);
 					temp.getButtonList().add(new DataButton(0));
 					temp.getCells().add(new BrailleCell());
@@ -831,7 +837,7 @@ public class AuthoringViewerTest {
 	}
 
 	private void createResponseCell() {
-		JPanel generalCellPanel = new JPanel();
+		generalCellPanel = new JPanel();
 		generalCellPanel.repaint();
 		generalCellPanel.setBackground(new Color(217, 217, 217));
 		aViewFrame.getContentPane().add(generalCellPanel);
@@ -958,7 +964,7 @@ public class AuthoringViewerTest {
 		responseCellLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		responseCellLabel.setBounds(70, 0, 104, 15);
 		generalCellPanel.add(responseCellLabel);
-
+		generalCellPanel.setVisible(false);
 	}
 
 	private void createPromptCell() {
@@ -1335,6 +1341,13 @@ public class AuthoringViewerTest {
 		setCurrCellPins(cards.get(currCard).getCells().get(currCell));
 		setResponseCellPins(cards.get(currCard).getButtonList().get(currButton).getCells().get(0));
 		setCardList();
+		setVisible(cards.get(currCard).getEnbled());
+	}
+	
+	private void setVisible(Boolean b){
+		buttonEditor.setEnabled(b);
+		buttonPanel.setVisible(b);
+		generalCellPanel.setVisible(b);
 	}
 
 	/**
@@ -1359,6 +1372,7 @@ public class AuthoringViewerTest {
 		setCurrCellPins(cards.get(currCard).getCells().get(currCell));
 		setResponseCellPins(cards.get(currCard).getButtonList().get(currButton).getCells().get(0));
 		setCardList();
+		setVisible(cards.get(currCard).getEnbled());
 	}
 
 	/**
