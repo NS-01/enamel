@@ -1301,6 +1301,15 @@ public class AuthoringApp {
 	}
 
 	/**
+	 * Method to clear pins on a given cell
+	 * 
+	 * @param cell
+	 */
+	private void clearPins(BrailleCell cell) {
+		cell.setPins("00000000");
+	}
+	
+	/**
 	 * Method to set button text
 	 *
 	 * @param text
