@@ -69,6 +69,7 @@ import java.net.URISyntaxException;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import java.awt.CardLayout;
+import javax.swing.Box;
 
 /**
  *
@@ -208,34 +209,6 @@ public class AuthoringApp {
 		createPrevNextButtons();
 
 		createMenuBar();
-
-		JPanel cardNamePanel = new JPanel();
-		cardNamePanel.setBackground(new Color(217, 217, 217));
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(10, 5, 5, 10);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 2;
-		gbc_panel_1.gridy = 1;
-		aViewFrame.getContentPane().add(cardNamePanel, gbc_panel_1);
-		cardNamePanel.setLayout(new BorderLayout(0, 0));
-
-		txtCardName = new JTextField();
-		txtCardName.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				// do nothing
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				cards.get(currCard).setName(txtCardName.getText());
-				setCardList();
-			}
-		});
-		txtCardName.setToolTipText("Enter a name for the card");
-		txtCardName.setText(cards.get(currCard).getName());
-		txtCardName.setColumns(10);
-		cardNamePanel.add(txtCardName, BorderLayout.NORTH);
 		JButton btnEnableUserResponse = new JButton("Enable User Response");
 		btnEnableUserResponse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -251,7 +224,7 @@ public class AuthoringApp {
 		GridBagConstraints gbc_btnEnableUserResponse = new GridBagConstraints();
 		gbc_btnEnableUserResponse.insets = new Insets(0, 0, 5, 5);
 		gbc_btnEnableUserResponse.gridx = 1;
-		gbc_btnEnableUserResponse.gridy = 1;
+		gbc_btnEnableUserResponse.gridy = 3;
 		aViewFrame.getContentPane().add(btnEnableUserResponse, gbc_btnEnableUserResponse);
 
 		displayFrame();
@@ -706,7 +679,7 @@ public class AuthoringApp {
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.insets = new Insets(10, 5, 10, 10);
 		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 2;
+		gbc_panel.gridy = 4;
 		prevAndNextPanel.setLayout(new BorderLayout(5, 5));
 
 		JPanel secondaryPrevNextPanel = new JPanel();
@@ -725,7 +698,7 @@ public class AuthoringApp {
 		responseText.insets = new Insets(10, 10, 10, 5);
 		responseText.fill = GridBagConstraints.BOTH;
 		responseText.gridx = 0;
-		responseText.gridy = 2;
+		responseText.gridy = 4;
 
 		buttonEditor = new JEditorPane();
 		buttonEditor.setBackground(new Color(230, 230, 230));
@@ -757,7 +730,7 @@ public class AuthoringApp {
 		gbc_buttonLabelPanel.insets = new Insets(20, 10, 5, 5);
 		gbc_buttonLabelPanel.fill = GridBagConstraints.BOTH;
 		gbc_buttonLabelPanel.gridx = 0;
-		gbc_buttonLabelPanel.gridy = 1;
+		gbc_buttonLabelPanel.gridy = 3;
 		aViewFrame.getContentPane().add(buttonLabelPanel, gbc_buttonLabelPanel);
 		buttonLabelPanel.setLayout(new BorderLayout(0, 5));
 
@@ -836,7 +809,7 @@ public class AuthoringApp {
 		gbc_listPanel.insets = new Insets(10, 5, 5, 10);
 		gbc_listPanel.fill = GridBagConstraints.BOTH;
 		gbc_listPanel.gridx = 2;
-		gbc_listPanel.gridy = 0;
+		gbc_listPanel.gridy = 2;
 		aViewFrame.getContentPane().add(listPanel, gbc_listPanel);
 
 		listModel = new DefaultListModel();
@@ -926,9 +899,9 @@ public class AuthoringApp {
 		aViewFrame.getContentPane().setBackground(new Color(217, 217, 217));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 500, 270, 300 };
-		gridBagLayout.rowHeights = new int[] { 250, 100, 250 };
-		gridBagLayout.columnWeights = new double[] { 0.8, Double.MIN_VALUE, 0.1 };
-		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE, 1.0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 250, 100, 250 };
+		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE, 0.1 };
+		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 1.0, Double.MIN_VALUE, 1.0 };
 		aViewFrame.getContentPane().setLayout(gridBagLayout);
 	}
 
@@ -1054,7 +1027,7 @@ public class AuthoringApp {
 		gbc_panel.insets = new Insets(10, 5, 0, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 2;
+		gbc_panel.gridy = 4;
 		aViewFrame.getContentPane().add(generalCellPanel, gbc_panel);
 		responseCellLabel = new JLabel("CELL: 1/" + this.numCells);
 		responseCellLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -1169,7 +1142,7 @@ public class AuthoringApp {
 		gbc_panel.insets = new Insets(10, 5, 5, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 0;
+		gbc_panel.gridy = 2;
 		aViewFrame.getContentPane().add(generalCellPanel, gbc_panel);
 		promptCellLabel = new JLabel("CELL: 1/" + this.numCells);
 		promptCellLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -1182,7 +1155,7 @@ public class AuthoringApp {
 		promptText.insets = new Insets(10, 10, 5, 5);
 		promptText.fill = GridBagConstraints.BOTH;
 		promptText.gridx = 0;
-		promptText.gridy = 0;
+		promptText.gridy = 2;
 		promptTextField = new JEditorPane();
 		promptTextField.setText("Enter a Prompt for this card");
 		promptTextField.addFocusListener(new FocusListener() {
@@ -1196,6 +1169,37 @@ public class AuthoringApp {
 			public void focusLost(FocusEvent e) {
 			}
 		});
+		
+				JPanel cardNamePanel = new JPanel();
+				cardNamePanel.setBackground(new Color(217, 217, 217));
+				GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+				gbc_panel_1.fill = GridBagConstraints.HORIZONTAL;
+				gbc_panel_1.insets = new Insets(10, 5, 5, 10);
+				gbc_panel_1.gridx = 0;
+				gbc_panel_1.gridy = 1;
+				aViewFrame.getContentPane().add(cardNamePanel, gbc_panel_1);
+				cardNamePanel.setLayout(new BorderLayout(0, 0));
+				
+						txtCardName = new JTextField();
+						txtCardName.addFocusListener(new FocusListener() {
+							@Override
+							public void focusGained(FocusEvent e) {
+								// do nothing
+							}
+
+							@Override
+							public void focusLost(FocusEvent e) {
+								cards.get(currCard).setName(txtCardName.getText());
+								setCardList();
+							}
+						});
+						txtCardName.setToolTipText("Enter a name for the card");
+						txtCardName.setText(cards.get(currCard).getName());
+						txtCardName.setColumns(5);
+						cardNamePanel.add(txtCardName, BorderLayout.CENTER);
+						
+						Component horizontalStrut = Box.createHorizontalStrut(425);
+						cardNamePanel.add(horizontalStrut, BorderLayout.EAST);
 		JScrollPane promptPane = new JScrollPane(promptTextField);
 		promptPane.setBounds(10, 50, 450, 300);
 		aViewFrame.getContentPane().add(promptPane, promptText);
