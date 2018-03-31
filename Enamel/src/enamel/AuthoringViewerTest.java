@@ -405,12 +405,7 @@ public class AuthoringViewerTest {
 								FileToCardsParser f = new FileToCardsParser();
 								f.setFile(fc.getSelectedFile().getPath());
 								AuthoringViewerTest avt = new AuthoringViewerTest(f.getCells(), f.getButtons(),
-										f.getCards(), f.getInitial(), f.getEnding()); // new
-																						// ActionListener()
-																						// {public
-																						// void
-																						// actionPerformed(ActionEvent
-																						// e2) {}});
+										f.getCards(), f.getInitial(), f.getEnding()); 
 								avt.setPromptText(f.getCards().get(0).getText());
 								avt.setCurrCellPins(f.getCards().get(0).getCells().get(0));
 								avt.setButtonText(f.getCards().get(0).getButtonList().get(0).getText());
