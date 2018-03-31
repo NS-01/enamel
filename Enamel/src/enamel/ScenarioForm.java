@@ -475,9 +475,9 @@ public class ScenarioForm {
 					cards.add(temp);
 					cards.get(0).getCells().add(new BrailleCell());
 					cards.get(0).getButtonList().add(new DataButton(0));
-					AuthoringViewerTest av = new AuthoringViewerTest(comboCellBox.getSelectedIndex() + 1,
+					AuthoringApp ap = new AuthoringApp(comboCellBox.getSelectedIndex() + 1,
 							comboButtonBox.getSelectedIndex() + 1, cards, getTitle(), "");
-					av.setCardList();
+					ap.setCardList();
 					sCreatorFrame.dispose();
 				} else {
 					System.out.println("Cells: " + numCells + " Buttons: " + numButtons + " " + selectedCells + " "
@@ -509,15 +509,15 @@ public class ScenarioForm {
 	}
 
 	private void createAuthoringViewer(JComboBox comboCellBox, JComboBox comboButtonBox) {
-		AuthoringViewerTest av = new AuthoringViewerTest(comboCellBox.getSelectedIndex() + 1,
+		AuthoringApp ap = new AuthoringApp(comboCellBox.getSelectedIndex() + 1,
 				comboButtonBox.getSelectedIndex() + 1, cards, getTitle(), "");
-		av.setCardList();
-		av.setPromptText(cards.get(0).getText());
-		av.setCurrCellPins(cards.get(0).getCells().get(0));
-		av.setResponseCellPins(cards.get(0).getButtonList().get(0).getCells().get(0));
-		av.setButtonText(cards.get(0).getButtonList().get(0).getText());
-		av.setCardList();
-		av.setEdited();
+		ap.setCardList();
+		ap.setPromptText(cards.get(0).getText());
+		ap.setCurrCellPins(cards.get(0).getCells().get(0));
+		ap.setResponseCellPins(cards.get(0).getButtonList().get(0).getCells().get(0));
+		ap.setButtonText(cards.get(0).getButtonList().get(0).getText());
+		ap.setCardList();
+		ap.setEdited();
 		sCreatorFrame.dispose();
 	}
 
