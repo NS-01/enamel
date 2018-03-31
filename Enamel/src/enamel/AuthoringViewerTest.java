@@ -720,6 +720,7 @@ public class AuthoringViewerTest {
 		responseText.gridy = 2;
 
 		buttonEditor = new JEditorPane();
+		buttonEditor.setBackground(new Color(230, 230, 230));
 		buttonEditor.setEnabled(false);
 		buttonEditor.getAccessibleContext().setAccessibleDescription("Enter a response for this button");
 		buttonEditor.setText("Enter a response for this button");
@@ -1433,6 +1434,8 @@ public class AuthoringViewerTest {
 	
 	private void setVisible(Boolean b){
 		buttonEditor.setEnabled(b);
+		if (b) buttonEditor.setBackground(Color.WHITE);
+		else buttonEditor.setBackground(new Color(230, 230, 230));
 		buttonPanel.setVisible(b);
 		generalCellPanel.setVisible(b);
 	}

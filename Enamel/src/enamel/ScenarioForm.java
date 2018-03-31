@@ -471,7 +471,7 @@ public class ScenarioForm {
 				}
 				else if (cards.isEmpty()) {
 					ArrayList<Card> cards = new ArrayList<Card>();
-					Card temp = new Card(1, "Card 1", "");
+					Card temp = new Card(1, "Card 1", "", false);
 					cards.add(temp);
 					cards.get(0).getCells().add(new BrailleCell());
 					cards.get(0).getButtonList().add(new DataButton(0));

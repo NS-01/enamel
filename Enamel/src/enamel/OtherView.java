@@ -750,7 +750,7 @@ public class OtherView {
 					nextCard();
 				} else {
 					System.out.println(cards.size());
-					Card temp = new Card(currCard + 1, "Card " + (currCard + 2), "");
+					Card temp = new Card(currCard + 1, "Card " + (currCard + 2), "", true);
 					cards.add(temp);
 					temp.getButtonList().add(new DataButton(0));
 					temp.getCells().add(new BrailleCell());
