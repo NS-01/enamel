@@ -15,7 +15,7 @@ public class Card {
 	// Name: String
 	// Type: String -> {text or audio}
 	// ID: int
-
+	// enable: Boolean
 	// private fields
 	private int id; // unique id to access card object
 	private int position; // specifies position in the list of cards
