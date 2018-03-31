@@ -84,7 +84,7 @@ import java.awt.CardLayout;
  *
  */
 @SuppressWarnings({ "unused", "rawtypes", "unchecked" })
-public class AuthoringViewerTest {
+public class AuthoringApp {
 
 	private JFrame aViewFrame;
 	private int numCells = 1;
@@ -156,7 +156,7 @@ public class AuthoringViewerTest {
 	/**
 	 * Create the application.
 	 */
-	public AuthoringViewerTest(int numCells, int numButtons, ArrayList<Card> cards, String initialPrompt,
+	public AuthoringApp(int numCells, int numButtons, ArrayList<Card> cards, String initialPrompt,
 			String endingPrompt) {
 		this.numButtons = numButtons;
 
@@ -297,6 +297,7 @@ public class AuthoringViewerTest {
 				}
 			}
 		});
+		mntmNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 
 		JMenuItem mntmSave = new JMenuItem("Save");
 		mnFile.add(mntmSave);
@@ -363,6 +364,7 @@ public class AuthoringViewerTest {
 
 			}
 		});
+		mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
 
 		JMenuItem mntmOpen = new JMenuItem("Open");
 		mnFile.add(mntmOpen);
@@ -404,13 +406,13 @@ public class AuthoringViewerTest {
 							if (fc.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
 								FileToCardsParser f = new FileToCardsParser();
 								f.setFile(fc.getSelectedFile().getPath());
-								AuthoringViewerTest avt = new AuthoringViewerTest(f.getCells(), f.getButtons(),
+								AuthoringApp ap = new AuthoringApp(f.getCells(), f.getButtons(),
 										f.getCards(), f.getInitial(), f.getEnding()); 
-								avt.setPromptText(f.getCards().get(0).getText());
-								avt.setCurrCellPins(f.getCards().get(0).getCells().get(0));
-								avt.setButtonText(f.getCards().get(0).getButtonList().get(0).getText());
-								avt.setCardList();
-								avt.setEdited();
+								ap.setPromptText(f.getCards().get(0).getText());
+								ap.setCurrCellPins(f.getCards().get(0).getCells().get(0));
+								ap.setButtonText(f.getCards().get(0).getButtonList().get(0).getText());
+								ap.setCardList();
+								ap.setEdited();
 							}
 
 						}
@@ -418,7 +420,8 @@ public class AuthoringViewerTest {
 				}).start();
 			}
 		});
-
+		mntmOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+		
 		JMenuItem mntmTest = new JMenuItem("Test");
 		mnFile.add(mntmTest);
 		mntmTest.addActionListener(new ActionListener() {
@@ -450,7 +453,8 @@ public class AuthoringViewerTest {
 
 			}
 		});
-
+		mntmTest.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));
+		
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mnFile.add(mntmExit);
 		mntmExit.addActionListener(new ActionListener() {
@@ -465,7 +469,8 @@ public class AuthoringViewerTest {
 				}
 			}
 		});
-
+		mntmExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
+		
 		JMenu mnEdit = new JMenu("EDIT");
 		menuBar.add(mnEdit);
 
@@ -497,7 +502,8 @@ public class AuthoringViewerTest {
 				aViewFrame.dispose();
 			}
 		});
-
+		mntmScenarioForm.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+		
 		JMenu mnView = new JMenu("VIEW");
 		menuBar.add(mnView);
 
@@ -509,6 +515,7 @@ public class AuthoringViewerTest {
 
 			}
 		});
+		mntmFullscreen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F, ActionEvent.CTRL_MASK));
 
 		JMenu mnAudio = new JMenu("AUDIO");
 		menuBar.add(mnAudio);
@@ -522,6 +529,7 @@ public class AuthoringViewerTest {
 				RecorderFrame.displayRecorder();
 			}
 		});
+		mntmRecord.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK));
 
 		JMenu mnInsert = new JMenu("Insert...");
 		mnAudio.add(mnInsert);
@@ -559,7 +567,8 @@ public class AuthoringViewerTest {
 				}
 			}
 		});
-
+		mntmToCard.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK+ActionEvent.SHIFT_MASK));
+		
 		JMenuItem mntmToButton = new JMenuItem("to Button");
 		mnInsert.add(mntmToButton);
 		mntmToButton.addActionListener(new ActionListener() {
@@ -591,7 +600,7 @@ public class AuthoringViewerTest {
 				}
 			}
 		});
-
+		mntmToButton.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK+ActionEvent.SHIFT_MASK));
 		JMenu mnHelp = new JMenu("HELP");
 		menuBar.add(mnHelp);
 
@@ -610,6 +619,8 @@ public class AuthoringViewerTest {
 				}
 			}
 		});
+		mntmTutorial.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK+ActionEvent.ALT_MASK));
+
 
 		JMenu mnAbout = new JMenu("ABOUT");
 		menuBar.add(mnAbout);
@@ -629,7 +640,8 @@ public class AuthoringViewerTest {
 				}
 			}
 		});
-
+		mntmGithub.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, ActionEvent.CTRL_MASK+ActionEvent.ALT_MASK));
+		
 		JMenuItem mntmCourseWebsite = new JMenuItem("Course Website");
 		mnAbout.add(mntmCourseWebsite);
 		mntmCourseWebsite.addActionListener(new ActionListener() {
@@ -649,6 +661,7 @@ public class AuthoringViewerTest {
 				}
 			}
 		});
+		mntmCourseWebsite.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.CTRL_MASK+ActionEvent.ALT_MASK));
 	}
 
 	private void createPrevNextButtons() {
