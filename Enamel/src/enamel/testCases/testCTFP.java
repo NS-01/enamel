@@ -37,7 +37,7 @@ public class testCTFP {
 	@Test
 	public void testWriteButtons() {
 		CardsToFileParser cTFP = new CardsToFileParser(cards, 2, 3, "Hello", "Bye");
-		Card test = new Card(0, "Card1", "Hi");
+		Card test = new Card(0, "Card1", "Hi", false);//*********************************************
 		ArrayList<DataButton> bList = new ArrayList<>();
 		DataButton b1 = new DataButton(0);
 		b1.addText("hello");
@@ -155,7 +155,7 @@ public class testCTFP {
 	@Test
 	public void testCells() {
 		CardsToFileParser cTFP = new CardsToFileParser(cards, 2, 3, "Hello", "Bye");
-		Card test = new Card(0, "Card1", "Hi");
+		Card test = new Card(0, "Card1", "Hi", false);//*********************************************
 		ArrayList<BrailleCell> cList = new ArrayList<>();
 		BrailleCell b1 = new BrailleCell();
 		b1.setPins("10101010");
@@ -208,7 +208,7 @@ public class testCTFP {
 	@Test
 	public void testPrompt() {
 		CardsToFileParser cTFP = new CardsToFileParser(cards, 2, 3, "Hello", "Bye");
-		Card test = new Card(0, "Card1", "Hi");
+		Card test = new Card(0, "Card1", "Hi", false);//*********************************************
 		String returned = cTFP.writeCard(test);
 		System.out.println(returned);
 		String result = "/~disp-cell-clear:0";
@@ -248,7 +248,7 @@ public class testCTFP {
 	@Test
 	public void testWriteCard() {
 		CardsToFileParser cTFP = new CardsToFileParser(cards, 6, 3, "Hello", "Bye");
-		Card test = new Card(0, "Card1", "Hi");
+		Card test = new Card(0, "Card1", "Hi", false);//*********************************************
 		test.setText("Hello World");
 
 		ArrayList<BrailleCell> cList = new ArrayList<>();
