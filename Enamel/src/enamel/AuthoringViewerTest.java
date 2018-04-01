@@ -3,7 +3,13 @@ package enamel;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
 import javax.swing.filechooser.FileFilter;
+import javax.swing.text.Document;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 
 import audioRecorder.RecorderFrame;
 
@@ -41,12 +47,14 @@ import javax.swing.JFileChooser;
 import java.awt.GridBagConstraints;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
 
 import java.awt.Insets;
 import java.awt.ItemSelectable;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Event;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -69,6 +77,7 @@ import java.net.URISyntaxException;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import java.awt.CardLayout;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -215,7 +224,7 @@ public class AuthoringViewerTest {
 		gbc_panel_1.insets = new Insets(10, 5, 5, 10);
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
 		gbc_panel_1.gridx = 2;
-		gbc_panel_1.gridy = 1;
+		gbc_panel_1.gridy = 3;
 		aViewFrame.getContentPane().add(cardNamePanel, gbc_panel_1);
 		cardNamePanel.setLayout(new BorderLayout(0, 0));
 
@@ -251,11 +260,92 @@ public class AuthoringViewerTest {
 		GridBagConstraints gbc_btnEnableUserResponse = new GridBagConstraints();
 		gbc_btnEnableUserResponse.insets = new Insets(0, 0, 5, 5);
 		gbc_btnEnableUserResponse.gridx = 1;
-		gbc_btnEnableUserResponse.gridy = 1;
+		gbc_btnEnableUserResponse.gridy = 3;
 		aViewFrame.getContentPane().add(btnEnableUserResponse, gbc_btnEnableUserResponse);
-
+		
+		createUndoRedoPanelButtons();
 		displayFrame();
 	}
+	
+	/*************************************************************
+	 * Undo redo 
+	 *************************************************************/
+	private void createUndoRedoPanelButtons() {
+		JPanel undoRedoPanel = new JPanel();
+		GridBagConstraints gbc_undoRedoPanel = new GridBagConstraints();
+		gbc_undoRedoPanel.insets = new Insets(0, 10, 5, 5);
+		gbc_undoRedoPanel.fill = GridBagConstraints.BOTH;
+		gbc_undoRedoPanel.gridx = 0;
+		gbc_undoRedoPanel.gridy = 2;
+		aViewFrame.getContentPane().add(undoRedoPanel, gbc_undoRedoPanel);
+
+		Icon undoIcon = new ImageIcon("Images/undo-16.png");
+		undoRedoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		JButton btnUndo = new JButton("Undo", undoIcon);
+		btnUndo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		// btnUndo.setSelectedIcon(new
+		// ImageIcon("Images/undo-16.png"),JButton.LEFT);
+		undoRedoPanel.add(btnUndo);
+
+		Icon redoIcon = new ImageIcon("Images/redo-16.png");
+		JButton btnRedo = new JButton("Redo", redoIcon);
+		btnRedo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		undoRedoPanel.add(btnRedo);
+
+		KeyStroke undoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK);
+		KeyStroke redoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);
+
+		UndoManager undoManager = new UndoManager();
+		Document document = promptTextField.getDocument();
+		document.addUndoableEditListener(new UndoableEditListener() {
+
+			@Override
+			public void undoableEditHappened(UndoableEditEvent e) {
+				// TODO Auto-generated method stub
+				undoManager.addEdit(e.getEdit());
+			}
+		});
+		// Add ActionListeners
+		btnUndo.addActionListener((ActionEvent e) -> {
+			try {
+				undoManager.undo();
+			} catch (CannotUndoException cue) {
+			}
+		});
+		btnRedo.addActionListener((ActionEvent e) -> {
+			try {
+				undoManager.redo();
+			} catch (CannotRedoException cre) {
+			}
+		});
+
+		// Map undo action
+		promptTextField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(undoKeyStroke, "undoKeyStroke");
+		promptTextField.getActionMap().put("undoKeyStroke", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					undoManager.undo();
+				} catch (CannotUndoException cue) {
+				}
+			}
+		});
+
+		// Map redo action
+		promptTextField.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(redoKeyStroke, "redoKeyStroke");
+		promptTextField.getActionMap().put("redoKeyStroke", new AbstractAction() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				try {
+					undoManager.redo();
+				} catch (CannotRedoException cre) {
+				}
+			}
+		});
+	}
+	/*************************************************************
+	 * Undo redo 
+	 *************************************************************/
 
 	private void createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
@@ -611,7 +701,7 @@ public class AuthoringViewerTest {
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.insets = new Insets(10, 5, 10, 10);
 		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 2;
+		gbc_panel.gridy = 4;
 		prevAndNextPanel.setLayout(new BorderLayout(5, 5));
 
 		JPanel secondaryPrevNextPanel = new JPanel();
@@ -630,7 +720,7 @@ public class AuthoringViewerTest {
 		responseText.insets = new Insets(10, 10, 10, 5);
 		responseText.fill = GridBagConstraints.BOTH;
 		responseText.gridx = 0;
-		responseText.gridy = 2;
+		responseText.gridy = 4;
 
 		buttonEditor = new JEditorPane();
 		buttonEditor.setEnabled(false);
@@ -661,7 +751,7 @@ public class AuthoringViewerTest {
 		gbc_buttonLabelPanel.insets = new Insets(20, 10, 5, 5);
 		gbc_buttonLabelPanel.fill = GridBagConstraints.BOTH;
 		gbc_buttonLabelPanel.gridx = 0;
-		gbc_buttonLabelPanel.gridy = 1;
+		gbc_buttonLabelPanel.gridy = 3;
 		aViewFrame.getContentPane().add(buttonLabelPanel, gbc_buttonLabelPanel);
 		buttonLabelPanel.setLayout(new BorderLayout(0, 5));
 
@@ -830,9 +920,9 @@ public class AuthoringViewerTest {
 		aViewFrame.getContentPane().setBackground(new Color(217, 217, 217));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 500, 270, 300 };
-		gridBagLayout.rowHeights = new int[] { 250, 100, 250 };
-		gridBagLayout.columnWeights = new double[] { 0.8, Double.MIN_VALUE, 0.1 };
-		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE, 1.0 };
+		gridBagLayout.rowHeights = new int[] { 250, 8, 50, 100, 250 };
+		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE, 0.1 };
+		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 0.0, Double.MIN_VALUE, 2.0 };
 		aViewFrame.getContentPane().setLayout(gridBagLayout);
 	}
 
@@ -958,7 +1048,7 @@ public class AuthoringViewerTest {
 		gbc_panel.insets = new Insets(10, 5, 0, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 2;
+		gbc_panel.gridy = 4;
 		aViewFrame.getContentPane().add(generalCellPanel, gbc_panel);
 		responseCellLabel = new JLabel("CELL: 1/" + this.numCells);
 		responseCellLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -1079,6 +1169,32 @@ public class AuthoringViewerTest {
 		promptCellLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		promptCellLabel.setBounds(70, 0, 98, 15);
 		generalCellPanel.add(promptCellLabel);
+		
+		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		JButton btnRaisePins = new JButton("Raise Pins");
+		btnRaisePins.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {							////////////////////////////////////////////////////////////////////////////////////////////////
+				String inputValue = updateCell();
+				String s = promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue;
+				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue);
+				promptTextField.setText(""+ s);
+			}
+		});
+		btnRaisePins.setBounds(10, 171, 89, 23);
+		generalCellPanel.add(btnRaisePins);
+	
+		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		JButton btnReset = new JButton("Reset");
+		btnReset.setBounds(109, 171, 89, 23);
+		btnReset.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {							////////////////////////////////////////////////////////////////////////////////////////////////
+				String inputValue = resetCurrCellPins();
+				updateCell();
+				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue);
+				promptTextField.setText(cards.get(currCard).getText());
+			}
+		});
+		generalCellPanel.add(btnReset);
 	}
 
 	private void createPromptTextField() {
@@ -1098,6 +1214,7 @@ public class AuthoringViewerTest {
 
 			@Override
 			public void focusLost(FocusEvent e) {
+				//updatePrompt();
 			}
 		});
 		JScrollPane promptPane = new JScrollPane(promptTextField);
@@ -1183,6 +1300,37 @@ public class AuthoringViewerTest {
 		pSeven.setSelected(cell.getPinState(6));
 		pEight.setSelected(cell.getPinState(7));
 	}
+	
+	
+	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	/**
+	 * Reset the braille cell and type the string to prompt text view
+	 * @return
+	 */
+	public String resetCurrCellPins() {
+		BrailleCell temp = new BrailleCell();
+		temp.clear();
+		String s = "";
+		pOne.setSelected(false);
+		pTwo.setSelected(false);
+		pThree.setSelected(false);
+		pFour.setSelected(false);
+		pFive.setSelected(false);
+		pSix.setSelected(false);
+		pSeven.setSelected(false);
+		pEight.setSelected(false);
+		s += pOne.isSelected() ? "1" : "0";
+		s += pTwo.isSelected() ? "1" : "0";
+		s += pThree.isSelected() ? "1" : "0";
+		s += pFour.isSelected() ? "1" : "0";
+		s += pFive.isSelected() ? "1" : "0";
+		s += pSix.isSelected() ? "1" : "0";
+		s += pSeven.isSelected() ? "1" : "0";
+		s += pEight.isSelected() ? "1" : "0";
+		temp.setPins(s);
+		cards.get(currCard).getCells().set(currCell, temp);
+		return s;
+	}
 
 	/**
 	 * Method to set the pins of braille cell on response cell
@@ -1266,10 +1414,11 @@ public class AuthoringViewerTest {
 		cards.get(currCard).setText(promptTextField.getText());
 	}
 
+	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Changed: TESTING REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	/**
 	 * Method to update braille cell
 	 */
-	public void updateCell() {
+	public String updateCell() {
 		BrailleCell temp = new BrailleCell();
 		String s = "";
 		s += pOne.isSelected() ? "1" : "0";
@@ -1282,6 +1431,7 @@ public class AuthoringViewerTest {
 		s += pEight.isSelected() ? "1" : "0";
 		temp.setPins(s);
 		cards.get(currCard).getCells().set(currCell, temp);
+		return s;
 	}
 
 	/**

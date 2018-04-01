@@ -1113,7 +1113,7 @@ public class AuthoringApp {
 	}
 
 	/**
-	 * Method to set the pins of braille sell
+	 * Method to set the pins of braille cell
 	 *
 	 * @param cell
 	 */
