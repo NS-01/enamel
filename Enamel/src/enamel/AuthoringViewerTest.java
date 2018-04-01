@@ -468,7 +468,7 @@ public class AuthoringViewerTest {
 						if (fc.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
 							FileToCardsParser f = new FileToCardsParser();
 							f.setFile(fc.getSelectedFile().getPath());
-							AuthoringApp ap = new AuthoringApp(f.getCells(), f.getButtons(), f.getCards(),
+							AuthoringViewerTest ap = new AuthoringViewerTest(f.getCells(), f.getButtons(), f.getCards(),
 									f.getInitial(), f.getEnding()); // new
 																	// ActionListener()
 																	// {public
@@ -479,7 +479,7 @@ public class AuthoringViewerTest {
 							ap.setCurrCellPins(f.getCards().get(0).getCells().get(0));
 							ap.setButtonText(f.getCards().get(0).getButtonList().get(0).getText());
 							ap.setCardList();
-							ap.setEdited();
+							ap.setEdited();						
 						}
 
 					}

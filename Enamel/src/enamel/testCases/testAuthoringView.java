@@ -20,7 +20,7 @@ public class testAuthoringView {
 	 */
 	@Before
 	public void setUp() {
-		card = new Card(0, "", "");
+		card = new Card(0, "", "", false);//*********************************************
 		array = new ArrayList<Card>();
 		array.add(card);
 		aw = new AuthoringViewer(0, 0, array, null, null);

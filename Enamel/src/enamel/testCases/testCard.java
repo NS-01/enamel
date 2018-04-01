@@ -21,7 +21,7 @@ public class testCard {
 
 	@Test
 	public void testCtorAndGets() {
-		Card test1 = new Card(10, "Card 1", "A");
+		Card test1 = new Card(10, "Card 1", "A", false);
 		assertEquals(test1.getId(), 10);
 		assertEquals(test1.getName(), "Card 1");
 		assertEquals(test1.getType(), "A");
@@ -32,7 +32,7 @@ public class testCard {
 
 	@Test
 	public void testSetText() {
-		Card test1 = new Card(10, "Card 1", "A");
+		Card test1 = new Card(10, "Card 1", "A", false);
 		test1.setText("hellO");
 		assertEquals(test1.getText(), "hellO");
 		test1.setText("");
@@ -45,7 +45,7 @@ public class testCard {
 
 	@Test
 	public void testAddText() {
-		Card test1 = new Card(10, "Card 1", "A");
+		Card test1 = new Card(10, "Card 1", "A", false);//*********************************************
 		test1.setText("hellO");
 		test1.addText("");
 		assertEquals(test1.getText(), "hellO\n");
@@ -60,7 +60,7 @@ public class testCard {
 
 	@Test
 	public void testSetSound() {
-		Card test1 = new Card(10, "Card 1", "A");
+		Card test1 = new Card(10, "Card 1", "A", false);//*********************************************
 		test1.setSound("Hello.wav");
 		assertEquals(test1.getSound(), "Hello.wav");
 		test1.setSound(null);
@@ -73,7 +73,7 @@ public class testCard {
 
 	@Test
 	public void testSetBList() {
-		Card test1 = new Card(10, "Card 1", "A");
+		Card test1 = new Card(10, "Card 1", "A", false);//*********************************************
 		assertEquals(test1.getButtonList(), new ArrayList<DataButton>());
 		ArrayList<DataButton> bList = new ArrayList<>();
 		test1.setBList(bList);
@@ -89,7 +89,7 @@ public class testCard {
 
 	@Test
 	public void testSetCells() {
-		Card test1 = new Card(10, "Card 1", "A");
+		Card test1 = new Card(10, "Card 1", "A", false);//*********************************************
 		assertEquals(test1.getCells(), new ArrayList<BrailleCell>());
 		ArrayList<BrailleCell> cellList = new ArrayList<>();
 		test1.setCells(cellList);
@@ -105,7 +105,7 @@ public class testCard {
 
 	@Test
 	public void testSetName() {
-		Card test1 = new Card(10, "Card 1", "A");
+		Card test1 = new Card(10, "Card 1", "A", false); //*********************************************
 		test1.setName("Hello");
 		assertEquals(test1.getName(), "Hello");
 		test1.setName(null);
