@@ -249,9 +249,9 @@ public class AuthoringViewerTest {
 		btnEnableUserResponse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// on button Press Enable the button panel and button pane
-//				buttonEditor.setEnabled(true);
-//				buttonPanel.setVisible(true);
-//				generalCellPanel.setVisible(true);
+				// buttonEditor.setEnabled(true);
+				// buttonPanel.setVisible(true);
+				// generalCellPanel.setVisible(true);
 				cards.get(currCard).setEnabled(true);
 				setVisible(true);
 			}
@@ -262,11 +262,11 @@ public class AuthoringViewerTest {
 		gbc_btnEnableUserResponse.gridx = 1;
 		gbc_btnEnableUserResponse.gridy = 3;
 		aViewFrame.getContentPane().add(btnEnableUserResponse, gbc_btnEnableUserResponse);
-		
+
 		createUndoRedoPanelButtons();
 		displayFrame();
 	}
-	
+
 	/*************************************************************
 	 * Undo redo actions
 	 *************************************************************/
@@ -343,8 +343,9 @@ public class AuthoringViewerTest {
 			}
 		});
 	}
+
 	/*************************************************************
-	 * Undo redo 
+	 * Undo redo
 	 *************************************************************/
 
 	private void createMenuBar() {
@@ -378,7 +379,30 @@ public class AuthoringViewerTest {
 					promptTextField.setText("");
 				}
 				JButton save = new JButton();
-				JFileChooser fc = new JFileChooser();
+				JFileChooser fc = new JFileChooser() {
+					@Override
+					public void approveSelection() {
+						File f = getSelectedFile();
+						if (f.exists() && getDialogType() == SAVE_DIALOG) {
+							int result = JOptionPane.showConfirmDialog(this,
+									"The file already exists. Do you want to overwrite existing file?", "File Exists",
+									JOptionPane.YES_NO_CANCEL_OPTION);
+							switch (result) {
+							case JOptionPane.YES_OPTION:
+								super.approveSelection();
+								return;
+							case JOptionPane.NO_OPTION:
+								return;
+							case JOptionPane.CLOSED_OPTION:
+								return;
+							case JOptionPane.CANCEL_OPTION:
+								cancelSelection();
+								return;
+							}
+						}
+						super.approveSelection();
+					}
+				};
 				fc.setCurrentDirectory(new java.io.File("./FactoryScenarios"));
 				fc.setDialogTitle("Save as");
 				fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
@@ -479,7 +503,7 @@ public class AuthoringViewerTest {
 							ap.setCurrCellPins(f.getCards().get(0).getCells().get(0));
 							ap.setButtonText(f.getCards().get(0).getButtonList().get(0).getText());
 							ap.setCardList();
-							ap.setEdited();						
+							ap.setEdited();
 						}
 
 					}
@@ -1169,25 +1193,27 @@ public class AuthoringViewerTest {
 		promptCellLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		promptCellLabel.setBounds(70, 0, 98, 15);
 		generalCellPanel.add(promptCellLabel);
-		
-		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
+		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		JButton btnRaisePins = new JButton("Raise Pins");
 		btnRaisePins.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {							////////////////////////////////////////////////////////////////////////////////////////////////
+			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
 				String inputValue = updateCell();
 				String s = promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue;
 				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue);
-				promptTextField.setText(""+ s);
+				promptTextField.setText("" + s);
 			}
 		});
 		btnRaisePins.setBounds(10, 171, 89, 23);
 		generalCellPanel.add(btnRaisePins);
-	
-		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
+		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		JButton btnReset = new JButton("Reset");
 		btnReset.setBounds(109, 171, 89, 23);
 		btnReset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {							////////////////////////////////////////////////////////////////////////////////////////////////
+			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
 				String inputValue = resetCurrCellPins();
 				updateCell();
 				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue);
@@ -1214,7 +1240,7 @@ public class AuthoringViewerTest {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				//updatePrompt();
+				// updatePrompt();
 			}
 		});
 		JScrollPane promptPane = new JScrollPane(promptTextField);
@@ -1300,11 +1326,12 @@ public class AuthoringViewerTest {
 		pSeven.setSelected(cell.getPinState(6));
 		pEight.setSelected(cell.getPinState(7));
 	}
-	
-	
-	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
+	// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	/**
 	 * Reset the braille cell and type the string to prompt text view
+	 * 
 	 * @return
 	 */
 	public String resetCurrCellPins() {
@@ -1414,7 +1441,8 @@ public class AuthoringViewerTest {
 		cards.get(currCard).setText(promptTextField.getText());
 	}
 
-	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Changed: TESTING REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Changed: TESTING
+	// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	/**
 	 * Method to update braille cell
 	 */
@@ -1493,8 +1521,8 @@ public class AuthoringViewerTest {
 		setCardList();
 		setVisible(cards.get(currCard).getEnbled());
 	}
-	
-	private void setVisible(Boolean b){
+
+	private void setVisible(Boolean b) {
 		buttonEditor.setEnabled(b);
 		buttonPanel.setVisible(b);
 		generalCellPanel.setVisible(b);
