@@ -28,6 +28,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.TextField;
+import java.awt.Toolkit;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
@@ -931,7 +932,7 @@ public class AuthoringViewerTest {
 		aViewFrame.setBackground(new Color(255, 255, 255));
 		aViewFrame.setTitle("AuthoringApp view");
 		aViewFrame.getAccessibleContext().setAccessibleDescription("Authoring App Editor");
-		aViewFrame.setBounds(0, 0, 1170, 600);
+		//aViewFrame.setBounds(0, 0, 1170, 600);
 		aViewFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		aViewFrame.addWindowListener(new confirmClose());
 		aViewFrame.setLocationRelativeTo(null);
@@ -941,6 +942,7 @@ public class AuthoringViewerTest {
 	private void setUpFrame() {
 		aViewFrame = new JFrame();
 		aViewFrame.setResizable(true);
+		this.aViewFrame.setLocationByPlatform(true);
 		aViewFrame.getContentPane().setBackground(new Color(217, 217, 217));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 500, 270, 300 };
