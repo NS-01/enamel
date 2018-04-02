@@ -927,7 +927,7 @@ public class AuthoringViewerTest {
 		listButtonPanel.add(btnCardUp, BorderLayout.NORTH);
 		listButtonPanel.add(btnCardDown, BorderLayout.SOUTH);
 	}
-
+//TEST
 	private void displayFrame() {
 		aViewFrame.setBackground(new Color(255, 255, 255));
 		aViewFrame.setTitle("AuthoringApp view");
