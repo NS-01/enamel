@@ -749,6 +749,7 @@ public class AuthoringViewerTest {
 
 		buttonEditor = new JEditorPane();
 		buttonEditor.setEnabled(false);
+		buttonEditor.setBackground(new Color(230, 230, 230));
 		buttonEditor.getAccessibleContext().setAccessibleDescription("Enter a response for this button");
 		buttonEditor.setText("Enter a response for this button");
 		buttonEditor.addFocusListener(new FocusListener() {
@@ -932,7 +933,7 @@ public class AuthoringViewerTest {
 		aViewFrame.setBackground(new Color(255, 255, 255));
 		aViewFrame.setTitle("AuthoringApp view");
 		aViewFrame.getAccessibleContext().setAccessibleDescription("Authoring App Editor");
-		//aViewFrame.setBounds(0, 0, 1170, 600);
+		aViewFrame.setBounds(0, 0, 1170, 660);
 		aViewFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		aViewFrame.addWindowListener(new confirmClose());
 		aViewFrame.setLocationRelativeTo(null);
@@ -943,12 +944,13 @@ public class AuthoringViewerTest {
 		aViewFrame = new JFrame();
 		aViewFrame.setResizable(true);
 		this.aViewFrame.setLocationByPlatform(true);
+		
 		aViewFrame.getContentPane().setBackground(new Color(217, 217, 217));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 500, 270, 300 };
 		gridBagLayout.rowHeights = new int[] { 250, 8, 50, 100, 250 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE, 0.1 };
-		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 0.0, Double.MIN_VALUE, 2.0 };
+		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE, 0.0, Double.MIN_VALUE, 2.0 };
 		aViewFrame.getContentPane().setLayout(gridBagLayout);
 	}
 
@@ -1205,6 +1207,7 @@ public class AuthoringViewerTest {
 				String s = promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue;
 				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue);
 				promptTextField.setText("" + s);
+				updatePrompt();
 			}
 		});
 		btnRaisePins.setBounds(10, 171, 89, 23);
@@ -1242,7 +1245,7 @@ public class AuthoringViewerTest {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				// updatePrompt();
+				updatePrompt();
 			}
 		});
 		JScrollPane promptPane = new JScrollPane(promptTextField);
@@ -1526,6 +1529,8 @@ public class AuthoringViewerTest {
 
 	private void setVisible(Boolean b) {
 		buttonEditor.setEnabled(b);
+		if (b) buttonEditor.setBackground(Color.WHITE);
+		else buttonEditor.setBackground(new Color(230, 230, 230));
 		buttonPanel.setVisible(b);
 		generalCellPanel.setVisible(b);
 	}
