@@ -126,7 +126,7 @@ public class CardsToFileParser {
 				else {
 					JOptionPane.showMessageDialog(null,
 							"On card " + (currCard.getId()) +  " on button " 
-					+ (i+1) + " the pins trying to be displayed were not 8 1's and 0's. Therefor this line will be ignored. Please change it save again if you wish to correct this"
+					+ (i+1) + " the pins trying to be displayed were not 8 1's and 0's. Therefore this line will be ignored. Please change it save again if you wish to correct this"
 					, "Alert", JOptionPane.ERROR_MESSAGE);
 				}
 			}

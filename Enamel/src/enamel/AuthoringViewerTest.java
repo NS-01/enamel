@@ -948,7 +948,7 @@ public class AuthoringViewerTest {
 		aViewFrame.getContentPane().setBackground(new Color(217, 217, 217));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 500, 270, 300 };
-		gridBagLayout.rowHeights = new int[] { 250, 8, 50, 100, 250 };
+		gridBagLayout.rowHeights = new int[] { 270, 8, 50, 100, 250 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE, 0.1 };
 		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE, 0.0, Double.MIN_VALUE, 2.0 };
 		aViewFrame.getContentPane().setLayout(gridBagLayout);
@@ -1210,19 +1210,22 @@ public class AuthoringViewerTest {
 				updatePrompt();
 			}
 		});
-		btnRaisePins.setBounds(10, 171, 89, 23);
+		btnRaisePins.setBounds(54, 165, 114, 23);
 		generalCellPanel.add(btnRaisePins);
 
 		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
 		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		JButton btnReset = new JButton("Reset");
-		btnReset.setBounds(109, 171, 89, 23);
+		btnReset.setBounds(54, 195, 114, 23);
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
 				String inputValue = resetCurrCellPins();
-				updateCell();
+				String s = promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue;
 				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue);
 				promptTextField.setText(cards.get(currCard).getText());
+				promptTextField.setText("" + s);				updateCell();
+
+				updatePrompt();
 			}
 		});
 		generalCellPanel.add(btnReset);
