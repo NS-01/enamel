@@ -32,21 +32,30 @@ public class CardsToFileParser {
 		this.body = "";
 	}
 
+	//creates the entire file as one string
 	public void createBody() {
 		body += "Cell " + numCells;
 		body += "\nButton " + numButtons;
 		body += "\n" + initialPrompt;
+		//write stuff for each card
 		for (Card currCard : cards) {
 			body += "\n" + writeCard(currCard);
 		}
 		body += "\n" + endingPrompt;
+		//clears cells at end
 		for (int i = 0; i < this.numCells; i++) {
 			body += "\n/~disp-cell-clear:" + i + "";
 		}
 		System.out.println(body);
 	}
 
+	/**
+	 * writes the stuff for each card
+	 * @param currCard - the card 
+	 * @return
+	 */
 	public String writeCard(Card currCard) {
+		//clear cells at start
 		String result = "/~disp-cell-clear:0";
 		for (int i = 1; i < this.numCells; i++) {
 			result += "\n/~disp-cell-clear:" + i;
@@ -81,6 +90,11 @@ public class CardsToFileParser {
 			case (5):
 				result += "\n/~SIXX"; break;
 			}
+			
+			//Still not sure how we are doing audio. Are we adding text
+			//onto the editor for them or are we storing it into the 
+			//audio field in the button
+			//which way do we want???
 			String audioPath = buttons.get(i).getAudio();
 			//result = checkAudio(result, audioPath);
 			result = writeTextAndCheckCells(currCard, result, buttons, i);
@@ -88,6 +102,12 @@ public class CardsToFileParser {
 		return result;
 	}
 
+	/**
+	 * this was a previous way we had for checking audio
+	 * @param result
+	 * @param audioPath
+	 * @return
+	 */
 	private String checkAudio(String result, String audioPath) {
 		if (!audioPath.equals("")) {
 			int slashPos = 0;
@@ -110,6 +130,10 @@ public class CardsToFileParser {
 	private String writeTextAndCheckCells(Card currCard, String result, ArrayList<DataButton> buttons, int i) {
 		String[] arr = buttons.get(i).getText().split("\n");
 		for (int j = 0; j < arr.length; j++) {
+			// this was our previous indicator
+			//currently we are just writing the command for them
+			//which way do we want???
+			//this whole if statement is just checking for our previous indicator
 			if ( arr[j].length() == 20 && arr[j].substring(0, 9).equals("/Pins on ") ) {
 				boolean checkNumber = true;
 				for (int k = 0; k < arr[j].substring(12).length(); k++) {
@@ -137,7 +161,13 @@ public class CardsToFileParser {
 		result += "\n/~skip:NEXTT";
 		return result;
 	}
-
+	
+	/**
+	 * Set up for input
+	 * @param result - previous input - adds onto this and returns it
+	 * @param buttons - list of buttons to print
+	 * @return
+	 */
 	private String writeInput(String result, ArrayList<DataButton> buttons) {
 		for (int i = 0; i < buttons.size(); i++) {
 			result += "\n/~skip-button:" + i + " ";
@@ -160,6 +190,12 @@ public class CardsToFileParser {
 		return result;
 	}
 
+	/**
+	 * writes the cells
+	 * @param currCard - which card to write from
+	 * @param result - method adds to this string and returns it
+	 * @return
+	 */
 	private String writeCells(Card currCard, String result) {
 		ArrayList<BrailleCell> cells = currCard.getCells();
 		for (int i = 0; i < cells.size(); i++) {
@@ -175,6 +211,10 @@ public class CardsToFileParser {
 		return result;
 	}
 
+	/**
+	 * returns the text - this is the whole text for the file
+	 * @return
+	 */
 	public String getText() {
 		return this.body;
 	}

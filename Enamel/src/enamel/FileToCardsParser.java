@@ -61,6 +61,13 @@ public class FileToCardsParser {
 		return this.numLines;
 	}
 
+	/**
+	 * checks the number of lines in the file
+	 * this was needed for adding the last card
+	 * It also checks where the first /~ is
+	 * 
+	 * @param scenarioFile
+	 */
 	public void checkNumLines(String scenarioFile) {
 		try {
 			File f = new File(scenarioFile);
@@ -85,6 +92,9 @@ public class FileToCardsParser {
 
 	}
 
+	/**
+	 * This reads the number of buttons and cells
+	 */
 	public void checkButtonsAndCells() {
 		if (fileScanner == null) {
 			try {
@@ -95,6 +105,7 @@ public class FileToCardsParser {
 			}
 
 		}
+		//Checks num cells 
 		String fileLine = fileScanner.nextLine();
 		if (fileLine.length() >= 6 && fileLine.substring(0, 4).equals("Cell")) {
 			if (Character.isDigit(fileLine.charAt(5))) {
@@ -106,6 +117,7 @@ public class FileToCardsParser {
 		} else {
 			throw new IllegalArgumentException();
 		}
+		//Checks num buttons
 		fileLine = fileScanner.nextLine();
 		if (fileLine.length() >= 8 && fileLine.substring(0, 6).equals("Button")) {
 			if (Character.isDigit(fileLine.charAt(7))) {
@@ -119,6 +131,9 @@ public class FileToCardsParser {
 
 	}
 
+	/**
+	 * This goes through the whole file and parses it
+	 */
 	public void parse() {
 		setUp();
 		while (fileScanner.hasNextLine()) {
@@ -143,6 +158,9 @@ public class FileToCardsParser {
 
 	}
 
+	/**
+	 * Checks which command the current line is and does the corresponding action
+	 */
 	private void checkCommands() {
 		if (fileLine.length() >= 17 && fileLine.substring(0, 17).equals("/~disp-cell-pins:")) {
 			dispCellPins();
@@ -150,6 +168,7 @@ public class FileToCardsParser {
 			dispString();
 
 		} else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
+			//Still unclear how we are doing sound
 			if (inButton) {
 				currButton.setAudio(
 						scenarioFilePath + File.separator + "AudioFiles" + File.separator + fileLine.substring(8));
@@ -173,6 +192,12 @@ public class FileToCardsParser {
 
 	}
 
+	/**
+	 * This is if the file wants to display a string
+	 * Sets the pins for the letter
+	 * Currently not implemented for if they do this
+	 * in a button
+	 */
 	private void dispString() {
 		if (!inButton) {
 			try {
@@ -190,6 +215,9 @@ public class FileToCardsParser {
 		}
 	}
 
+	/**
+	 * sets the cell pins depending on if they are in the button or not
+	 */
 	private void dispCellPins() {
 		if (!inButton) {
 			currCell = new BrailleCell();
@@ -208,6 +236,9 @@ public class FileToCardsParser {
 		}
 	}
 
+	/**
+	 * checks if the current line is one to start the buttons
+	 */
 	private void checkButtons() {
 		if (fileLine.equals("/~ONEE")) {
 			buttonNum = 1;
@@ -235,6 +266,9 @@ public class FileToCardsParser {
 		}
 	}
 
+	/**
+	 * This saves the data for the card and sets the current card to a new card
+	 */
 	private void nextCard() {
 		currCard.setBList(new ArrayList<DataButton>(buttons));
 		buttons.clear();
@@ -245,6 +279,9 @@ public class FileToCardsParser {
 		currCard = new Card(cardNum - 1, "Card " + cardNum, "notSure", true);
 	}
 
+	/**
+	 * This is a setup which needs to be done first
+	 */
 	private void setUp() {
 		inButton = false;
 		cardNum = 1;
@@ -283,6 +320,11 @@ public class FileToCardsParser {
 		return this.endingPrompt;
 	}
 
+	/**
+	 * this checks the last card and if it's 
+	 * empty it will remove it
+	 * I think we will remove this method and change something
+	 */
 	public void checkLast() {
 		if (cards.size() > 0) {
 			Card temp = cards.get(cards.size() - 1);
@@ -301,6 +343,10 @@ public class FileToCardsParser {
 		return this.lastRemoved;
 	}
 
+	/**
+	 * This method just prints out the information stored in the cards
+	 * It is just for debugging purposes
+	 */
 	public void print() {
 		System.out.println(cards.size());
 		for (int i = 0; i < cards.size(); i++) {
