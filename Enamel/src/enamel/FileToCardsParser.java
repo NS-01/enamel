@@ -197,7 +197,7 @@ public class FileToCardsParser {
 	 * Sets the pins for the letter
 	 * Currently not implemented for if they do this
 	 * in a button
-	 */
+	 */ 
 	private void dispString() {
 		if (!inButton) {
 			try {

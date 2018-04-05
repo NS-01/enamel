@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  *
  */
 public class CardsToFileParser {
-
+ 
 	private ArrayList<Card> cards;
 	private String scenarioFilePath;
 	private String initialPrompt;
