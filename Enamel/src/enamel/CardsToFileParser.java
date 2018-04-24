@@ -36,12 +36,12 @@ public class CardsToFileParser {
 	public void createBody() {
 		body += "Cell " + numCells;
 		body += "\nButton " + numButtons;
-		body += "\n" + initialPrompt;
+//		body += "\n" + initialPrompt;
 		//write stuff for each card
 		for (Card currCard : cards) {
 			body += "\n" + writeCard(currCard);
 		}
-		body += "\n" + endingPrompt;
+//		body += "\n" + endingPrompt;
 		//clears cells at end
 		for (int i = 0; i < this.numCells; i++) {
 			body += "\n/~disp-cell-clear:" + i + "";
@@ -56,15 +56,19 @@ public class CardsToFileParser {
 	 */
 	public String writeCard(Card currCard) {
 		//clear cells at start
-		String result = "/~disp-cell-clear:0";
-		for (int i = 1; i < this.numCells; i++) {
-			result += "\n/~disp-cell-clear:" + i;
+		String result = "";
+//		String result = "/~disp-cell-clear:0";
+//		for (int i = 1; i < this.numCells; i++) {
+//			result += "\n/~disp-cell-clear:" + i;
+//		}
+//		result = writeCells(currCard, result);
+		
+		result = writeTextAndCheckCells(currCard, result, currCard.getText(), -1);
+		
+		if (currCard.getEnbled()) {
+			result = writeButtons(currCard, result);
 		}
-		result = writeCells(currCard, result);
 		
-		result += "\n" + currCard.getText();
-		
-		result = writeButtons(currCard, result);
 		
 		result += "\n\n/~NEXTT";
 		
@@ -97,8 +101,10 @@ public class CardsToFileParser {
 			//which way do we want???
 			String audioPath = buttons.get(i).getAudio();
 			//result = checkAudio(result, audioPath);
-			result = writeTextAndCheckCells(currCard, result, buttons, i);
+			result = writeTextAndCheckCells(currCard, result, buttons.get(i).getText(), i);
+			result += "\n/~skip:NEXTT";
 		}
+		
 		return result;
 	}
 
@@ -127,8 +133,8 @@ public class CardsToFileParser {
 		return result;
 	}
 
-	private String writeTextAndCheckCells(Card currCard, String result, ArrayList<DataButton> buttons, int i) {
-		String[] arr = buttons.get(i).getText().split("\n");
+	private String writeTextAndCheckCells(Card currCard, String result, String input, int buttonNum) {
+		String[] arr = input.split("\n");
 		for (int j = 0; j < arr.length; j++) {
 			// this was our previous indicator
 			//currently we are just writing the command for them
@@ -137,28 +143,35 @@ public class CardsToFileParser {
 			if ( arr[j].length() == 20 && arr[j].substring(0, 9).equals("/Pins on ") ) {
 				boolean checkNumber = true;
 				for (int k = 0; k < arr[j].substring(12).length(); k++) {
-					System.out.println(i);
 					if (arr[j].substring(12).charAt(k) != '0' && arr[j].substring(12).charAt(k) != '1') {
 						System.out.println("hi");
 						checkNumber = false;
 					}
 				}
 				if (checkNumber) {
-					result += "\n/~disp-cell-clear:" + arr[j].charAt(9);
-					result += "\n/~disp-cell-pins:" + arr[j].charAt(9) + " " + arr[j].substring(12);
+					result += "\n/~disp-cell-clear:" + (Character.getNumericValue(arr[j].charAt(9))-1);
+					result += "\n/~disp-cell-pins:" + (Character.getNumericValue(arr[j].charAt(9))-1) + " " + arr[j].substring(12);
 				}
 				else {
-					JOptionPane.showMessageDialog(null,
-							"On card " + (currCard.getId()) +  " on button " 
-					+ (i+1) + " the pins trying to be displayed were not 8 1's and 0's. Therefore this line will be ignored. Please change it save again if you wish to correct this"
-					, "Alert", JOptionPane.ERROR_MESSAGE);
+					if (buttonNum == -1) {
+						JOptionPane.showMessageDialog(null,
+								"On card " + (currCard.getId()) +  
+								" the pins trying to be displayed were not 8 1's and 0's. Therefore this line will be ignored. Please change it save again if you wish to correct this"
+								, "Alert", JOptionPane.ERROR_MESSAGE);
+					} else {
+						JOptionPane.showMessageDialog(null,
+								"On card " + (currCard.getId()) +  " on button " + (buttonNum+1) +
+								" the pins trying to be displayed were not 8 1's and 0's. Therefore this line will be ignored. Please change it save again if you wish to correct this"
+								, "Alert", JOptionPane.ERROR_MESSAGE);
+					}
 				}
-			}
-			else {
+			} else if ( arr[j].length() >= 8 && arr[j].substring(0, 8).equals("/sound: ") ) {
+				result += "\n/~sound:" + arr[j].substring(8);
+			} else {
 				result += "\n" + arr[j];
 			}
 		}
-		result += "\n/~skip:NEXTT";
+		
 		return result;
 	}
 	

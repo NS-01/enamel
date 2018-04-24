@@ -168,6 +168,7 @@ public class AuthoringViewerTest {
 	 */
 	public AuthoringViewerTest(int numCells, int numButtons, ArrayList<Card> cards, String initialPrompt,
 			String endingPrompt) {
+		
 		this.numButtons = numButtons;
 
 		if (initialPrompt == null || initialPrompt.equals("")) {
@@ -1204,9 +1205,7 @@ public class AuthoringViewerTest {
 		btnRaisePins.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
 				String inputValue = updateCell();
-				String s = promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue;
-				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue);
-				promptTextField.setText("" + s);
+				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell+1) + ": " + inputValue);
 				updatePrompt();
 			}
 		});
@@ -1219,12 +1218,8 @@ public class AuthoringViewerTest {
 		btnReset.setBounds(54, 195, 114, 23);
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
-				String inputValue = resetCurrCellPins();
-				String s = promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue;
-				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue);
-				promptTextField.setText(cards.get(currCard).getText());
-				promptTextField.setText("" + s);				updateCell();
-
+				String inputValue = resetCurrCellPins();				
+				updateCell();
 				updatePrompt();
 			}
 		});

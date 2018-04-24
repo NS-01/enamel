@@ -149,7 +149,6 @@ public class FileToCardsParser {
 				if (inButton) {
 					currButton.addText(fileLine);
 				} else {
-
 					currCard.addText(fileLine);
 				}
 			}
@@ -231,8 +230,9 @@ public class FileToCardsParser {
 				}
 				cells.add(currCell);
 			}
+			currCard.addText("/Pins on " + (Character.getNumericValue(fileLine.charAt(17))+1) + ": " + fileLine.substring(19));
 		} else {
-			currButton.addText("\n/Pins on " + fileLine.charAt(17) + ": " + fileLine.substring(19));
+			currButton.addText("\n/Pins on " + (Character.getNumericValue(fileLine.charAt(17))+1) + ": " + fileLine.substring(19));
 		}
 	}
 
