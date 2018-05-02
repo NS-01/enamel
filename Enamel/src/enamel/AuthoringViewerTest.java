@@ -270,7 +270,7 @@ public class AuthoringViewerTest {
 	}
 
 	/*************************************************************
-	 * Undo redo actions
+	 * Undo redo pause actions
 	 *************************************************************/
 	private void createUndoRedoPanelButtons() {
 		JPanel undoRedoPanel = new JPanel();
@@ -293,10 +293,37 @@ public class AuthoringViewerTest {
 		JButton btnRedo = new JButton("Redo", redoIcon);
 		btnRedo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		undoRedoPanel.add(btnRedo);
+		
+		JButton btnPause = new JButton("Pause", null);
+		btnPause.setFont(new Font("Tahoma", Font.BOLD, 14));
+		undoRedoPanel.add(btnPause);
+		
+		btnPause.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				//String inputValue = JOptionPane.showInputDialog("Please input pause time in seconds");
+				boolean checkNumber = false;
+				int time = 0;
+				while (!checkNumber) {
+					String inputValue = JOptionPane.showInputDialog("Please input pause time in seconds");
+				    try {
+				        time = Integer.parseInt(inputValue);
+				        if (time >= 0){ 
+				        	checkNumber = true;
+				        }
+				    } catch (NumberFormatException exception) {
+				        //error
+				        JOptionPane.showMessageDialog(null,"Error, not a number. Please try again.");
+				    }
+				}
+				System.out.println(time);
+			}
+		});
 
 		KeyStroke undoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK);
 		KeyStroke redoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);
-
+		KeyStroke pauseKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_PAUSE, Event.CTRL_MASK);
+		
+		
 		UndoManager undoManager = new UndoManager();
 		Document document = promptTextField.getDocument();
 		document.addUndoableEditListener(new UndoableEditListener() {
@@ -347,7 +374,7 @@ public class AuthoringViewerTest {
 	}
 
 	/*************************************************************
-	 * Undo redo
+	 * Undo redo pause
 	 *************************************************************/
 
 	private void createMenuBar() {
@@ -1218,7 +1245,11 @@ public class AuthoringViewerTest {
 		btnReset.setBounds(54, 195, 114, 23);
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
-				String inputValue = resetCurrCellPins();				
+				String inputValue = resetCurrCellPins();
+				String s = promptTextField.getText() + "\n/Pins on " + (currCell+1) + ": " + inputValue;
+				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue);
+				promptTextField.setText(cards.get(currCard).getText());
+				promptTextField.setText("" + s);
 				updateCell();
 				updatePrompt();
 			}
