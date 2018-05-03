@@ -99,6 +99,8 @@ public class CardsToFileParser {
 			//onto the editor for them or are we storing it into the 
 			//audio field in the button
 			//which way do we want???
+			//
+			// been thinking list of actions which is editable on double click.
 			String audioPath = buttons.get(i).getAudio();
 			//result = checkAudio(result, audioPath);
 			result = writeTextAndCheckCells(currCard, result, buttons.get(i).getText(), i);

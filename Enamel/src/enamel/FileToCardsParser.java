@@ -182,6 +182,8 @@ public class FileToCardsParser {
 			buttons.add(new DataButton(currButton));
 			inButton = false;
 			nextCard();
+		} else if(fileLine.equals("/~pause:")){
+			insertPause();
 		}
 		checkButtons();
 		if (currLineNum == numLines) {
@@ -236,6 +238,19 @@ public class FileToCardsParser {
 		}
 	}
 
+	/**
+	 * sets the pause depending on if they are in the button or not
+	 */
+	private void insertPause() {
+		if (!inButton) {
+			//type in prompt section
+			currCard.addText("/Pause for " + (Character.getNumericValue(fileLine.charAt(8))+1) + ": " + fileLine.substring(10));
+		} else {
+			//type in button section
+			currButton.addText("\n/Pins on " + (Character.getNumericValue(fileLine.charAt(8))+1) + ": " + fileLine.substring(10));
+		}
+	}
+	
 	/**
 	 * checks if the current line is one to start the buttons
 	 */

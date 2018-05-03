@@ -39,6 +39,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
 
 import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
@@ -168,7 +169,7 @@ public class AuthoringViewerTest {
 	 */
 	public AuthoringViewerTest(int numCells, int numButtons, ArrayList<Card> cards, String initialPrompt,
 			String endingPrompt) {
-		
+
 		this.numButtons = numButtons;
 
 		if (initialPrompt == null || initialPrompt.equals("")) {
@@ -293,37 +294,16 @@ public class AuthoringViewerTest {
 		JButton btnRedo = new JButton("Redo", redoIcon);
 		btnRedo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		undoRedoPanel.add(btnRedo);
-		
+
 		JButton btnPause = new JButton("Pause", null);
 		btnPause.setFont(new Font("Tahoma", Font.BOLD, 14));
 		undoRedoPanel.add(btnPause);
-		
-		btnPause.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				//String inputValue = JOptionPane.showInputDialog("Please input pause time in seconds");
-				boolean checkNumber = false;
-				int time = 0;
-				while (!checkNumber) {
-					String inputValue = JOptionPane.showInputDialog("Please input pause time in seconds");
-				    try {
-				        time = Integer.parseInt(inputValue);
-				        if (time >= 0){ 
-				        	checkNumber = true;
-				        }
-				    } catch (NumberFormatException exception) {
-				        //error
-				        JOptionPane.showMessageDialog(null,"Error, not a number. Please try again.");
-				    }
-				}
-				System.out.println(time);
-			}
-		});
+
+		pauseAction(btnPause);
 
 		KeyStroke undoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK);
 		KeyStroke redoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);
-		KeyStroke pauseKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_PAUSE, Event.CTRL_MASK);
-		
-		
+
 		UndoManager undoManager = new UndoManager();
 		Document document = promptTextField.getDocument();
 		document.addUndoableEditListener(new UndoableEditListener() {
@@ -371,6 +351,43 @@ public class AuthoringViewerTest {
 				}
 			}
 		});
+
+	}
+
+	private void pauseAction(JButton btnPause) {
+		Action buttonAction = new AbstractAction("Pause") {
+			int count = 0;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				count++;
+				// logger.log(Level.INFO, "Pause Button was pressed.");
+				// logger.log(Level.INFO, "Pause Button was pressed {0} times",
+				// count);
+				// String inputValue = JOptionPane.showInputDialog("Please input
+				// pause time in seconds");
+				boolean checkNumber = false;
+				int time = 0;
+				while (!checkNumber) {
+					String inputValue = JOptionPane.showInputDialog("Please input pause time in seconds");
+					try {
+						time = Integer.parseInt(inputValue);
+						if (time >= 0) {
+							checkNumber = true;
+						}
+					} catch (NumberFormatException exception) {
+						// error
+						JOptionPane.showMessageDialog(null, "Error, not a number. Please try again.");
+					}
+				}
+				System.out.println(time);
+			}
+		};
+		// Map pause action
+		btnPause.setAction(buttonAction);
+		btnPause.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_MASK), "Pause");
+		btnPause.getActionMap().put("Pause", buttonAction);
 	}
 
 	/*************************************************************
@@ -956,7 +973,8 @@ public class AuthoringViewerTest {
 		listButtonPanel.add(btnCardUp, BorderLayout.NORTH);
 		listButtonPanel.add(btnCardDown, BorderLayout.SOUTH);
 	}
-//TEST
+
+	// TEST
 	private void displayFrame() {
 		aViewFrame.setBackground(new Color(255, 255, 255));
 		aViewFrame.setTitle("AuthoringApp view");
@@ -972,7 +990,7 @@ public class AuthoringViewerTest {
 		aViewFrame = new JFrame();
 		aViewFrame.setResizable(true);
 		this.aViewFrame.setLocationByPlatform(true);
-		
+
 		aViewFrame.getContentPane().setBackground(new Color(217, 217, 217));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 500, 270, 300 };
@@ -1232,7 +1250,7 @@ public class AuthoringViewerTest {
 		btnRaisePins.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
 				String inputValue = updateCell();
-				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell+1) + ": " + inputValue);
+				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell + 1) + ": " + inputValue);
 				updatePrompt();
 			}
 		});
@@ -1246,7 +1264,7 @@ public class AuthoringViewerTest {
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
 				String inputValue = resetCurrCellPins();
-				String s = promptTextField.getText() + "\n/Pins on " + (currCell+1) + ": " + inputValue;
+				String s = promptTextField.getText() + "\n/Pins on " + (currCell + 1) + ": " + inputValue;
 				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue);
 				promptTextField.setText(cards.get(currCard).getText());
 				promptTextField.setText("" + s);
@@ -1558,8 +1576,10 @@ public class AuthoringViewerTest {
 
 	private void setVisible(Boolean b) {
 		buttonEditor.setEnabled(b);
-		if (b) buttonEditor.setBackground(Color.WHITE);
-		else buttonEditor.setBackground(new Color(230, 230, 230));
+		if (b)
+			buttonEditor.setBackground(Color.WHITE);
+		else
+			buttonEditor.setBackground(new Color(230, 230, 230));
 		buttonPanel.setVisible(b);
 		generalCellPanel.setVisible(b);
 	}

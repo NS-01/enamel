@@ -14,6 +14,7 @@ public class DataButton {
 	private int bID;
 	private String text;
 	private String audioFile;
+	private int pause;
 	private ArrayList<BrailleCell> cells;
 
 	// Constructors
@@ -26,6 +27,7 @@ public class DataButton {
 		this.bID = id;
 		this.audioFile = "";
 		this.text = "";
+		this.pause = 0;
 		this.cells = new ArrayList<BrailleCell>();
 		this.cells.add(new BrailleCell());
 	}
@@ -38,6 +40,7 @@ public class DataButton {
 	public DataButton(DataButton other) {
 		this.bID = other.bID;
 		this.text = other.text;
+		this.pause = other.pause;
 		this.audioFile = other.audioFile;
 		this.cells = new ArrayList<BrailleCell>(other.cells);
 	}
@@ -87,6 +90,15 @@ public class DataButton {
 	public String getText() {
 		return this.text;
 	}
+	
+	/**
+	 * Method to get pause associated with button
+	 * 
+	 * @return int text
+	 */
+	public int getPause() {
+		return this.pause;
+	}	
 
 	// change methods
 	/**
@@ -122,4 +134,13 @@ public class DataButton {
 		this.text = newText;
 	}
 
+	/**
+	 * Method to overwrite existing pause with newPause
+	 * 
+	 * @param newPause
+	 */
+	public void setPause(int newPause) {
+		this.pause = newPause;
+	}
+	
 }
