@@ -297,60 +297,49 @@ public class ScenarioForm {
 		titleTextField.setColumns(10);
 		titleTextField.setText("New Scenario");
 
-
 		JButton btnSaveAndCreate = new JButton("Create a Scenario");
-		//btnSaveAndCreate.setEnabled(false);
+		// btnSaveAndCreate.setEnabled(false);
 		btnSaveAndCreate.getAccessibleContext().setAccessibleDescription("Saves information and opens editor");
 		btnSaveAndCreate.setFont(new Font("Tahoma", Font.BOLD, 14));
 
 		btnSaveAndCreate.setToolTipText("Saves information and opens editor");
 		btnSaveAndCreate.setBackground(UIManager.getColor("CheckBox.background"));
 		saveButtonListener(comboCellBox, comboButtonBox, btnSaveAndCreate);
-		
-/*		titleTextField.addFocusListener(new FocusListener() {
 
-			@Override
-			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				// TODO Auto-generated method stub
-				if (!titleTextField.getText().isEmpty()) {
-					if (!titleTextField.getText().matches(".*\\w.*")) {
-						btnSaveAndCreate.setEnabled(true);
-						saveButtonListener(comboCellBox, comboButtonBox, btnSaveAndCreate);
-					} else {
-						btnSaveAndCreate.setEnabled(false);
-					}
-				}
-				else {
-					btnSaveAndCreate.setEnabled(false);
-				}
-			}
-
-			@Override
-			public void focusGained(FocusEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});*/
-//		titleTextField.addActionListener(new ActionListener() {
-//			
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				if(jTextField1KeyPressed){
-//					
-//				}
-//				/*// TODO Auto-generated method stub
-//				if(!titleTextField.getText().isEmpty()){
-//			//if(!titleTextField.getText().matches(".*\\w.*")){
-//			btnSaveAndCreate.setEnabled(true);
-//			saveButtonListener(comboCellBox, comboButtonBox, btnSaveAndCreate);
-//		}else{btnSaveAndCreate.setEnabled(false);
-//		//}
-//		}*/
-//				
-//			}
-//		});
-//		
+		/*
+		 * titleTextField.addFocusListener(new FocusListener() {
+		 * 
+		 * @Override public void focusLost(FocusEvent e) { stub
+		 * (!titleTextField.getText().isEmpty()) { if
+		 * (!titleTextField.getText().matches(".*\\w.*")) {
+		 * btnSaveAndCreate.setEnabled(true); saveButtonListener(comboCellBox,
+		 * comboButtonBox, btnSaveAndCreate); } else {
+		 * btnSaveAndCreate.setEnabled(false); } } else {
+		 * btnSaveAndCreate.setEnabled(false); } }
+		 * 
+		 * @Override public void focusGained(FocusEvent e) { method stub
+		 * 
+		 * } });
+		 */
+		// titleTextField.addActionListener(new ActionListener() {
+		//
+		// @Override
+		// public void actionPerformed(ActionEvent e) {
+		// if(jTextField1KeyPressed){
+		//
+		// }
+		// /*
+		// if(!titleTextField.getText().isEmpty()){
+		// //if(!titleTextField.getText().matches(".*\\w.*")){
+		// btnSaveAndCreate.setEnabled(true);
+		// saveButtonListener(comboCellBox, comboButtonBox, btnSaveAndCreate);
+		// }else{btnSaveAndCreate.setEnabled(false);
+		// //}
+		// }*/
+		//
+		// }
+		// });
+		//
 		GridBagConstraints gbc_btnSaveAndCreate = new GridBagConstraints();
 		gbc_btnSaveAndCreate.fill = GridBagConstraints.BOTH;
 		gbc_btnSaveAndCreate.insets = new Insets(0, 0, 5, 5);
@@ -358,8 +347,7 @@ public class ScenarioForm {
 		gbc_btnSaveAndCreate.gridy = 11;
 		sCreatorFrame.getContentPane().add(btnSaveAndCreate, gbc_btnSaveAndCreate);
 		// disable save if name not specified
-		
-		
+
 		JButton btnExitWithoutSaving = new JButton("Exit Without Saving");
 		btnExitWithoutSaving.getAccessibleContext().setAccessibleDescription("Doesn't save and closes current window");
 		exitButtonListener(btnExitWithoutSaving);
@@ -375,7 +363,10 @@ public class ScenarioForm {
 		gbc_btnExitWithoutSaving.gridx = 2;
 		gbc_btnExitWithoutSaving.gridy = 13;
 		sCreatorFrame.getContentPane().add(btnExitWithoutSaving, gbc_btnExitWithoutSaving);
-		sCreatorFrame.getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblNewLabel, lblNumberOfCells, comboCellBox, lblNumberOfButtons, comboButtonBox, lblScenarioTitle, titleTextField, btnSaveAndCreate, btnExitWithoutSaving}));
+		sCreatorFrame.getContentPane()
+				.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { lblNewLabel, lblNumberOfCells,
+						comboCellBox, lblNumberOfButtons, comboButtonBox, lblScenarioTitle, titleTextField,
+						btnSaveAndCreate, btnExitWithoutSaving }));
 
 		createCellLabelAndBox();
 
@@ -399,12 +390,13 @@ public class ScenarioForm {
 	}
 
 	private boolean jTextField1KeyPressed(java.awt.event.KeyEvent evt) {
-		  if(evt.getKeyCode() == KeyEvent.VK_ENTER) {
-		      // Enter was pressed. Your code goes here.
-			  return true;
-		   }
-		  return false;
-		} 
+		if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+			// Enter was pressed. Your code goes here.
+			return true;
+		}
+		return false;
+	}
+
 	private void createFrame() {
 		sCreatorFrame = new JFrame();
 		sCreatorFrame.getContentPane().setBackground(UIManager.getColor("CheckBox.background"));
@@ -441,7 +433,7 @@ public class ScenarioForm {
 	}
 
 	private void saveButtonListener(JComboBox comboCellBox, JComboBox comboButtonBox, JButton btnSaveAndCreate) {
-		//btnSaveAndCreate.setEnabled(true);
+		// btnSaveAndCreate.setEnabled(true);
 		System.out.println("Cells: " + numCells + " Buttons: " + numButtons);
 		Action buttonAction = new AbstractAction("Create a Scenario") {
 			int count = 0;
@@ -451,25 +443,25 @@ public class ScenarioForm {
 				count++;
 				logger.log(Level.INFO, "Create a Scenario Button was pressed.");
 				logger.log(Level.INFO, "Create a Scenario Button was pressed {0} times", count);
-				if(titleTextField.getText().isEmpty() || titleTextField.getText().trim().length() == 0 || !validName(titleTextField.getText())){
-					//||validName(titleTextField.getText()) == false){
-					Object[] buttons = {"OK"};
-//					int option = JOptionPane.showConfirmDialog(null,
-//							"Title Name is either empty or Invalid. Return to edit again",
-//							"Confirm", JOptionPane.OK_OPTION);
-					//int option == 
-							JOptionPane.showOptionDialog(null,
-			                   "Title Name is either empty or Invalid. Press OK to return and edit again.","Error!",
-			                   JOptionPane.OK_OPTION,
-			                   JOptionPane.CANCEL_OPTION, null, buttons , buttons[0]);
-//					if (option == JOptionPane.OK_OPTION) {
-//						removeExtra((comboCellBox.getSelectedIndex() + 1), (comboButtonBox.getSelectedIndex() + 1));
-//						createAuthoringViewer(comboCellBox, comboButtonBox);
-//					} else {
-//						// do nothing
-//					}
-				}
-				else if (cards.isEmpty()) {
+				if (titleTextField.getText().isEmpty() || titleTextField.getText().trim().length() == 0
+						|| !validName(titleTextField.getText())) {
+					// ||validName(titleTextField.getText()) == false){
+					Object[] buttons = { "OK" };
+					// int option = JOptionPane.showConfirmDialog(null,
+					// "Title Name is either empty or Invalid. Return to edit again",
+					// "Confirm", JOptionPane.OK_OPTION);
+					// int option ==
+					JOptionPane.showOptionDialog(null,
+							"Title Name is either empty or Invalid. Press OK to return and edit again.", "Error!",
+							JOptionPane.OK_OPTION, JOptionPane.CANCEL_OPTION, null, buttons, buttons[0]);
+					// if (option == JOptionPane.OK_OPTION) {
+					// removeExtra((comboCellBox.getSelectedIndex() + 1),
+					// (comboButtonBox.getSelectedIndex() + 1));
+					// createAuthoringViewer(comboCellBox, comboButtonBox);
+					// } else {
+					// // do nothing
+					// }
+				} else if (cards.isEmpty()) {
 					ArrayList<Card> cards = new ArrayList<Card>();
 					Card temp = new Card(1, "Card 1", "", false);
 					cards.add(temp);
@@ -565,28 +557,31 @@ public class ScenarioForm {
 		return this.titleTextField.getText();
 	}
 
-	private boolean validName(String s){
+	private boolean validName(String s) {
 		Boolean valid = false;
-		//if(s.matches("[0-9]+")||s.matches("[a-z,A-z]+")){
-		if(s.matches("[a-zA-Z_0-9\\s]+")){
-		valid = true;
+		// if(s.matches("[0-9]+")||s.matches("[a-z,A-z]+")){
+		if (s.matches("[a-zA-Z_0-9\\s]+")) {
+			valid = true;
 		}
 		return valid;
-//		char ch;
-//		for (int i = 0; i < s.length(); i++)
-//		{
-//		     ch = s.charAt(i);
-//		       
-//		     // We have detected a non letter or non whitespace, end this right now. 
-//		     // Flip the flag to false, break out of the for loop, it will go back to the while loop, see valid is false
-//		     // and kick out of the while loop.
-//		     if (!Character.isLetter(ch) || Character.isWhitespace(ch) || !Character.isDigit(ch));
-//		     {
-//		        valid = false;
-//		     } 
-//		}  
-//		return valid;
+		// char ch;
+		// for (int i = 0; i < s.length(); i++)
+		// {
+		// ch = s.charAt(i);
+		//
+		// // We have detected a non letter or non whitespace, end this right now.
+		// // Flip the flag to false, break out of the for loop, it will go back to the
+		// while loop, see valid is false
+		// // and kick out of the while loop.
+		// if (!Character.isLetter(ch) || Character.isWhitespace(ch) ||
+		// !Character.isDigit(ch));
+		// {
+		// valid = false;
+		// }
+		// }
+		// return valid;
 	}
+
 	private class confirmClose extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			int option = JOptionPane.showConfirmDialog(null, "Do you want to EXIT? \nNo changes will be saved!!!",

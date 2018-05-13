@@ -22,47 +22,52 @@ public class ScenarioParser {
 	private String scenarioFilePath;
 	private boolean isVisual;
 	private Thread[] lstThreads;
-	
+
 	public static boolean exit;
+
 	public ScenarioParser(boolean isVisual) {
 
-		//String currDir = System.getProperty("user.dir");
-        //System.setProperty("mbrola.base", currDir + File.separator + "lib/mbrola.jar");
-        vm = VoiceManager.getInstance();
-        voice = vm.getVoice ("kevin16");
-        voice.allocate();
-        repeatedText = new ArrayList<String> ();
-        userInput = false;
-        this.isVisual = isVisual;
-        exit=false;
-        ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
-	      int noThreads = currentGroup.activeCount();
-	      lstThreads = new Thread[noThreads];
-	      currentGroup.enumerate(lstThreads);
-	      
-	      for (int i = 0; i < noThreads; i++) System.out.println("Thread No:" + i + " = " + lstThreads[i].getName());
+		// String currDir = System.getProperty("user.dir");
+		// System.setProperty("mbrola.base", currDir + File.separator +
+		// "lib/mbrola.jar");
+		vm = VoiceManager.getInstance();
+		voice = vm.getVoice("kevin16");
+		voice.allocate();
+		repeatedText = new ArrayList<String>();
+		userInput = false;
+		this.isVisual = isVisual;
+		exit = false;
+		ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
+		int noThreads = currentGroup.activeCount();
+		lstThreads = new Thread[noThreads];
+		currentGroup.enumerate(lstThreads);
+
+		for (int i = 0; i < noThreads; i++)
+			System.out.println("Thread No:" + i + " = " + lstThreads[i].getName());
 	}
-	
+
 	/*
 	 * This method exits the program.
 	 */
-	private void exit() {			
-		//ScenarioParser.exit = true;
+	private void exit() {
+		// ScenarioParser.exit = true;
 
 		Thread.currentThread().interrupt();
-		//for (int i = 0; i < lstThreads.length; i++){
-		//if(lstThreads[i].equals("Thread-5")){
-			//lstThreads[Thread.getAllStackTraces().size()-1].interrupt();;
-			/*Thread.currentThread().getThreadGroup().interrupt();;//lstThreads[i].interrupt();
-			try { Thread.sleep(300); } catch(InterruptedException ex){}*/
-		//}
-		//}
+		// for (int i = 0; i < lstThreads.length; i++){
+		// if(lstThreads[i].equals("Thread-5")){
+		// lstThreads[Thread.getAllStackTraces().size()-1].interrupt();;
+		/*
+		 * Thread.currentThread().getThreadGroup().interrupt();;//lstThreads[i].
+		 * interrupt(); try { Thread.sleep(300); } catch(InterruptedException ex){}
+		 */
+		// }
+		// }
 	}
 
 	/*
-	 * This method corresponds to the /~reset-buttons key phrase in the
-	 * scenario, and it calls the removeListener method on all the JButtons that
-	 * were created, to remove their action listeners.
+	 * This method corresponds to the /~reset-buttons key phrase in the scenario,
+	 * and it calls the removeListener method on all the JButtons that were created,
+	 * to remove their action listeners.
 	 */
 	private void resetButtons() {
 		for (int i = 0; i < player.buttonNumber; i++) {
@@ -94,8 +99,8 @@ public class ScenarioParser {
 
 	/*
 	 * This method interprets each line of the scenario, and performs the
-	 * corresponding action depending on the line being read in (i.e reading out
-	 * the text in TTS, or changing the display of the Braille cell)
+	 * corresponding action depending on the line being read in (i.e reading out the
+	 * text in TTS, or changing the display of the Braille cell)
 	 */
 	void performAction(String fileLine) throws InterruptedException {
 		// This statement checks if the key phrase /~repeat has been read. If it
@@ -205,9 +210,9 @@ public class ScenarioParser {
 	}
 
 	/*
-	 * This method corresponds to the /~repeat-button: key phrase in the
-	 * scenario, and it sets the button to repeat the text that was stored in
-	 * the variable repeatedText.
+	 * This method corresponds to the /~repeat-button: key phrase in the scenario,
+	 * and it sets the button to repeat the text that was stored in the variable
+	 * repeatedText.
 	 */
 	private void repeatButton(String paramArgs) {
 		try {
@@ -228,9 +233,9 @@ public class ScenarioParser {
 	}
 
 	/*
-	 * This method corresponds to the /~skip-button: key phrase in the scenario,
-	 * and it sets the button to skip to the identifier in the second part of
-	 * the argument when pressed.
+	 * This method corresponds to the /~skip-button: key phrase in the scenario, and
+	 * it sets the button to skip to the identifier in the second part of the
+	 * argument when pressed.
 	 */
 	private void skipButton(String paramArgs) {
 		try {
@@ -253,12 +258,12 @@ public class ScenarioParser {
 	}
 
 	/*
-	 * This method corresponds to the /~disp-cell-pins: key phrase in the
-	 * scenario, and it implements the setPins method in the BrailleCell class.
+	 * This method corresponds to the /~disp-cell-pins: key phrase in the scenario,
+	 * and it implements the setPins method in the BrailleCell class.
 	 */
 	private void dispCellPins(String paramArgs) {
 		try {
-			
+
 			String[] param = paramArgs.split("\\s");
 			int paramIndex = Integer.parseInt(param[0]);
 			if (param.length > 2 || paramIndex < 0 || paramIndex > player.brailleCellNumber - 1
@@ -289,9 +294,8 @@ public class ScenarioParser {
 	}
 
 	/*
-	 * This method corresponds to the /~disp-cell-char: key phrase in the
-	 * scenario, and it implements the displayCharacter method in the
-	 * BrailleCell class.
+	 * This method corresponds to the /~disp-cell-char: key phrase in the scenario,
+	 * and it implements the displayCharacter method in the BrailleCell class.
 	 */
 	private void dispCellChar(String paramArgs) {
 		try {
@@ -316,9 +320,8 @@ public class ScenarioParser {
 	}
 
 	/*
-	 * This method corresponds to the /~disp-cell-raise: key phrase in the
-	 * scenario, and it implements the raiseOnePin method in the BrailleCell
-	 * class.
+	 * This method corresponds to the /~disp-cell-raise: key phrase in the scenario,
+	 * and it implements the raiseOnePin method in the BrailleCell class.
 	 */
 	private void dispCellRaise(String paramArgs) {
 		try {
@@ -341,8 +344,8 @@ public class ScenarioParser {
 	}
 
 	/*
-	 * This method corresponds to the /~disp-cell-clear: key phrase in the
-	 * scenario, and it implements the clear method in the Braille class.
+	 * This method corresponds to the /~disp-cell-clear: key phrase in the scenario,
+	 * and it implements the clear method in the Braille class.
 	 */
 	private void dispCellClear(String paramArgs) {
 		try {
@@ -360,8 +363,8 @@ public class ScenarioParser {
 	}
 
 	/*
-	 * This method corresponds to the /~disp-cell-lower: key phrase in the
-	 * scenario file, and it implements lowerOnePin method in the Braille class.
+	 * This method corresponds to the /~disp-cell-lower: key phrase in the scenario
+	 * file, and it implements lowerOnePin method in the Braille class.
 	 */
 	private void dispCellLower(String paramArgs) {
 		try {
@@ -403,11 +406,11 @@ public class ScenarioParser {
 	 */
 	private void play() {
 		String fileLine;
-		if(exit == true){
-				fileScanner.close();
-				System.out.println("exit true and has nxt line");
-				exit();			
-			}
+		if (exit == true) {
+			fileScanner.close();
+			System.out.println("exit true and has nxt line");
+			exit();
+		}
 		try {
 			while (exit == false && fileScanner.hasNextLine()) {
 				// This while loop is created to wait for a user to press a
@@ -418,7 +421,7 @@ public class ScenarioParser {
 				fileLine = fileScanner.nextLine();
 				performAction(fileLine);
 			}
-			
+
 			if (exit == true || !fileScanner.hasNextLine()) {
 				System.out.println("exit true or no has nxt line");
 				fileScanner.close();
@@ -444,8 +447,8 @@ public class ScenarioParser {
 	}
 
 	/*
-	 * This method logs any logical errors or exception errors that may occur at
-	 * any time during the program.
+	 * This method logs any logical errors or exception errors that may occur at any
+	 * time during the program.
 	 */
 	private void errorLog(String exception, String message) {
 		Logger logger = Logger.getLogger("ERROR_LOG");
@@ -479,9 +482,8 @@ public class ScenarioParser {
 	}
 
 	/*
-	 * This method corresponds to the /~sound: key phrase in the scenario file,
-	 * and it plays the sound files where the argument is the name of the sound
-	 * file.
+	 * This method corresponds to the /~sound: key phrase in the scenario file, and
+	 * it plays the sound files where the argument is the name of the sound file.
 	 */
 	private void playSound(String sound) {
 		try {
@@ -519,31 +521,30 @@ public class ScenarioParser {
 	}
 
 	/*
-	 * This method initializes the simulator class, by interpreting the first
-	 * two lines of the scenario file to indicate the number of cells and number
-	 * of JButtons, respectively.
+	 * This method initializes the simulator class, by interpreting the first two
+	 * lines of the scenario file to indicate the number of cells and number of
+	 * JButtons, respectively.
 	 */
 	private void setCellAndButton() {
 		try {
 			cellNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
 			buttonNum = Integer.parseInt(fileScanner.nextLine().split("\\s")[1]);
 			if (isVisual)
-			    player = new VisualPlayer(cellNum, buttonNum);
+				player = new VisualPlayer(cellNum, buttonNum);
 			else
-			    player =  new AudioPlayer(cellNum, buttonNum);
+				player = new AudioPlayer(cellNum, buttonNum);
 		} catch (Exception e) {
 
-			errorLog("Exception error: " + e.toString(),
-					"Expected format: Cell num1 \n Button num2 \n "
-							+ "as the first two lines of the scenarion file, and where num1 and num2 are positive integers. \n"
-							+ "Did not receive such a format in the scenario file and program had to end due to the incorrect"
-							+ "file format.");
+			errorLog("Exception error: " + e.toString(), "Expected format: Cell num1 \n Button num2 \n "
+					+ "as the first two lines of the scenarion file, and where num1 and num2 are positive integers. \n"
+					+ "Did not receive such a format in the scenario file and program had to end due to the incorrect"
+					+ "file format.");
 		}
 	}
 
 	/*
-	 * This method plays the scenario file specified by the argument. The
-	 * argument can be specified either as an absolute or a relative path.
+	 * This method plays the scenario file specified by the argument. The argument
+	 * can be specified either as an absolute or a relative path.
 	 */
 	public void setScenarioFile(String scenarioFile) {
 		try {

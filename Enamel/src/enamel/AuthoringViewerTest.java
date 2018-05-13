@@ -168,7 +168,7 @@ public class AuthoringViewerTest {
 	 */
 	public AuthoringViewerTest(int numCells, int numButtons, ArrayList<Card> cards, String initialPrompt,
 			String endingPrompt) {
-		
+
 		this.numButtons = numButtons;
 
 		if (initialPrompt == null || initialPrompt.equals("")) {
@@ -929,8 +929,10 @@ public class AuthoringViewerTest {
 		listButtonPanel.add(btnCardUp, BorderLayout.NORTH);
 		listButtonPanel.add(btnCardDown, BorderLayout.SOUTH);
 	}
-//TEST
+
+	// TEST
 	private void displayFrame() {
+		setVisible(cards.get(currCard).getEnbled());
 		aViewFrame.setBackground(new Color(255, 255, 255));
 		aViewFrame.setTitle("AuthoringApp view");
 		aViewFrame.getAccessibleContext().setAccessibleDescription("Authoring App Editor");
@@ -945,7 +947,7 @@ public class AuthoringViewerTest {
 		aViewFrame = new JFrame();
 		aViewFrame.setResizable(true);
 		this.aViewFrame.setLocationByPlatform(true);
-		
+
 		aViewFrame.getContentPane().setBackground(new Color(217, 217, 217));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 500, 270, 300 };
@@ -1205,7 +1207,7 @@ public class AuthoringViewerTest {
 		btnRaisePins.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
 				String inputValue = updateCell();
-				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell+1) + ": " + inputValue);
+				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell + 1) + ": " + inputValue);
 				updatePrompt();
 			}
 		});
@@ -1218,7 +1220,8 @@ public class AuthoringViewerTest {
 		btnReset.setBounds(54, 195, 114, 23);
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
-				String inputValue = resetCurrCellPins();				
+				String inputValue = resetCurrCellPins();
+				setPromptText(promptTextField.getText() + "\n/Clear all pins");
 				updateCell();
 				updatePrompt();
 			}
@@ -1461,6 +1464,9 @@ public class AuthoringViewerTest {
 		s += pSeven.isSelected() ? "1" : "0";
 		s += pEight.isSelected() ? "1" : "0";
 		temp.setPins(s);
+		if (cards.get(currCard).getCells().isEmpty()) {
+			cards.get(currCard).getCells().add(new BrailleCell());
+		}
 		cards.get(currCard).getCells().set(currCell, temp);
 		return s;
 	}
@@ -1527,8 +1533,10 @@ public class AuthoringViewerTest {
 
 	private void setVisible(Boolean b) {
 		buttonEditor.setEnabled(b);
-		if (b) buttonEditor.setBackground(Color.WHITE);
-		else buttonEditor.setBackground(new Color(230, 230, 230));
+		if (b)
+			buttonEditor.setBackground(Color.WHITE);
+		else
+			buttonEditor.setBackground(new Color(230, 230, 230));
 		buttonPanel.setVisible(b);
 		generalCellPanel.setVisible(b);
 	}
