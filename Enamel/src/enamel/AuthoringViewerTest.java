@@ -265,7 +265,7 @@ public class AuthoringViewerTest {
 	}
 
 	/*************************************************************
-	 * Undo redo pause actions
+	 * Undo redo pause and other actions
 	 *************************************************************/
 	private void createUndoRedoPanelButtons() {
 		JPanel undoRedoPanel = new JPanel();
