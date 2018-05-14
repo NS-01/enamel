@@ -39,6 +39,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 import javax.swing.SwingConstants;
@@ -63,6 +64,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextPane;
 import javax.swing.KeyStroke;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JPanel;
 import javax.swing.JEditorPane;
@@ -145,6 +148,9 @@ public class AuthoringViewerTest {
 	private JRadioButton rspEight;
 	private JPanel buttonPanel;
 	private JPanel generalCellPanel;
+	private JList actionList;
+	private DefaultListModel<String> actionListModel;
+
 
 	// public static void main(String[] args) {
 	// EventQueue.invokeLater(new Runnable() {
@@ -220,34 +226,6 @@ public class AuthoringViewerTest {
 		createPrevNextButtons();
 
 		createMenuBar();
-
-		JPanel cardNamePanel = new JPanel();
-		cardNamePanel.setBackground(new Color(217, 217, 217));
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(10, 5, 5, 10);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 2;
-		gbc_panel_1.gridy = 3;
-		aViewFrame.getContentPane().add(cardNamePanel, gbc_panel_1);
-		cardNamePanel.setLayout(new BorderLayout(0, 0));
-
-		txtCardName = new JTextField();
-		txtCardName.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				// do nothing
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				cards.get(currCard).setName(txtCardName.getText());
-				setCardList();
-			}
-		});
-		txtCardName.setToolTipText("Enter a name for the card");
-		txtCardName.setText(cards.get(currCard).getName());
-		txtCardName.setColumns(10);
-		cardNamePanel.add(txtCardName, BorderLayout.NORTH);
 		JButton btnEnableUserResponse = new JButton("Enable User Response");
 		btnEnableUserResponse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -266,6 +244,22 @@ public class AuthoringViewerTest {
 		gbc_btnEnableUserResponse.gridy = 3;
 		aViewFrame.getContentPane().add(btnEnableUserResponse, gbc_btnEnableUserResponse);
 
+		// Actions List View
+		JScrollPane actionListScroller = new JScrollPane((Component) null);
+		GridBagConstraints gbc_actionListScroller = new GridBagConstraints();
+		gbc_actionListScroller.insets = new Insets(0, 0, 5, 0);
+		gbc_actionListScroller.fill = GridBagConstraints.BOTH;
+		gbc_actionListScroller.gridx = 2;
+		gbc_actionListScroller.gridy = 3;
+		aViewFrame.getContentPane().add(actionListScroller, gbc_actionListScroller);
+		actionListModel = new DefaultListModel<>();
+		actionList = new JList(actionListModel);
+		actionList.setVisibleRowCount(-1);
+		actionList.setToolTipText("List of Actions");
+		actionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		actionList.setLayoutOrientation(JList.VERTICAL);
+		actionListScroller.setViewportView(actionList);
+		
 		createUndoRedoPanelButtons();
 		displayFrame();
 	}
@@ -300,6 +294,13 @@ public class AuthoringViewerTest {
 		undoRedoPanel.add(btnPause);
 
 		pauseAction(btnPause);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setRenderer(new CustomComboBoxRenderer("INSERT ACTION"));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Play Audio File", "Display Character", "Display String"}));
+		comboBox.setFont(new Font("Tahoma", Font.BOLD, 14));
+		comboBox.setSelectedIndex(-1);
+		undoRedoPanel.add(comboBox);
 
 		KeyStroke undoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK);
 		KeyStroke redoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);
@@ -817,6 +818,34 @@ public class AuthoringViewerTest {
 	}
 
 	private void createButtonLabelPanel() {
+		
+				JPanel cardNamePanel = new JPanel();
+				cardNamePanel.setBackground(new Color(217, 217, 217));
+				GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+				gbc_panel_1.insets = new Insets(10, 5, 5, 10);
+				gbc_panel_1.fill = GridBagConstraints.BOTH;
+				gbc_panel_1.gridx = 2;
+				gbc_panel_1.gridy = 2;
+				aViewFrame.getContentPane().add(cardNamePanel, gbc_panel_1);
+				cardNamePanel.setLayout(new BorderLayout(0, 0));
+				
+						txtCardName = new JTextField();
+						txtCardName.addFocusListener(new FocusListener() {
+							@Override
+							public void focusGained(FocusEvent e) {
+								// do nothing
+							}
+
+							@Override
+							public void focusLost(FocusEvent e) {
+								cards.get(currCard).setName(txtCardName.getText());
+								setCardList();
+							}
+						});
+						txtCardName.setToolTipText("Enter a name for the card");
+						txtCardName.setText(cards.get(currCard).getName());
+						txtCardName.setColumns(10);
+						cardNamePanel.add(txtCardName, BorderLayout.NORTH);
 		JPanel buttonLabelPanel = new JPanel();
 		GridBagConstraints gbc_buttonLabelPanel = new GridBagConstraints();
 		gbc_buttonLabelPanel.insets = new Insets(20, 10, 5, 5);
@@ -1624,4 +1653,22 @@ public class AuthoringViewerTest {
 		setResponseCellPins(cards.get(currCard).getButtonList().get(currButton).getCells().get(responseCell));
 		responseCellLabel.setText("CELL: 1/" + numCells);
 	}
+	class CustomComboBoxRenderer extends JLabel implements ListCellRenderer
+    {
+        private String _title;
+
+        public CustomComboBoxRenderer(String title)
+        {
+            _title = title;
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList list, Object value,
+                int index, boolean isSelected, boolean hasFocus)
+        {
+            if (index == -1 && value == null) setText(_title);
+            else setText(value.toString());
+            return this;
+        }
+    }
 }
