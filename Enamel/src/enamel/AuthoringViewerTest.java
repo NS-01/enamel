@@ -226,6 +226,39 @@ public class AuthoringViewerTest {
 		createPrevNextButtons();
 
 		createMenuBar();
+		
+		// New Commit might need to delete
+		/*
+		JPanel cardNamePanel = new JPanel();
+		cardNamePanel.setBackground(new Color(217, 217, 217));
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.insets = new Insets(10, 5, 5, 10);
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.gridx = 2;
+		gbc_panel_1.gridy = 3;
+		aViewFrame.getContentPane().add(cardNamePanel, gbc_panel_1);
+		cardNamePanel.setLayout(new BorderLayout(0, 0));
+
+		txtCardName = new JTextField();
+		txtCardName.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				// do nothing
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				cards.get(currCard).setName(txtCardName.getText());
+				setCardList();
+			}
+		});
+		txtCardName.setToolTipText("Enter a name for the card");
+		txtCardName.setText(cards.get(currCard).getName());
+		txtCardName.setColumns(10);
+		cardNamePanel.add(txtCardName, BorderLayout.NORTH);
+		*/
+		//end new commit
+		
 		JButton btnEnableUserResponse = new JButton("Enable User Response");
 		btnEnableUserResponse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1005,6 +1038,7 @@ public class AuthoringViewerTest {
 
 	// TEST
 	private void displayFrame() {
+		setVisible(cards.get(currCard).getEnbled());
 		aViewFrame.setBackground(new Color(255, 255, 255));
 		aViewFrame.setTitle("AuthoringApp view");
 		aViewFrame.getAccessibleContext().setAccessibleDescription("Authoring App Editor");
@@ -1297,6 +1331,7 @@ public class AuthoringViewerTest {
 				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue);
 				promptTextField.setText(cards.get(currCard).getText());
 				promptTextField.setText("" + s);
+				//setPromptText(promptTextField.getText() + "\n/Clear all pins");
 				updateCell();
 				updatePrompt();
 			}
@@ -1539,6 +1574,9 @@ public class AuthoringViewerTest {
 		s += pSeven.isSelected() ? "1" : "0";
 		s += pEight.isSelected() ? "1" : "0";
 		temp.setPins(s);
+		if (cards.get(currCard).getCells().isEmpty()) {
+			cards.get(currCard).getCells().add(new BrailleCell());
+		}
 		cards.get(currCard).getCells().set(currCell, temp);
 		return s;
 	}

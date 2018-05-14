@@ -62,9 +62,8 @@ public class FileToCardsParser {
 	}
 
 	/**
-	 * checks the number of lines in the file
-	 * this was needed for adding the last card
-	 * It also checks where the first /~ is
+	 * checks the number of lines in the file this was needed for adding the last
+	 * card It also checks where the first /~ is
 	 * 
 	 * @param scenarioFile
 	 */
@@ -105,7 +104,7 @@ public class FileToCardsParser {
 			}
 
 		}
-		//Checks num cells 
+		// Checks num cells
 		String fileLine = fileScanner.nextLine();
 		if (fileLine.length() >= 6 && fileLine.substring(0, 4).equals("Cell")) {
 			if (Character.isDigit(fileLine.charAt(5))) {
@@ -117,7 +116,7 @@ public class FileToCardsParser {
 		} else {
 			throw new IllegalArgumentException();
 		}
-		//Checks num buttons
+		// Checks num buttons
 		fileLine = fileScanner.nextLine();
 		if (fileLine.length() >= 8 && fileLine.substring(0, 6).equals("Button")) {
 			if (Character.isDigit(fileLine.charAt(7))) {
@@ -167,14 +166,15 @@ public class FileToCardsParser {
 			dispString();
 
 		} else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
-			//Still unclear how we are doing sound
+			// Still unclear how we are doing sound
 			if (inButton) {
 				currButton.setAudio(
 						scenarioFilePath + File.separator + "AudioFiles" + File.separator + fileLine.substring(8));
-				currButton.addText(fileLine);
+				currButton.addText("/Play sound file " + fileLine.substring(8));
 			} else {
 				currCard.setSound(
 						scenarioFilePath + File.separator + "AudioFiles" + File.separator + fileLine.substring(8));
+				currCard.addText("/Play sound file " + fileLine.substring(8));
 			}
 		} else if (fileLine.equals("/~user-input")) {
 			inButton = true;
@@ -182,23 +182,38 @@ public class FileToCardsParser {
 			buttons.add(new DataButton(currButton));
 			inButton = false;
 			nextCard();
-		} else if(fileLine.equals("/~pause:")){
-			insertPause();
+//<<<<<<< HEAD
+//		} else if(fileLine.equals("/~pause:")){
+//			insertPause();
+//=======
+		} else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~pause:")) {
+			if (inButton) {
+				currButton.addText("/Wait for " + Character.getNumericValue(fileLine.charAt(8)) + " second(s)");
+			} else {
+				currCard.addText("/Wait for " + Character.getNumericValue(fileLine.charAt(8)) + " second(s)");
+			}
+		} else if (fileLine.equals("/~disp-clearAll")) {
+			if (inButton) {
+				currButton.addText("/Clear all pins");
+			} else {
+				currCard.addText("/Clear all pins");
+			}
+//>>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
 		}
 		checkButtons();
 		if (currLineNum == numLines) {
-			buttons.clear();
+			//buttons.clear();
+//			cells.add(new BrailleCell());
+			buttons.add(new DataButton(currButton));
 			nextCard();
 		}
 
 	}
 
 	/**
-	 * This is if the file wants to display a string
-	 * Sets the pins for the letter
-	 * Currently not implemented for if they do this
-	 * in a button
-	 */ 
+	 * This is if the file wants to display a string Sets the pins for the letter
+	 * Currently not implemented for if they do this in a button
+	 */
 	private void dispString() {
 		if (!inButton) {
 			try {
@@ -223,7 +238,6 @@ public class FileToCardsParser {
 		if (!inButton) {
 			currCell = new BrailleCell();
 			currCell.setPins(fileLine.substring(19));
-			System.out.println("Bye");
 			try {
 				cells.set(Character.getNumericValue(fileLine.charAt(17)), currCell);
 			} catch (Exception e) {
@@ -232,9 +246,11 @@ public class FileToCardsParser {
 				}
 				cells.add(currCell);
 			}
-			currCard.addText("/Pins on " + (Character.getNumericValue(fileLine.charAt(17))+1) + ": " + fileLine.substring(19));
+			currCard.addText(
+					"/Pins on " + (Character.getNumericValue(fileLine.charAt(17)) + 1) + ": " + fileLine.substring(19));
 		} else {
-			currButton.addText("\n/Pins on " + (Character.getNumericValue(fileLine.charAt(17))+1) + ": " + fileLine.substring(19));
+			currButton.addText("\n/Pins on " + (Character.getNumericValue(fileLine.charAt(17)) + 1) + ": "
+					+ fileLine.substring(19));
 		}
 	}
 
@@ -292,6 +308,8 @@ public class FileToCardsParser {
 		cards.add(currCard);
 		cardNum++;
 		currCard = new Card(cardNum - 1, "Card " + cardNum, "notSure", true);
+		buttonNum = 1;
+		currButton = new DataButton(buttonNum);
 	}
 
 	/**
@@ -302,13 +320,13 @@ public class FileToCardsParser {
 		cardNum = 1;
 		buttonNum = 1;
 		currLineNum = 2;
-		while (currLineNum < start - 1 && fileScanner.hasNextLine()) {
-
-			this.initialPrompt += fileScanner.nextLine();
-			currLineNum++;
-
-		}
-		currCard = new Card(cardNum - 1, "Card " + cardNum, "notSure",true);
+		// while (currLineNum < start - 1 && fileScanner.hasNextLine()) {
+		//
+		// this.initialPrompt += fileScanner.nextLine();
+		// currLineNum++;
+		//
+		// }
+		currCard = new Card(cardNum - 1, "Card " + cardNum, "notSure", true);
 		buttons = new ArrayList<DataButton>(numButtons);
 		cells = new ArrayList<BrailleCell>(numCells);
 		currButton = new DataButton(buttonNum);
@@ -336,22 +354,20 @@ public class FileToCardsParser {
 	}
 
 	/**
-	 * this checks the last card and if it's 
-	 * empty it will remove it
-	 * I think we will remove this method and change something
+	 * this checks the last card and if it's empty it will remove it I think we will
+	 * remove this method and change something
 	 */
 	public void checkLast() {
 		if (cards.size() > 0) {
 			Card temp = cards.get(cards.size() - 1);
-			if (temp.getCells().isEmpty()) {
-				this.endingPrompt = temp.getText();
+			if (temp.getCells().isEmpty() && temp.getButtonList().get(0).getText() == "" && temp.getText() == null) {
+				//this.endingPrompt = temp.getText();
 				cards.remove(temp);
 				this.lastRemoved = true;
 			} else {
 				this.lastRemoved = false;
 			}
 		}
-
 	}
 
 	public boolean getLastRemoved() {
@@ -359,8 +375,8 @@ public class FileToCardsParser {
 	}
 
 	/**
-	 * This method just prints out the information stored in the cards
-	 * It is just for debugging purposes
+	 * This method just prints out the information stored in the cards It is just
+	 * for debugging purposes
 	 */
 	public void print() {
 		System.out.println(cards.size());
