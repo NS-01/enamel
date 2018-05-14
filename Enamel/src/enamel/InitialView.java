@@ -56,6 +56,7 @@ import java.awt.Insets;
  *         scenario. Accessibility features are implemented.
  *
  */
+//New Updates
 @SuppressWarnings({ "unused", "static-access", "serial" })
 public class InitialView {
 

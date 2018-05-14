@@ -97,6 +97,7 @@ import javax.swing.ImageIcon;
  *         implemented.
  *
  */
+//New Updates
 @SuppressWarnings({ "unused", "rawtypes", "unchecked" })
 public class AuthoringViewerTest {
 

@@ -8,7 +8,7 @@ import java.io.*;
  *
  * @author Jeremy, Nisha, Tyler
  *
- *         Class to parse card data from a file.
+ *         Class to parse card data from a file. New Updates.
  *
  */
 public class FileToCardsParser {

@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
  * 
  * @author Jeremy, Nisha, Tyler
  * 
- *         Class to parse card data to a file.
+ *         Class to parse card data to a file. New Updates.
  *
  */
 public class CardsToFileParser {
