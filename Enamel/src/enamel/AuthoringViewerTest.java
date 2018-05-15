@@ -152,7 +152,6 @@ public class AuthoringViewerTest {
 	private JList actionList;
 	private DefaultListModel<String> actionListModel;
 
-
 	// public static void main(String[] args) {
 	// EventQueue.invokeLater(new Runnable() {
 	// public void run() {
@@ -227,39 +226,30 @@ public class AuthoringViewerTest {
 		createPrevNextButtons();
 
 		createMenuBar();
-		
+
 		// New Commit might need to delete
 		/*
-		JPanel cardNamePanel = new JPanel();
-		cardNamePanel.setBackground(new Color(217, 217, 217));
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(10, 5, 5, 10);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 2;
-		gbc_panel_1.gridy = 3;
-		aViewFrame.getContentPane().add(cardNamePanel, gbc_panel_1);
-		cardNamePanel.setLayout(new BorderLayout(0, 0));
+		 * JPanel cardNamePanel = new JPanel(); cardNamePanel.setBackground(new
+		 * Color(217, 217, 217)); GridBagConstraints gbc_panel_1 = new
+		 * GridBagConstraints(); gbc_panel_1.insets = new Insets(10, 5, 5, 10);
+		 * gbc_panel_1.fill = GridBagConstraints.BOTH; gbc_panel_1.gridx = 2;
+		 * gbc_panel_1.gridy = 3; aViewFrame.getContentPane().add(cardNamePanel,
+		 * gbc_panel_1); cardNamePanel.setLayout(new BorderLayout(0, 0));
+		 * 
+		 * txtCardName = new JTextField(); txtCardName.addFocusListener(new
+		 * FocusListener() {
+		 * 
+		 * @Override public void focusGained(FocusEvent e) { // do nothing }
+		 * 
+		 * @Override public void focusLost(FocusEvent e) {
+		 * cards.get(currCard).setName(txtCardName.getText()); setCardList(); } });
+		 * txtCardName.setToolTipText("Enter a name for the card");
+		 * txtCardName.setText(cards.get(currCard).getName());
+		 * txtCardName.setColumns(10); cardNamePanel.add(txtCardName,
+		 * BorderLayout.NORTH);
+		 */
+		// end new commit
 
-		txtCardName = new JTextField();
-		txtCardName.addFocusListener(new FocusListener() {
-			@Override
-			public void focusGained(FocusEvent e) {
-				// do nothing
-			}
-
-			@Override
-			public void focusLost(FocusEvent e) {
-				cards.get(currCard).setName(txtCardName.getText());
-				setCardList();
-			}
-		});
-		txtCardName.setToolTipText("Enter a name for the card");
-		txtCardName.setText(cards.get(currCard).getName());
-		txtCardName.setColumns(10);
-		cardNamePanel.add(txtCardName, BorderLayout.NORTH);
-		*/
-		//end new commit
-		
 		JButton btnEnableUserResponse = new JButton("Enable User Response");
 		btnEnableUserResponse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -293,7 +283,7 @@ public class AuthoringViewerTest {
 		actionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		actionList.setLayoutOrientation(JList.VERTICAL);
 		actionListScroller.setViewportView(actionList);
-		
+
 		createUndoRedoPanelButtons();
 		displayFrame();
 	}
@@ -328,10 +318,11 @@ public class AuthoringViewerTest {
 		undoRedoPanel.add(btnPause);
 
 		pauseAction(btnPause);
-		
+
 		JComboBox comboBox = new JComboBox();
 		comboBox.setRenderer(new CustomComboBoxRenderer("INSERT ACTION"));
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Play Audio File", "Display Character", "Display String"}));
+		comboBox.setModel(
+				new DefaultComboBoxModel(new String[] { "Play Audio File", "Display Character", "Display String" }));
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 14));
 		comboBox.setSelectedIndex(-1);
 		undoRedoPanel.add(comboBox);
@@ -402,20 +393,28 @@ public class AuthoringViewerTest {
 				// String inputValue = JOptionPane.showInputDialog("Please input
 				// pause time in seconds");
 				boolean checkNumber = false;
-				int time = 0;
+				int time = -1;
 				while (!checkNumber) {
 					String inputValue = JOptionPane.showInputDialog("Please input pause time in seconds");
-					try {
-						time = Integer.parseInt(inputValue);
-						if (time >= 0) {
-							checkNumber = true;
+					if (inputValue == null) checkNumber = true;
+					else {
+						try {
+							time = Integer.parseInt(inputValue);
+							if (time >= 0) {
+								checkNumber = true;
+							} else {
+								JOptionPane.showMessageDialog(null, "Error, enter a positive integer.");
+							}
+						} catch (NumberFormatException exception) {
+							// error
+							JOptionPane.showMessageDialog(null, "Error, not a integer. Please try again.");
 						}
-					} catch (NumberFormatException exception) {
-						// error
-						JOptionPane.showMessageDialog(null, "Error, not a number. Please try again.");
 					}
+					
 				}
-				System.out.println(time);
+				if (time != -1) {
+					setPromptText(promptTextField.getText() + "\n/Wait for " + time + " second(s)");
+				}
 			}
 		};
 		// Map pause action
@@ -852,34 +851,34 @@ public class AuthoringViewerTest {
 	}
 
 	private void createButtonLabelPanel() {
-		
-				JPanel cardNamePanel = new JPanel();
-				cardNamePanel.setBackground(new Color(217, 217, 217));
-				GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-				gbc_panel_1.insets = new Insets(10, 5, 5, 10);
-				gbc_panel_1.fill = GridBagConstraints.BOTH;
-				gbc_panel_1.gridx = 2;
-				gbc_panel_1.gridy = 2;
-				aViewFrame.getContentPane().add(cardNamePanel, gbc_panel_1);
-				cardNamePanel.setLayout(new BorderLayout(0, 0));
-				
-						txtCardName = new JTextField();
-						txtCardName.addFocusListener(new FocusListener() {
-							@Override
-							public void focusGained(FocusEvent e) {
-								// do nothing
-							}
 
-							@Override
-							public void focusLost(FocusEvent e) {
-								cards.get(currCard).setName(txtCardName.getText());
-								setCardList();
-							}
-						});
-						txtCardName.setToolTipText("Enter a name for the card");
-						txtCardName.setText(cards.get(currCard).getName());
-						txtCardName.setColumns(10);
-						cardNamePanel.add(txtCardName, BorderLayout.NORTH);
+		JPanel cardNamePanel = new JPanel();
+		cardNamePanel.setBackground(new Color(217, 217, 217));
+		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+		gbc_panel_1.insets = new Insets(10, 5, 5, 10);
+		gbc_panel_1.fill = GridBagConstraints.BOTH;
+		gbc_panel_1.gridx = 2;
+		gbc_panel_1.gridy = 2;
+		aViewFrame.getContentPane().add(cardNamePanel, gbc_panel_1);
+		cardNamePanel.setLayout(new BorderLayout(0, 0));
+
+		txtCardName = new JTextField();
+		txtCardName.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				// do nothing
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				cards.get(currCard).setName(txtCardName.getText());
+				setCardList();
+			}
+		});
+		txtCardName.setToolTipText("Enter a name for the card");
+		txtCardName.setText(cards.get(currCard).getName());
+		txtCardName.setColumns(10);
+		cardNamePanel.add(txtCardName, BorderLayout.NORTH);
 		JPanel buttonLabelPanel = new JPanel();
 		GridBagConstraints gbc_buttonLabelPanel = new GridBagConstraints();
 		gbc_buttonLabelPanel.insets = new Insets(20, 10, 5, 5);
@@ -1328,11 +1327,7 @@ public class AuthoringViewerTest {
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
 				String inputValue = resetCurrCellPins();
-				String s = promptTextField.getText() + "\n/Pins on " + (currCell + 1) + ": " + inputValue;
-				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell) + ": " + inputValue);
-				promptTextField.setText(cards.get(currCard).getText());
-				promptTextField.setText("" + s);
-				//setPromptText(promptTextField.getText() + "\n/Clear all pins");
+				setPromptText(promptTextField.getText() + "\n/Clear all pins");
 				updateCell();
 				updatePrompt();
 			}
@@ -1692,22 +1687,22 @@ public class AuthoringViewerTest {
 		setResponseCellPins(cards.get(currCard).getButtonList().get(currButton).getCells().get(responseCell));
 		responseCellLabel.setText("CELL: 1/" + numCells);
 	}
-	class CustomComboBoxRenderer extends JLabel implements ListCellRenderer
-    {
-        private String _title;
 
-        public CustomComboBoxRenderer(String title)
-        {
-            _title = title;
-        }
+	class CustomComboBoxRenderer extends JLabel implements ListCellRenderer {
+		private String _title;
 
-        @Override
-        public Component getListCellRendererComponent(JList list, Object value,
-                int index, boolean isSelected, boolean hasFocus)
-        {
-            if (index == -1 && value == null) setText(_title);
-            else setText(value.toString());
-            return this;
-        }
-    }
+		public CustomComboBoxRenderer(String title) {
+			_title = title;
+		}
+
+		@Override
+		public Component getListCellRendererComponent(JList list, Object value, int index, boolean isSelected,
+				boolean hasFocus) {
+			if (index == -1 && value == null)
+				setText(_title);
+			else
+				setText(value.toString());
+			return this;
+		}
+	}
 }

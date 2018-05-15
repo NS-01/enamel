@@ -203,7 +203,9 @@ public class FileToCardsParser {
 		checkButtons();
 		if (currLineNum == numLines) {
 			//buttons.clear();
-//			cells.add(new BrailleCell());
+			if (cells.isEmpty()) {
+				cells.add(new BrailleCell());
+			}
 			buttons.add(new DataButton(currButton));
 			nextCard();
 		}
