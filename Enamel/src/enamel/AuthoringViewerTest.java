@@ -659,7 +659,7 @@ public class AuthoringViewerTest {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							ScenarioForm window = new ScenarioForm(cards, numCells, numButtons);
+							ScenarioForm window = new ScenarioForm(cards, numCells, numButtons, title);
 							window.sCreatorFrame.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -1040,7 +1040,7 @@ public class AuthoringViewerTest {
 	private void displayFrame() {
 		setVisible(cards.get(currCard).getEnbled());
 		aViewFrame.setBackground(new Color(255, 255, 255));
-		aViewFrame.setTitle("AuthoringApp view");
+		aViewFrame.setTitle("AuthoringApp View: " + initialPrompt);
 		aViewFrame.getAccessibleContext().setAccessibleDescription("Authoring App Editor");
 		aViewFrame.setBounds(0, 0, 1170, 660);
 		aViewFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -1398,7 +1398,7 @@ public class AuthoringViewerTest {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							ScenarioForm window = new ScenarioForm(cards, numCells, numButtons);
+							ScenarioForm window = new ScenarioForm(cards, numCells, numButtons, title);
 							window.sCreatorFrame.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();

@@ -20,6 +20,7 @@ public class FileToCardsParser {
 	private String endingPrompt;
 	private int numButtons;
 	private int numCells;
+	private String title;
 	private int numLines;
 	private int start;
 	private boolean lastRemoved;
@@ -92,7 +93,7 @@ public class FileToCardsParser {
 	}
 
 	/**
-	 * This reads the number of buttons and cells
+	 * This reads the number of buttons and cells and the title
 	 */
 	public void checkButtonsAndCells() {
 		if (fileScanner == null) {
@@ -127,7 +128,13 @@ public class FileToCardsParser {
 		} else {
 			throw new IllegalArgumentException();
 		}
-
+		// Checks title
+		fileLine = fileScanner.nextLine();
+		//if (fileLine.length() >= 1) {
+			title = initialPrompt;
+		//} else {
+		//	throw new IllegalArgumentException();
+		//}
 	}
 
 	/**
@@ -331,6 +338,7 @@ public class FileToCardsParser {
 		currCard = new Card(cardNum - 1, "Card " + cardNum, "notSure", true);
 		buttons = new ArrayList<DataButton>(numButtons);
 		cells = new ArrayList<BrailleCell>(numCells);
+		title= this.initialPrompt;
 		currButton = new DataButton(buttonNum);
 		currCell = new BrailleCell();
 	}
@@ -343,6 +351,10 @@ public class FileToCardsParser {
 		return this.numButtons;
 	}
 
+	public String getTitle() {
+		return this.title;
+	}
+	
 	public ArrayList<Card> getCards() {
 		return this.cards;
 	}

@@ -36,7 +36,7 @@ public class CardsToFileParser {
 	public void createBody() {
 		body += "Cell " + numCells;
 		body += "\nButton " + numButtons;
-		// body += "\n" + initialPrompt;
+		body += "\n" + initialPrompt;
 		// write stuff for each card
 		for (Card currCard : cards) {
 			body += "\n" + writeCard(currCard);

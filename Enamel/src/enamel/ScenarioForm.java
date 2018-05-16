@@ -86,6 +86,7 @@ public class ScenarioForm {
 	private int numButtons = 1; // assuming 1 selected by default. i.e. always
 	private int selectedCells = 1;
 	private int selectedButtons = 1;
+	private String title;
 	private JTextField titleTextField;
 	private JTextField audioFileTextField;
 	private JLabel lblNumberOfCells;
@@ -117,7 +118,7 @@ public class ScenarioForm {
 	 * Create the application.
 	 */
 	public ScenarioForm() {
-		this(new ArrayList<Card>(), 1, 1);
+		this(new ArrayList<Card>(), 1, 1, "New Scenario");
 		initialize();
 		// ConsoleHandler consoleHandler = new ConsoleHandler();
 		// consoleHandler.setFormatter(new Formatter() {
@@ -140,10 +141,12 @@ public class ScenarioForm {
 	 * @param numCells
 	 * @param numButtons
 	 */
-	public ScenarioForm(ArrayList<Card> cards, int numCells, int numButtons) {
+	public ScenarioForm(ArrayList<Card> cards, int numCells, int numButtons, String title) {
 		this.cards = cards;
 		this.numButtons = numButtons;
 		this.numCells = numCells;
+		this.title= title;
+		//this.titleTextField.setText(title);
 		initialize();
 		ConsoleHandler consoleHandler = new ConsoleHandler();
 		consoleHandler.setFormatter(new Formatter() {
@@ -434,7 +437,7 @@ public class ScenarioForm {
 
 	private void saveButtonListener(JComboBox comboCellBox, JComboBox comboButtonBox, JButton btnSaveAndCreate) {
 		// btnSaveAndCreate.setEnabled(true);
-		System.out.println("Cells: " + numCells + " Buttons: " + numButtons);
+		System.out.println("Cells: " + numCells + " Buttons: " + numButtons + "Scenario Title:" + title);
 		Action buttonAction = new AbstractAction("Create a Scenario") {
 			int count = 0;
 
