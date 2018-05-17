@@ -28,6 +28,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import javax.swing.filechooser.FileFilter;
 import java.io.IOException;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -321,7 +322,6 @@ public class RecorderFrame {
 				isRecording = true;
 				recordNewButton.setEnabled(false);//new button
 				mntmRecordNew.setEnabled(false);//new menu
-				textField.setText("Recording......");
 				recordNewButton.setEnabled(false);
 				stopRecordingButton.setEnabled(true);//save button
 				mntmSave.setEnabled(true);//save menu
@@ -350,6 +350,7 @@ public class RecorderFrame {
 	 *             if the system does not support the specified audio format nor
 	 *             open the audio data line.
 	 */
+	@SuppressWarnings("deprecation")
 	public void start() throws LineUnavailableException {
 		format = getAudioFormat();
 		DataLine.Info info = new DataLine.Info(TargetDataLine.class, format);
@@ -369,10 +370,12 @@ public class RecorderFrame {
 
 		recordBytes = new ByteArrayOutputStream();
 		isRunning = true;
-
+		long start = System.currentTimeMillis();
+		
 		while (isRunning) {
 			bytesRead = audioLine.read(buffer, 0, buffer.length);
 			recordBytes.write(buffer, 0, bytesRead);
+			textField.setText(new Time(System.currentTimeMillis() - start).toString().substring(3));
 		}
 	}
 
@@ -381,7 +384,6 @@ public class RecorderFrame {
 	 */
 	private void stopRecording() {
 		isRecording = false;
-		textField.setText("Recording Stopped");
 		//recordNewButton.setEnabled(true);//-------------------------------------------------------------------------------
 		// stopRecordingButton.setEnabled(false);
 		try {
