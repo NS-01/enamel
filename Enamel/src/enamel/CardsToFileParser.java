@@ -181,6 +181,10 @@ public class CardsToFileParser {
 				result += "\n/~pause:" + arr[j].charAt(10);
 			} else if (arr[j].length() >= 15 && arr[j].substring(0, 15).equals("/Clear all pins")) {
 				result += "\n/~disp-clearAll";
+			} else if (arr[j].length() >= 19 && arr[j].substring(0, 19).equals("/Display character ")) {
+				result += "\n/~disp-cell-char:" + arr[j].charAt(19);
+			} else if (arr[j].length() >= 16 && arr[j].substring(0, 16).equals("/Display string ")) {
+				result += "\n/~disp-string:" + arr[j].substring(16);
 			} else {
 				result += "\n" + arr[j];
 			}

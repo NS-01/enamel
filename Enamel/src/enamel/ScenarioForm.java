@@ -117,7 +117,7 @@ public class ScenarioForm {
 	 * Create the application.
 	 */
 	public ScenarioForm() {
-		this(new ArrayList<Card>(), 1, 1);
+		this(new ArrayList<Card>(), 1, 1, "New Scenario");
 		initialize();
 		// ConsoleHandler consoleHandler = new ConsoleHandler();
 		// consoleHandler.setFormatter(new Formatter() {
@@ -140,7 +140,7 @@ public class ScenarioForm {
 	 * @param numCells
 	 * @param numButtons
 	 */
-	public ScenarioForm(ArrayList<Card> cards, int numCells, int numButtons) {
+	public ScenarioForm(ArrayList<Card> cards, int numCells, int numButtons, String title) {
 		this.cards = cards;
 		this.numButtons = numButtons;
 		this.numCells = numCells;
@@ -156,7 +156,8 @@ public class ScenarioForm {
 						formatMessage(record));
 			}
 		});
-
+		
+		this.titleTextField.setText(title);
 		/*
 		 * logger.addHandler(consoleHandler); logger.setUseParentHandlers(true);
 		 */

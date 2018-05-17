@@ -162,9 +162,6 @@ public class FileToCardsParser {
 	private void checkCommands() {
 		if (fileLine.length() >= 17 && fileLine.substring(0, 17).equals("/~disp-cell-pins:")) {
 			dispCellPins();
-		} else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~disp-string:")) {
-			dispString();
-
 		} else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~sound:")) {
 			// Still unclear how we are doing sound
 			if (inButton) {
@@ -191,6 +188,18 @@ public class FileToCardsParser {
 				currButton.addText("/Wait for " + Character.getNumericValue(fileLine.charAt(8)) + " second(s)");
 			} else {
 				currCard.addText("/Wait for " + Character.getNumericValue(fileLine.charAt(8)) + " second(s)");
+			}
+		} else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~disp-string:")) {
+			if (inButton) {
+				currButton.addText("/Display string " + fileLine.substring(14) );
+			} else {
+				currCard.addText("/Display string " + fileLine.substring(14) );
+			}
+		} else if (fileLine.length() >= 17 && fileLine.substring(0, 17).equals("/~disp-cell-char:")) {
+			if (inButton) {
+				currButton.addText("/Display character " + fileLine.charAt(17) );
+			} else {
+				currCard.addText("/Display character  " + fileLine.charAt(17) );
 			}
 		} else if (fileLine.equals("/~disp-clearAll")) {
 			if (inButton) {
