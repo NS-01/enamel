@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
  * 
  * @author Jeremy, Nisha, Tyler
  * 
- *         Class to parse card data to a file.
+ *         Class to parse card data to a file. New Updates.
  *
  */
 public class CardsToFileParser {
@@ -36,7 +36,7 @@ public class CardsToFileParser {
 	public void createBody() {
 		body += "Cell " + numCells;
 		body += "\nButton " + numButtons;
-		// body += "\n" + initialPrompt;
+//		body += "\n" + initialPrompt;
 		// write stuff for each card
 		for (Card currCard : cards) {
 			body += "\n" + writeCard(currCard);

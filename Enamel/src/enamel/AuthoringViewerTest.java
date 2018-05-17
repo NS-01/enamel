@@ -97,10 +97,12 @@ import javax.swing.ImageIcon;
  *         implemented.
  *
  */
+//New Updates
 @SuppressWarnings({ "unused", "rawtypes", "unchecked" })
 public class AuthoringViewerTest {
 
 	private JFrame aViewFrame;
+	private JPanel container;
 	private int numCells = 1;
 	private int numButtons = 1;
 	private JTextField textField;
@@ -265,7 +267,7 @@ public class AuthoringViewerTest {
 		gbc_btnEnableUserResponse.insets = new Insets(0, 0, 5, 5);
 		gbc_btnEnableUserResponse.gridx = 1;
 		gbc_btnEnableUserResponse.gridy = 4;
-		aViewFrame.getContentPane().add(btnEnableUserResponse, gbc_btnEnableUserResponse);
+		container.add(btnEnableUserResponse, gbc_btnEnableUserResponse);
 
 		// Actions List View
 		JScrollPane actionListScroller = new JScrollPane((Component) null);
@@ -274,7 +276,7 @@ public class AuthoringViewerTest {
 		gbc_actionListScroller.fill = GridBagConstraints.BOTH;
 		gbc_actionListScroller.gridx = 2;
 		gbc_actionListScroller.gridy = 4;
-		aViewFrame.getContentPane().add(actionListScroller, gbc_actionListScroller);
+		container.add(actionListScroller, gbc_actionListScroller);
 		actionListModel = new DefaultListModel<>();
 		actionList = new JList(actionListModel);
 		actionList.setVisibleRowCount(-1);
@@ -298,7 +300,7 @@ public class AuthoringViewerTest {
 		gbc_undoRedoPanel.fill = GridBagConstraints.BOTH;
 		gbc_undoRedoPanel.gridx = 0;
 		gbc_undoRedoPanel.gridy = 3;
-		aViewFrame.getContentPane().add(undoRedoPanel, gbc_undoRedoPanel);
+		container.add(undoRedoPanel, gbc_undoRedoPanel);
 
 		Icon undoIcon = new ImageIcon("Images/undo-16.png");
 		undoRedoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -459,7 +461,7 @@ public class AuthoringViewerTest {
 		gbc_undoRedoPanel.fill = GridBagConstraints.BOTH;
 		gbc_undoRedoPanel.gridx = 0;
 		gbc_undoRedoPanel.gridy = 6;
-		aViewFrame.getContentPane().add(undoRedoPanel, gbc_undoRedoPanel);
+		container.add(undoRedoPanel, gbc_undoRedoPanel);
 
 		Icon undoIcon = new ImageIcon("Images/undo-16.png");
 		undoRedoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -1085,7 +1087,7 @@ public class AuthoringViewerTest {
 
 		prevAndNextPanel.add(btnPreviousCard, BorderLayout.NORTH);
 		prevAndNextPanel.add(btnNextCard, BorderLayout.SOUTH);
-		aViewFrame.getContentPane().add(secondaryPrevNextPanel, gbc_panel);
+		container.add(secondaryPrevNextPanel, gbc_panel);
 	}
 
 	private void createResponsePanel() {
@@ -1117,7 +1119,7 @@ public class AuthoringViewerTest {
 
 		JScrollPane buttonPane = new JScrollPane(buttonEditor, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		aViewFrame.getContentPane().add(buttonPane, responseText);
+		container.add(buttonPane, responseText);
 	}
 
 	private void createButtonLabelPanel() {
@@ -1129,7 +1131,7 @@ public class AuthoringViewerTest {
 		gbc_panel_1.fill = GridBagConstraints.BOTH;
 		gbc_panel_1.gridx = 0;
 		gbc_panel_1.gridy = 0;
-		aViewFrame.getContentPane().add(cardNamePanel, gbc_panel_1);
+		container.add(cardNamePanel, gbc_panel_1);
 
 		txtCardName = new JTextField();
 		txtCardName.setColumns(3);
@@ -1161,7 +1163,7 @@ public class AuthoringViewerTest {
 		gbc_buttonLabelPanel.fill = GridBagConstraints.BOTH;
 		gbc_buttonLabelPanel.gridx = 0;
 		gbc_buttonLabelPanel.gridy = 4;
-		aViewFrame.getContentPane().add(buttonLabelPanel, gbc_buttonLabelPanel);
+		container.add(buttonLabelPanel, gbc_buttonLabelPanel);
 		buttonLabelPanel.setLayout(new BorderLayout(0, 5));
 
 		JLabel lblButtons = new JLabel("BUTTONS");
@@ -1241,7 +1243,7 @@ public class AuthoringViewerTest {
 		gbc_listPanel.gridx = 2;
 		gbc_listPanel.gridy = 0;
 		gbc_listPanel.gridheight = 2;
-		aViewFrame.getContentPane().add(listPanel, gbc_listPanel);
+		container.add(listPanel, gbc_listPanel);
 
 		listModel = new DefaultListModel();
 		listModel.addElement("Hello:");
@@ -1317,9 +1319,9 @@ public class AuthoringViewerTest {
 	private void displayFrame() {
 		setVisible(cards.get(currCard).getEnbled());
 		aViewFrame.setBackground(new Color(255, 255, 255));
-		aViewFrame.setTitle("AuthoringApp view");
+		aViewFrame.setTitle("AuthoringApp View: " + initialPrompt);
 		aViewFrame.getAccessibleContext().setAccessibleDescription("Authoring App Editor");
-		aViewFrame.setBounds(0, 0, 1170, 800);
+		aViewFrame.setBounds(0, 0, 1170, 780);
 		aViewFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		aViewFrame.addWindowListener(new confirmClose());
 		aViewFrame.setLocationRelativeTo(null);
@@ -1327,24 +1329,26 @@ public class AuthoringViewerTest {
 	}
 
 	private void setUpFrame() {
+		container = new JPanel();
 		aViewFrame = new JFrame();
 		aViewFrame.setResizable(true);
 		this.aViewFrame.setLocationByPlatform(true);
-
-		aViewFrame.getContentPane().setBackground(new Color(217, 217, 217));
+		container.setBackground(new Color(217, 217, 217));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 500, 270, 300 };
-		gridBagLayout.rowHeights = new int[] { 20, 300, 8, 50, 100, 310, 50 };
+		gridBagLayout.rowHeights = new int[] { 20, 250, 8, 50, 100, 250, 50 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE, 0.1 };
 		gridBagLayout.rowWeights = new double[] { Double.MIN_VALUE, 1.0, Double.MIN_VALUE, Double.MIN_VALUE, Double.MIN_VALUE, 2.0, Double.MIN_VALUE };
-		aViewFrame.getContentPane().setLayout(gridBagLayout);
+		container.setLayout(gridBagLayout);
+		JScrollPane jsp = new JScrollPane(container);
+		aViewFrame.add(jsp);
 	}
 
 	private void createResponseCell() {
 		generalCellPanel = new JPanel();
 		generalCellPanel.repaint();
 		generalCellPanel.setBackground(new Color(217, 217, 217));
-		aViewFrame.getContentPane().add(generalCellPanel);
+		container.add(generalCellPanel);
 		generalCellPanel.setLayout(null);
 		// generalCellPanel.setEnabled(enable);
 
@@ -1463,7 +1467,7 @@ public class AuthoringViewerTest {
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 5;
-		aViewFrame.getContentPane().add(generalCellPanel, gbc_panel);
+		container.add(generalCellPanel, gbc_panel);
 		responseCellLabel = new JLabel("CELL: 1/" + this.numCells);
 		responseCellLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		responseCellLabel.setBounds(70, 0, 104, 15);
@@ -1502,7 +1506,7 @@ public class AuthoringViewerTest {
 	private void createPromptCell() {
 		JPanel generalCellPanel = new JPanel();
 		generalCellPanel.setBackground(new Color(217, 217, 217));
-		aViewFrame.getContentPane().add(generalCellPanel);
+		container.add(generalCellPanel);
 		generalCellPanel.setLayout(null);
 
 		JButton button_6 = new JButton("<");
@@ -1606,7 +1610,7 @@ public class AuthoringViewerTest {
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 1;
-		aViewFrame.getContentPane().add(generalCellPanel, gbc_panel);
+		container.add(generalCellPanel, gbc_panel);
 		promptCellLabel = new JLabel("CELL: 1/" + this.numCells);
 		promptCellLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		promptCellLabel.setBounds(70, 0, 98, 15);
@@ -1665,7 +1669,7 @@ public class AuthoringViewerTest {
 		});
 		JScrollPane promptPane = new JScrollPane(promptTextField);
 		promptPane.setBounds(10, 50, 450, 300);
-		aViewFrame.getContentPane().add(promptPane, promptText);
+		container.add(promptPane, promptText);
 
 		JLabel lblPrompt = new JLabel("PROMPT");
 		lblPrompt.setFont(new Font("Tahoma", Font.BOLD, 14));
