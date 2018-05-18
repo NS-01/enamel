@@ -323,10 +323,25 @@ public class AuthoringViewerTest {
 		JComboBox comboBox = new JComboBox();
 		comboBox.setRenderer(new CustomComboBoxRenderer("INSERT ACTION"));
 		comboBox.setModel(
-				new DefaultComboBoxModel(new String[] { "Play Audio File", "Display Character", "Display String" }));
+				new DefaultComboBoxModel(new String[] {"Play Audio File", "Display Character", "Display String", "-Clear Selection-"}));
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 14));
 		comboBox.setSelectedIndex(-1);
 		undoRedoPanel.add(comboBox);
+		
+		comboBox.addItemListener(new ItemListener() {
+			int count = 0;
+			
+			@Override
+			public void itemStateChanged(ItemEvent itemEvent) {
+				int state = itemEvent.getStateChange();
+				if(state ==1){
+					if(comboBox.getSelectedIndex() == 0){
+						addAudioToPrompt();
+					}
+				}
+				
+			}
+		});
 
 		KeyStroke undoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK);
 		KeyStroke redoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK);
@@ -692,11 +707,22 @@ public class AuthoringViewerTest {
 		JMenu mnInsert = new JMenu("Insert...");
 		mnAudio.add(mnInsert);
 
-		JMenuItem mntmToCard = new JMenuItem("to Card");
-		mnInsert.add(mntmToCard);
+		JMenuItem mntmToPrompt = new JMenuItem("to Prompt");
+		mnInsert.add(mntmToPrompt);
+		mntmToPrompt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addAudioToPrompt();
+			}
+		});
 
 		JMenuItem mntmToButton = new JMenuItem("to Button");
 		mnInsert.add(mntmToButton);
+		mntmToButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				addAudioToButton();
+			}
+		});
+		
 		mntmRecord.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1063,7 +1089,7 @@ public class AuthoringViewerTest {
 		gridBagLayout.rowWeights = new double[] { 1.0, Double.MIN_VALUE, 0.0, Double.MIN_VALUE, 2.0 };
 		container.setLayout(gridBagLayout);
 		JScrollPane jsp = new JScrollPane(container);
-		aViewFrame.add(jsp);
+		aViewFrame.getContentPane().add(jsp);
 	}
 
 	private void createResponseCell() {
@@ -1689,6 +1715,101 @@ public class AuthoringViewerTest {
 		responseCell = 0;
 		setResponseCellPins(cards.get(currCard).getButtonList().get(currButton).getCells().get(responseCell));
 		responseCellLabel.setText("CELL: 1/" + numCells);
+	}
+
+	/**
+	 * Adds action to insert an audio file to a button
+	 */
+	private void addAudioToButton() {
+		JFileChooser fc = new JFileChooser();
+		FileFilter wavFilter = new FileFilter() {
+			@Override
+			public String getDescription() {
+				return "Sound file (*.WAV)";
+			}
+
+			@Override
+			public boolean accept(File file) {
+				if (file.isDirectory()) {
+					return true;
+				} else {
+					return file.getName().toLowerCase().endsWith(".wav");
+				}
+			}
+		};
+
+		fc.setFileFilter(wavFilter);
+		fc.setAcceptAllFileFilterUsed(false);
+		fc.setCurrentDirectory(new java.io.File("./FactoryScenarios/AudioFiles"));
+		fc.setDialogTitle("Please Choose File to Open");
+		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			String temp = fc.getSelectedFile().getName().toString();
+
+			if (temp.length() > 4) {
+				if (!temp.toLowerCase().endsWith(".wav")) {
+					JOptionPane.showMessageDialog(null, "Please select a .wav file", "Alert",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					if (!buttonEdit) {
+						buttonEditor.setText("");
+						buttonEdit = true;
+					}
+					setButtonText(buttonEditor.getText() + "\n/Play sound file " + (temp));
+					updateButton();
+					cards.get(currCard).getButtonList().get(currButton).setAudio(temp);
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Please select a .wav file", "Alert",
+						JOptionPane.ERROR_MESSAGE);
+			}
+
+		}
+	}
+
+	/**
+	 * Adds action to insert an audio file to Prompt
+	 */
+	private void addAudioToPrompt() {
+		JFileChooser fc = new JFileChooser();
+		FileFilter wavFilter = new FileFilter() {
+			@Override
+			public String getDescription() {
+				return "Sound file (*.WAV)";
+			}
+
+			@Override
+			public boolean accept(File file) {
+				if (file.isDirectory()) {
+					return true;
+				} else {
+					return file.getName().toLowerCase().endsWith(".wav");
+				}
+			}
+		};
+
+		fc.setFileFilter(wavFilter);
+		fc.setAcceptAllFileFilterUsed(false);
+		fc.setCurrentDirectory(new java.io.File("./FactoryScenarios/AudioFiles"));
+		fc.setDialogTitle("Please Choose File to Open");
+		fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+		if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+			String temp = fc.getSelectedFile().getName().toString();
+
+			if (temp.length() > 4) {
+				if (!temp.toLowerCase().endsWith(".wav")) {
+					JOptionPane.showMessageDialog(null, "Please select a .wav file", "Alert",
+							JOptionPane.ERROR_MESSAGE);
+				} else {
+					setPromptText(promptTextField.getText() + "\n/Play sound file " + (temp));
+					cards.get(currCard).setSound(temp);
+				}
+			} else {
+				JOptionPane.showMessageDialog(null, "Please select a .wav file", "Alert",
+						JOptionPane.ERROR_MESSAGE);
+			}
+
+		}
 	}
 
 	class CustomComboBoxRenderer extends JLabel implements ListCellRenderer {

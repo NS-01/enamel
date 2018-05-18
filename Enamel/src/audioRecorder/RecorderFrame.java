@@ -71,11 +71,14 @@ public class RecorderFrame {
 
 	private JPanel contentPane;
 	private JTextField textField;
+	private JLabel lblTimer;
+	private JLabel lblTimer_1;
 	JEditorPane tViewHelp;
 	JButton recordNewButton;
 	JButton stopRecordingButton;
 
 	private Boolean isRecording;
+	private audioTimer audioTimer;
 
 	private static final int BUFFER_SIZE = 4096;
 	private ByteArrayOutputStream recordBytes;
@@ -83,6 +86,8 @@ public class RecorderFrame {
 	private AudioFormat format;
 
 	private boolean isRunning;
+	private boolean donePlaying;
+	private boolean stopPlayBack;
 
 	private String path;
 	private JButton resetButton;
@@ -223,7 +228,8 @@ public class RecorderFrame {
 		contentPane.add(stopRecordingButton);
 
 		// Label for record timer
-		JLabel lblTimer = new JLabel("STATUS:");
+		//JLabel 
+		lblTimer = new JLabel("STATUS:");
 		lblTimer.getAccessibleContext().setAccessibleDescription("Indicates whether the recorder is recording or not");
 		lblTimer.setFont(new Font("Tahoma", Font.BOLD, 12));
 		lblTimer.setBounds(350, 152, 54, 29);
@@ -281,6 +287,9 @@ public class RecorderFrame {
 		JScrollPane scrollPane = new JScrollPane(tViewHelp);
 		scrollPane.setBounds(20, 5, 877, 132);
 		contentPane.add(scrollPane);
+		
+		lblTimer_1 = new JLabel("Timer");
+		scrollPane.setColumnHeaderView(lblTimer_1);
 
 		if (textField.getText() == "Ready") {
 			recorderFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -341,6 +350,8 @@ public class RecorderFrame {
 
 		});
 		record.start();
+		audioTimer = new audioTimer(lblTimer_1);
+		audioTimer.start();
 	}
 
 	/**
@@ -532,15 +543,44 @@ public class RecorderFrame {
 			Clip clip = AudioSystem.getClip();
 			clip.open(AudioSystem.getAudioInputStream(new File(sound)));
 			clip.start();
+			
+			donePlaying = false;
 			// This while loop is to check if the audio file has played or not,
 			// and if it has not then it will
 			// continue to wait until it does.
-			while (!clip.isRunning())
+			while (!clip.isRunning()) {
 				Thread.sleep(10);
-			while (clip.isRunning()){
-				Thread.sleep(10);
-				/*btnPlay.repaint();
+			}
+			
+			while (!donePlaying) {
+				// wait for the audio playback to be done
 				btnPlay.setText("Stop");
+				btnPlay.setEnabled(true);
+				stopPlayBack = false;
+				btnPlay.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						// TODO Auto-generated method stub
+						btnPlay.setText("Play");
+						stopPlayBack = true;
+					}
+				});
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException ex) {
+					ex.printStackTrace();
+					if (stopPlayBack) {
+						clip.stop();
+						break;
+					}
+				}
+			}
+			//while (clip.isRunning()){
+				//Thread.sleep(10);
+				//btnPlay.repaint();
+			/*	btnPlay.setText("Stop");
+				btnPlay.setEnabled(true);
 				btnPlay.addActionListener(new ActionListener() {
 					
 					@Override
@@ -556,7 +596,7 @@ public class RecorderFrame {
 						}
 					}
 				});*/
-			}
+			//}
 			clip.close();
 			
 
