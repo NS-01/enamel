@@ -34,6 +34,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -150,6 +152,7 @@ public class AuthoringViewerTest {
 	private JRadioButton rspEight;
 	private JPanel buttonPanel;
 	private JPanel generalCellPanel;
+	private JPanel undoRedoPanel;
 	private JList actionList;
 	private DefaultListModel<String> actionListModel;
 
@@ -340,59 +343,19 @@ public class AuthoringViewerTest {
 				}
 				int state = itemEvent.getStateChange();
 				if (state == 1) {
+					promptTextField.requestFocus();
+					promptTextField.transferFocus();
 					System.out.println(comboBox.getSelectedIndex());
 					if (comboBox.getSelectedIndex() == 0) {
 						// Put stuff for play sound here
 						// ********************************************************************
 						comboBox.setSelectedIndex(-1);
 					} else if (comboBox.getSelectedIndex() == 1) {
-						boolean checkChar = false;
-						String input = null;
-						while (!checkChar) {
-							String inputValue = JOptionPane.showInputDialog("Enter a character");
-							if (inputValue == null)
-								checkChar = true;
-							else {
-								if (inputValue.length() == 1 && Character.isLetterOrDigit(inputValue.charAt(0))) {
-									checkChar = true;
-									input = inputValue;
-								} else {
-									JOptionPane.showMessageDialog(null,
-											"Error, enter one character. If you wish to display a string use that option");
-								}
-							}
-
-						}
-						if (input != null) {
-							setPromptText(promptTextField.getText() + "\n/Display character " + input);
-						}
-						comboBox.setSelectedIndex(-1);
+						displayCharacter(comboBox);
 					} else if (comboBox.getSelectedIndex() == 2) {
-						boolean checkStr = false;
-						String input = null;
-						while (!checkStr) {
-							checkStr = true;
-							String inputValue = JOptionPane.showInputDialog("Enter a string");
-							input = inputValue;
-							if (inputValue == null) {
-								checkStr = true;
-							} else {
-								for (int i = 0; i < inputValue.length(); i++) {
-									if (!Character.isLetterOrDigit(inputValue.charAt(i))) {
-										checkStr = false;
-										input = null;
-										JOptionPane.showMessageDialog(null,
-												"Error, string must consist of letters and numbers only");
-									}
-								}
-							}
-
-						}
-						if (input != null) {
-							setPromptText(promptTextField.getText() + "\n/Display string " + input);
-						}
-						comboBox.setSelectedIndex(-1);
+						displayString(comboBox);
 					}
+					updatePrompt();
 				}
 				// selectedCells = comboBox.getSelectedIndex();
 			}
@@ -407,7 +370,6 @@ public class AuthoringViewerTest {
 
 			@Override
 			public void undoableEditHappened(UndoableEditEvent e) {
-				// TODO Auto-generated method stub
 				undoManager.addEdit(e.getEdit());
 			}
 		});
@@ -455,7 +417,7 @@ public class AuthoringViewerTest {
 	 * Undo redo pause and other actions
 	 *************************************************************/
 	private void createResponseUndoRedoPanelButtons() {
-		JPanel undoRedoPanel = new JPanel();
+		undoRedoPanel = new JPanel();
 		GridBagConstraints gbc_undoRedoPanel = new GridBagConstraints();
 		gbc_undoRedoPanel.insets = new Insets(0, 10, 5, 5);
 		gbc_undoRedoPanel.fill = GridBagConstraints.BOTH;
@@ -465,6 +427,7 @@ public class AuthoringViewerTest {
 
 		Icon undoIcon = new ImageIcon("Images/undo-16.png");
 		undoRedoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		undoRedoPanel.setVisible(false);
 		JButton btnUndo = new JButton("Undo", undoIcon);
 		btnUndo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		// btnUndo.setSelectedIcon(new
@@ -501,6 +464,8 @@ public class AuthoringViewerTest {
 				}
 				int state = itemEvent.getStateChange();
 				if (state == 1) {
+					buttonEditor.requestFocus();
+					buttonEditor.transferFocus();
 					if (comboBox.getSelectedIndex() == 0) {
 						boolean checkChar = false;
 						String input = null;
@@ -509,7 +474,7 @@ public class AuthoringViewerTest {
 							if (inputValue == null)
 								checkChar = true;
 							else {
-								if (inputValue.length() == 1 && Character.isLetterOrDigit(inputValue.charAt(0))) {
+								if (inputValue.length() == 1 && Character.isLetter(inputValue.charAt(0))) {
 									checkChar = true;
 									input = inputValue;
 								} else {
@@ -520,7 +485,33 @@ public class AuthoringViewerTest {
 
 						}
 						if (input != null) {
-							setButtonText(buttonEditor.getText() + "\n/Display character " + input);
+							if (input != null) {
+								boolean checkNumber = false;
+								int cellNum = -1;
+								while (!checkNumber) {
+									String inputValue = JOptionPane.showInputDialog("Please input which cell to dispay it on");
+									if (inputValue == null)
+										checkNumber = true;
+									else {
+										try {
+											cellNum = Integer.parseInt(inputValue);
+											if (cellNum >= 1 && cellNum <= numCells) {
+												checkNumber = true;
+											} else {
+												JOptionPane.showMessageDialog(null, "Error, enter a number between 1 and the number of cells.");
+											}
+										} catch (NumberFormatException exception) {
+											// error
+											JOptionPane.showMessageDialog(null, "Error, not a integer. Please try again.");
+										}
+									}
+
+								}
+								if (cellNum != -1) {
+									setButtonText(buttonEditor.getText() + "\n/Display character " + input + " on cell " + cellNum);
+								}
+							}
+//							setButtonText(buttonEditor.getText() + "\n/Display character " + input);
 						}
 						comboBox.setSelectedIndex(-1);
 					} else if (comboBox.getSelectedIndex() == 1) {
@@ -534,7 +525,7 @@ public class AuthoringViewerTest {
 								checkStr = true;
 							} else {
 								for (int i = 0; i < inputValue.length(); i++) {
-									if (!Character.isLetterOrDigit(inputValue.charAt(i))) {
+									if (!Character.isLetter(inputValue.charAt(i))) {
 										checkStr = false;
 										input = null;
 										JOptionPane.showMessageDialog(null,
@@ -549,6 +540,7 @@ public class AuthoringViewerTest {
 						}
 						comboBox.setSelectedIndex(-1);
 					}
+					updateButton();
 				}
 			}
 		});
@@ -562,7 +554,6 @@ public class AuthoringViewerTest {
 //
 //			@Override
 //			public void undoableEditHappened(UndoableEditEvent e) {
-//				// TODO Auto-generated method stub
 //				undoManager.addEdit(e.getEdit());
 //			}
 //		});
@@ -612,6 +603,8 @@ public class AuthoringViewerTest {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				promptTextField.requestFocus();
+				promptTextField.transferFocus();
 				count++;
 				// logger.log(Level.INFO, "Pause Button was pressed.");
 				// logger.log(Level.INFO, "Pause Button was pressed {0} times",
@@ -641,6 +634,7 @@ public class AuthoringViewerTest {
 				}
 				if (time != -1) {
 					setPromptText(promptTextField.getText() + "\n/Wait for " + time + " second(s)");
+					updatePrompt();
 				}
 			}
 		};
@@ -657,6 +651,8 @@ public class AuthoringViewerTest {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				buttonEditor.requestFocus();
+				buttonEditor.transferFocus();
 				count++;
 				// logger.log(Level.INFO, "Pause Button was pressed.");
 				// logger.log(Level.INFO, "Pause Button was pressed {0} times",
@@ -686,6 +682,7 @@ public class AuthoringViewerTest {
 				}
 				if (time != -1) {
 					setButtonText(buttonEditor.getText() + "\n/Wait for " + time + " second(s)");
+					updateButton();
 				}
 			}
 		};
@@ -1055,9 +1052,11 @@ public class AuthoringViewerTest {
 		btnNextCard.getAccessibleContext().setAccessibleDescription("Click to switch to the next card");
 		btnNextCard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				buttonEditor.setEnabled(false);
-				buttonPanel.setVisible(false);
-				generalCellPanel.setVisible(false);
+				setVisible(false);
+//				buttonEditor.setEnabled(false);
+//				buttonPanel.setVisible(false);
+//				generalCellPanel.setVisible(false);
+//				undoRedoPanel.setVisible(false);
 				if (cards.size() > currCard + 1) {
 					nextCard();
 				} else {
@@ -1254,6 +1253,30 @@ public class AuthoringViewerTest {
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		list.setLayoutOrientation(JList.VERTICAL);
 		list.setVisibleRowCount(-1);
+		list.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent evt) {
+		        JList list = (JList)evt.getSource();
+		        if (evt.getClickCount() == 2) {
+		        	int index = list.locationToIndex(evt.getPoint());
+		        	if (currCard < index) {
+		        		for (int i = currCard; i < index; i++) {
+			        		nextCard();
+			        	}
+		        	} else {
+		        		for (int i = currCard; i > index; i--) {
+			        		prevCard();
+			        	}
+		        	}
+		        	
+		            
+		        } else if (evt.getClickCount() == 3) {
+
+		            // Triple-click detected
+		            int index = list.locationToIndex(evt.getPoint());
+		        }
+		    }
+		});
+		
 		JScrollPane listScroller = new JScrollPane(list);
 		listPanel.add(listScroller);
 		JLabel lblOrder = new JLabel("ORDER");
@@ -1480,6 +1503,8 @@ public class AuthoringViewerTest {
 		JButton rspRaisePins = new JButton("Raise Pins");
 		rspRaisePins.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
+				buttonEditor.requestFocus();
+				buttonEditor.transferFocus();
 				String inputValue = updateResponseCell();
 				setButtonText(buttonEditor.getText() + "\n/Pins on " + (responseCell + 1) + ": " + inputValue);
 				updatePrompt();
@@ -1991,6 +2016,7 @@ public class AuthoringViewerTest {
 			buttonEditor.setBackground(new Color(230, 230, 230));
 		buttonPanel.setVisible(b);
 		generalCellPanel.setVisible(b);
+		undoRedoPanel.setVisible(b);
 	}
 
 	/**
@@ -2032,6 +2058,80 @@ public class AuthoringViewerTest {
 		responseCell = 0;
 		setResponseCellPins(cards.get(currCard).getButtonList().get(currButton).getCells().get(responseCell));
 		responseCellLabel.setText("CELL: 1/" + numCells);
+	}
+
+	private void displayCharacter(JComboBox comboBox) {
+		boolean checkChar = false;
+		String input = null;
+		while (!checkChar) {
+			String inputValue = JOptionPane.showInputDialog("Enter a character");
+			if (inputValue == null)
+				checkChar = true;
+			else {
+				if (inputValue.length() == 1 && Character.isLetter(inputValue.charAt(0))) {
+					checkChar = true;
+					input = inputValue;
+				} else {
+					JOptionPane.showMessageDialog(null,
+							"Error, enter one character. If you wish to display a string use that option");
+				}
+			}
+
+		}
+		if (input != null) {
+			boolean checkNumber = false;
+			int cellNum = -1;
+			while (!checkNumber) {
+				String inputValue = JOptionPane.showInputDialog("Please input which cell to dispay it on");
+				if (inputValue == null)
+					checkNumber = true;
+				else {
+					try {
+						cellNum = Integer.parseInt(inputValue);
+						if (cellNum >= 1 && cellNum <= numCells) {
+							checkNumber = true;
+						} else {
+							JOptionPane.showMessageDialog(null, "Error, enter a number between 1 and the number of cells.");
+						}
+					} catch (NumberFormatException exception) {
+						// error
+						JOptionPane.showMessageDialog(null, "Error, not a integer. Please try again.");
+					}
+				}
+
+			}
+			if (cellNum != -1) {
+				setPromptText(promptTextField.getText() + "\n/Display character " + input + " on cell " + cellNum);
+			}
+		}
+		comboBox.setSelectedIndex(-1);
+	}
+
+	private void displayString(JComboBox comboBox) {
+		boolean checkStr = false;
+		String input = null;
+		while (!checkStr) {
+			checkStr = true;
+			String inputValue = JOptionPane.showInputDialog("Enter a string");
+			input = inputValue;
+			if (inputValue == null) {
+				checkStr = true;
+			} else {
+				for (int i = 0; i < inputValue.length(); i++) {
+					if (!Character.isLetter(inputValue.charAt(i))) {
+						checkStr = false;
+						input = null;
+						JOptionPane.showMessageDialog(null,
+								"Error, string must consist of letters and numbers only");
+					}
+				}
+			}
+
+		}
+		if (input != null) {
+			setPromptText(promptTextField.getText() + "\n/Display string " + input);
+		}
+		comboBox.setSelectedIndex(-1);
 	}
 
 	class CustomComboBoxRenderer extends JLabel implements ListCellRenderer {

@@ -130,11 +130,11 @@ public class FileToCardsParser {
 		}
 		// Checks title
 		fileLine = fileScanner.nextLine();
-		//if (fileLine.length() >= 1) {
-			title = initialPrompt;
-		//} else {
-		//	throw new IllegalArgumentException();
-		//}
+		// if (fileLine.length() >= 1) {
+		title = initialPrompt;
+		// } else {
+		// throw new IllegalArgumentException();
+		// }
 	}
 
 	/**
@@ -186,39 +186,76 @@ public class FileToCardsParser {
 			buttons.add(new DataButton(currButton));
 			inButton = false;
 			nextCard();
-//<<<<<<< HEAD
-//		} else if(fileLine.equals("/~pause:")){
-//			insertPause();
-//=======
+			// <<<<<<< HEAD
+			// } else if(fileLine.equals("/~pause:")){
+			// insertPause();
+			// =======
 		} else if (fileLine.length() >= 8 && fileLine.substring(0, 8).equals("/~pause:")) {
 			if (inButton) {
 				currButton.addText("/Wait for " + Character.getNumericValue(fileLine.charAt(8)) + " second(s)");
 			} else {
 				currCard.addText("/Wait for " + Character.getNumericValue(fileLine.charAt(8)) + " second(s)");
 			}
-		} else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~disp-string:")) {
-			if (inButton) {
-				currButton.addText("/Display string " + fileLine.substring(14) );
+		} else if (fileLine.length() >= 14 && fileLine.substring(0, 14).equals("/~disp-string:")) {if (inButton) {
+				currButton.addText("/Display string " + fileLine.substring(14));
 			} else {
-				currCard.addText("/Display string " + fileLine.substring(14) );
+				currCard.addText("/Display string " + fileLine.substring(14));
 			}
 		} else if (fileLine.length() >= 17 && fileLine.substring(0, 17).equals("/~disp-cell-char:")) {
-			if (inButton) {
-				currButton.addText("/Display character " + fileLine.charAt(17) );
+			if (!inButton) {
+				currCell = new BrailleCell();
+				try {
+					String[] param = fileLine.substring(17).split("\\s");
+					int paramIndex = Integer.parseInt(param[0]);
+					char dispChar = param[1].charAt(0);
+					System.out.println(paramIndex + ", " + dispChar);
+					if (paramIndex > numCells - 1 || paramIndex < 0 || param[1].length() > 1) {
+						System.out.println("Incorrect format of /~disp-cell-char");
+					} else {
+						currCell.displayCharacter(dispChar);
+						try {
+							cells.set(paramIndex, currCell);
+						} catch (Exception e) {
+							while (cells.size() < Character.getNumericValue(fileLine.charAt(17))) {
+								cells.add(new BrailleCell());
+							}
+							cells.add(currCell);
+						}
+						currCard.addText("/Display character " + dispChar + " on cell " + paramIndex + 1);
+					}
+
+				} catch (InterruptedException e1) {
+
+				}
+
 			} else {
-				currCard.addText("/Display character  " + fileLine.charAt(17) );
+				String[] param = fileLine.substring(17).split("\\s");
+				int paramIndex = Integer.parseInt(param[0]);
+				char dispChar = param[1].charAt(0);
+				System.out.println(paramIndex + ", " + dispChar);
+				if (paramIndex > numCells - 1 || paramIndex < 0 || param[1].length() > 1) {
+					System.out.println("Incorrect format of /~disp-cell-char");
+				} else {
+					currButton.addText("/Display character " + dispChar + " on cell " + paramIndex + 1);
+				}
 			}
+			// if (inButton) {
+			// currButton.addText("/Display character " + fileLine.charAt(17) );
+			// } else {
+			// currCard.addText("/Display character " + fileLine.charAt(17) );
+			// }
 		} else if (fileLine.equals("/~disp-clearAll")) {
 			if (inButton) {
 				currButton.addText("/Clear all pins");
 			} else {
 				currCard.addText("/Clear all pins");
 			}
-//>>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
+			// >>>>>>> branch 'TestingUpdates' of https://github.com/NS-01/forked_enamel
 		}
+
 		checkButtons();
-		if (currLineNum == numLines) {
-			//buttons.clear();
+		if (currLineNum == numLines){
+			// buttons.clear();
 			if (cells.isEmpty()) {
 				cells.add(new BrailleCell());
 			}
@@ -277,14 +314,16 @@ public class FileToCardsParser {
 	 */
 	private void insertPause() {
 		if (!inButton) {
-			//type in prompt section
-			currCard.addText("/Pause for " + (Character.getNumericValue(fileLine.charAt(8))+1) + ": " + fileLine.substring(10));
+			// type in prompt section
+			currCard.addText("/Pause for " + (Character.getNumericValue(fileLine.charAt(8)) + 1) + ": "
+					+ fileLine.substring(10));
 		} else {
-			//type in button section
-			currButton.addText("\n/Pins on " + (Character.getNumericValue(fileLine.charAt(8))+1) + ": " + fileLine.substring(10));
+			// type in button section
+			currButton.addText("\n/Pins on " + (Character.getNumericValue(fileLine.charAt(8)) + 1) + ": "
+					+ fileLine.substring(10));
 		}
 	}
-	
+
 	/**
 	 * checks if the current line is one to start the buttons
 	 */
@@ -347,7 +386,7 @@ public class FileToCardsParser {
 		currCard = new Card(cardNum - 1, "Card " + cardNum, "notSure", true);
 		buttons = new ArrayList<DataButton>(numButtons);
 		cells = new ArrayList<BrailleCell>(numCells);
-		title= this.initialPrompt;
+		title = this.initialPrompt;
 		currButton = new DataButton(buttonNum);
 		currCell = new BrailleCell();
 	}
@@ -363,7 +402,7 @@ public class FileToCardsParser {
 	public String getTitle() {
 		return this.title;
 	}
-	
+
 	public ArrayList<Card> getCards() {
 		return this.cards;
 	}
@@ -384,7 +423,7 @@ public class FileToCardsParser {
 		if (cards.size() > 0) {
 			Card temp = cards.get(cards.size() - 1);
 			if (temp.getCells().isEmpty() && temp.getButtonList().get(0).getText() == "" && temp.getText() == null) {
-				//this.endingPrompt = temp.getText();
+				// this.endingPrompt = temp.getText();
 				cards.remove(temp);
 				this.lastRemoved = true;
 			} else {
