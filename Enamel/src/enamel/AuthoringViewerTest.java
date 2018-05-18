@@ -1503,11 +1503,10 @@ public class AuthoringViewerTest {
 		JButton rspRaisePins = new JButton("Raise Pins");
 		rspRaisePins.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
-				buttonEditor.requestFocus();
-				buttonEditor.transferFocus();
 				String inputValue = updateResponseCell();
 				setButtonText(buttonEditor.getText() + "\n/Pins on " + (responseCell + 1) + ": " + inputValue);
-				updatePrompt();
+				updateResponseCell();
+				updateButton();
 			}
 		});
 		rspRaisePins.setBounds(54, 165, 114, 23);
