@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="windows-1252" standalone="no"?>
+<!DOCTYPE log SYSTEM "logger.dtd">
+<log>
+<record>
+  <date>2018-05-19T14:16:46</date>
+  <millis>1526753806506</millis>
+  <sequence>4</sequence>
+  <logger>ACTIONS_LOG</logger>
+  <level>INFO</level>
+  <class>enamel.AuthoringViewerTest</class>
+  <method>&lt;init&gt;</method>
+  <thread>18</thread>
+  <message>Start of Action Logging</message>
+</record>

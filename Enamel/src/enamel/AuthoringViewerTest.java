@@ -41,8 +41,15 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.FileHandler;
+import java.util.logging.Formatter;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 import javax.swing.SwingConstants;
 import java.awt.GridBagLayout;
@@ -80,6 +87,7 @@ import javax.swing.BoxLayout;
 import java.lang.Object;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
@@ -194,6 +202,8 @@ public class AuthoringViewerTest {
 	private JMenuItem mntmToButton;
 	private JMenuItem mntmUserManual;
 
+	public Logger logger = Logger.getLogger(this.getClass().getName());// Logger.getLogger("ACTIONS_LOG");
+
 	// public static void main(String[] args) {
 	// EventQueue.invokeLater(new Runnable() {
 	// public void run() {
@@ -222,7 +232,7 @@ public class AuthoringViewerTest {
 
 		if (initialPrompt == null || initialPrompt.equals("")) {
 			this.initialPrompt = "New Scenario";
-			//this.initialPrompt = "";
+			// this.initialPrompt = "";
 			this.title = this.initialPrompt;
 		} else {
 			this.initialPrompt = initialPrompt;
@@ -236,10 +246,9 @@ public class AuthoringViewerTest {
 
 		this.numCells = numCells;
 		this.cards = new ArrayList<Card>(cards);
-		if(this.cards.size()==0){
-			
-		}
-		else if (this.cards.get(0).getButtonList().isEmpty()) {
+		if (this.cards.size() == 0) {
+
+		} else if (this.cards.get(0).getButtonList().isEmpty()) {
 			this.cards.get(0).getButtonList().add(new DataButton(0));
 		}
 		this.path = "";
@@ -249,6 +258,42 @@ public class AuthoringViewerTest {
 		this.responseCell = 0;
 		this.currCard = 0;
 
+		// Console Handler
+		ConsoleHandler consoleHandler = new ConsoleHandler();
+		consoleHandler.setFormatter(new Formatter() {
+			private String format = "[%1$s] [%2$s] %3$s %n";
+			private SimpleDateFormat dateWithMillis = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
+
+			@Override
+			public String format(LogRecord record) {
+				return String.format(format, dateWithMillis.format(new Date()), record.getSourceClassName(),
+						formatMessage(record));
+			}
+		});
+		// File Handler Below can be used to Obtain the Log in a File after
+		// some additional Formatting
+
+		/*
+		 * FileHandler fileHandler; try { File f = new File("ACTIONS_LOG.txt");
+		 * fileHandler = new FileHandler(f.toString()); //SimpleFormatter
+		 * formatter = new SimpleFormatter(); //
+		 * fileHandler.setFormatter(formatter); // // logger.warning(exception);
+		 * logger.addHandler(fileHandler); logger.setLevel(Level.ALL);
+		 * logger.setUseParentHandlers(false);
+		 * logger.info("Start of Action Logging"); // fh.close();
+		 * fileHandler.setFormatter(new Formatter() { private String format =
+		 * "[%1$s] [%2$s] %3$s %n"; private SimpleDateFormat dateWithMillis =
+		 * new SimpleDateFormat("MM-dd-yyyy HH:mm:ss.SSS");
+		 * 
+		 * @Override public String format(LogRecord record) { return
+		 * String.format(format, dateWithMillis.format(new Date()),
+		 * record.getSourceClassName(), formatMessage(record)); } });
+		 * //fileHandler.setFormatter(formatter); fileHandler.close();
+		 * 
+		 * } catch (SecurityException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); } catch (IOException e) { // TODO Auto-generated
+		 * catch block e.printStackTrace(); }
+		 */
 	}
 
 	/**
@@ -297,17 +342,24 @@ public class AuthoringViewerTest {
 		// end new commit
 
 		btnEnableUserResponse = new JButton("Enable User Response");
-		btnEnableUserResponse.addActionListener(new ActionListener() {
+		Action buttonActionResponse = new AbstractAction("Enable User Response") {
+			int count = 0;
+
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				count++;
+				logger.log(Level.INFO, "Enable User Response Button was pressed.");
+				logger.log(Level.INFO, "Enable User Response Button was pressed {0} times", count);
 				// on button Press Enable the button panel and button pane
 				// buttonEditor.setEnabled(true);
 				// buttonPanel.setVisible(true);
 				// generalCellPanel.setVisible(true);
-				//mntmToButton.setEnabled(true);
+				// mntmToButton.setEnabled(true);
 				cards.get(currCard).setEnabled(true);
 				setVisible(true);
 			}
-		});
+		};
+		btnEnableUserResponse.setAction(buttonActionResponse);
 		btnEnableUserResponse.setFont(new Font("Tahoma", Font.BOLD, 14));
 		GridBagConstraints gbc_btnEnableUserResponse = new GridBagConstraints();
 		gbc_btnEnableUserResponse.insets = new Insets(0, 0, 5, 5);
@@ -380,10 +432,9 @@ public class AuthoringViewerTest {
 
 			public void itemStateChanged(ItemEvent itemEvent) {
 				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-					// count++;
-					// logger.log(Level.INFO, "Cell Combo Box was used.");
-					// logger.log(Level.INFO, "Cell Combo Box was used {0}
-					// times", count);
+					count++;
+					logger.log(Level.INFO, "INSERT ACTION Combo Box was used.");
+					logger.log(Level.INFO, "INSERT ACTION Combo Box was used {0} times", count);
 				}
 				int state = itemEvent.getStateChange();
 				if (state == 1) {
@@ -499,25 +550,31 @@ public class AuthoringViewerTest {
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 14));
 		comboBox.setSelectedIndex(-1);
 		undoRedoResponsePanel.add(comboBox);
-		/*container.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { cardNamePanel, nameLabel,
-				txtCardName, promptPane, generalCellPanel_1, promptTextField, button_8, button_9, lblPrompt,
-				cellPanel_1, pOne, pFour, pTwo, pFive, pThree, pSix, pSeven, pEight, promptCellLabel, btnRaisePins,
-				btnReset, listPanel, listScroller, list, lblOrder, listButtonPanel, btnCardUp, btnCardDown,
-				buttonLabelPanel, lblButtons, buttonPanel, buttonPane, buttonEditor, generalCellPanel, button_6,
-				button_7, cellPanel, rspOne, rspFour, rspTwo, rspFive, rspThree, rspSix, rspSeven, rspEight,
-				responseCellLabel, rspRaisePins, rspReset, secondaryPrevNextPanel, prevAndNextPanel, btnPreviousCard,
-				btnNextCard_1, btnEnableUserResponse, actionListScroller, actionList, undoRedoPanel, btnUndo_1,
-				btnRedo_1, btnPause_1, comboBox_1, undoRedoResponsePanel, btnUndo, btnRedo, btnPause, comboBox }));*/
+		/*
+		 * container.setFocusTraversalPolicy(new FocusTraversalOnArray(new
+		 * Component[] { cardNamePanel, nameLabel, txtCardName, promptPane,
+		 * generalCellPanel_1, promptTextField, button_8, button_9, lblPrompt,
+		 * cellPanel_1, pOne, pFour, pTwo, pFive, pThree, pSix, pSeven, pEight,
+		 * promptCellLabel, btnRaisePins, btnReset, listPanel, listScroller,
+		 * list, lblOrder, listButtonPanel, btnCardUp, btnCardDown,
+		 * buttonLabelPanel, lblButtons, buttonPanel, buttonPane, buttonEditor,
+		 * generalCellPanel, button_6, button_7, cellPanel, rspOne, rspFour,
+		 * rspTwo, rspFive, rspThree, rspSix, rspSeven, rspEight,
+		 * responseCellLabel, rspRaisePins, rspReset, secondaryPrevNextPanel,
+		 * prevAndNextPanel, btnPreviousCard, btnNextCard_1,
+		 * btnEnableUserResponse, actionListScroller, actionList, undoRedoPanel,
+		 * btnUndo_1, btnRedo_1, btnPause_1, comboBox_1, undoRedoResponsePanel,
+		 * btnUndo, btnRedo, btnPause, comboBox }));
+		 */
 
 		comboBox.addItemListener(new ItemListener() {
 			int count = 0;
 
 			public void itemStateChanged(ItemEvent itemEvent) {
 				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
-					// count++;
-					// logger.log(Level.INFO, "Cell Combo Box was used.");
-					// logger.log(Level.INFO, "Cell Combo Box was used {0}
-					// times", count);
+					count++;
+					logger.log(Level.INFO, "Button INSERT ACTION Combo Box was used.");
+					logger.log(Level.INFO, "Button INSERT ACTION Combo Box was used {0} times", count);
 				}
 				int state = itemEvent.getStateChange();
 				if (state == 1) {
@@ -672,9 +729,8 @@ public class AuthoringViewerTest {
 				promptTextField.requestFocus();
 				promptTextField.transferFocus();
 				count++;
-				// logger.log(Level.INFO, "Pause Button was pressed.");
-				// logger.log(Level.INFO, "Pause Button was pressed {0} times",
-				// count);
+				logger.log(Level.INFO, "Pause Button was pressed.");
+				logger.log(Level.INFO, "Pause Button was pressed {0} times", count);
 				// String inputValue = JOptionPane.showInputDialog("Please input
 				// pause time in seconds");
 				boolean checkNumber = false;
@@ -721,9 +777,8 @@ public class AuthoringViewerTest {
 				buttonEditor.requestFocus();
 				buttonEditor.transferFocus();
 				count++;
-				// logger.log(Level.INFO, "Pause Button was pressed.");
-				// logger.log(Level.INFO, "Pause Button was pressed {0} times",
-				// count);
+				logger.log(Level.INFO, "Pause Button for Buttton Response was pressed.");
+				logger.log(Level.INFO, "Pause Button for Button Response was pressed {0} times", count);
 				// String inputValue = JOptionPane.showInputDialog("Please input
 				// pause time in seconds");
 				boolean checkNumber = false;
@@ -1015,7 +1070,7 @@ public class AuthoringViewerTest {
 		mntmFullscreen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				aViewFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+				aViewFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				aViewFrame.setUndecorated(true);
 			}
 		});
@@ -1031,38 +1086,60 @@ public class AuthoringViewerTest {
 
 		JMenuItem mntmToPrompt = new JMenuItem("to Prompt");
 		mnInsert.add(mntmToPrompt);
-		mntmToPrompt.addActionListener(new ActionListener() {
+		Action buttonActionPrompt = new AbstractAction("to Prompt") {
+			int count = 0;
+
+			@Override
 			public void actionPerformed(ActionEvent e) {
+				count++;
+				logger.log(Level.INFO, "Add Audio to Prompt option was Selected.");
+				logger.log(Level.INFO, "Add Audio to Prompt option was Selected {0} times", count);
+
 				promptTextField.requestFocus();
 				promptTextField.transferFocus();
 				addAudioToPrompt();
 				updatePrompt();
 			}
-		});
+		};
+		mntmToPrompt.addActionListener(buttonActionPrompt);
 
 		mntmToButton = new JMenuItem("to Button");
 		mntmToButton.setEnabled(false);
 		mnInsert.add(mntmToButton);
-		mntmToButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				addAudioToButton();
-			}
-		});
+		Action buttonActionResponse = new AbstractAction("to Button") {
+			int count = 0;
 
-		mntmRecord.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				count++;
+				logger.log(Level.INFO, "Add Audio to Button option was Selected.");
+				logger.log(Level.INFO, "Add Audio to Button option was Selected {0} times", count);
+
+				addAudioToButton();
+			}
+		};
+		mntmToButton.addActionListener(buttonActionResponse);
+
+		Action buttonActionRecord = new AbstractAction("Record") {
+			int count = 0;
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				count++;
+				logger.log(Level.INFO, "Record Audio option was Selected.");
+				logger.log(Level.INFO, "Record Audio option was Selected {0} times", count);
+
 				RecorderFrame rf = new RecorderFrame();
 				RecorderFrame.displayRecorder();
 			}
-		});
-
+		};
+		mntmRecord.addActionListener(buttonActionRecord);
 		JMenu mnHelp = new JMenu("HELP");
 		menuBar.add(mnHelp);
 
 		JMenuItem mntmTutorial = new JMenuItem("Tutorial");
 		mnHelp.add(mntmTutorial);
-		
+
 		mntmUserManual = new JMenuItem("User Manual");
 		mnHelp.add(mntmUserManual);
 		mntmUserManual.addActionListener(new ActionListener() {
@@ -1072,14 +1149,15 @@ public class AuthoringViewerTest {
 				// Update to latest Manual Required.
 				if (Desktop.isDesktopSupported()) {
 					try {
-						Desktop.getDesktop().browse(new URI("https://github.com/NS-01/forked_enamel/blob/master/Documentation/2311%20-%20User%20Manual%20%5BMidterm%20Submission%5D.pdf"));
+						Desktop.getDesktop().browse(new URI(
+								"https://github.com/NS-01/forked_enamel/blob/master/Documentation/2311%20-%20User%20Manual%20%5BMidterm%20Submission%5D.pdf"));
 					} catch (IOException | URISyntaxException e1) {
 						e1.printStackTrace();
 					}
 				}
 			}
 		});
-		
+
 		mntmTutorial.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1163,7 +1241,7 @@ public class AuthoringViewerTest {
 		prevAndNextPanel.add(btnNextCard_1, BorderLayout.SOUTH);
 		container.add(secondaryPrevNextPanel, gbc_secondaryPrevNextPanel);
 	}
-	
+
 	/**
 	 * 
 	 * @param btnNextCard
@@ -1175,8 +1253,8 @@ public class AuthoringViewerTest {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				count++;
-				//logger.log(Level.INFO, "Previous Card Button was pressed.");
-				//logger.log(Level.INFO, "Previous Card Button was pressed {0} times", count);
+				logger.log(Level.INFO, "Previous Card Button was pressed.");
+				logger.log(Level.INFO, "Previous Card Button was pressed {0} times", count);
 				if (currCard == 0) {
 					JOptionPane.showMessageDialog(null, "You are already at the first card", "Alert",
 							JOptionPane.ERROR_MESSAGE);
@@ -1186,11 +1264,13 @@ public class AuthoringViewerTest {
 			}
 		};
 		btnPrevCard.setAction(buttonAction);
-		// Keyboard Shortcut Ctrl + left arrow ( <- ) works only when Window or Previous Card button is in focus.
-		btnPrevCard.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.CTRL_MASK), "Previous Card");
+		// Keyboard Shortcut Ctrl + left arrow ( <- ) works only when Window or
+		// Previous Card button is in focus.
+		btnPrevCard.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.CTRL_MASK), "Previous Card");
 		btnPrevCard.getActionMap().put("Previous Card", buttonAction);
 	}
-	
+
 	/**
 	 * @param btnNextCard
 	 */
@@ -1201,8 +1281,8 @@ public class AuthoringViewerTest {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				count++;
-				//logger.log(Level.INFO, "Next Card Button was pressed.");
-				//logger.log(Level.INFO, "Next Card Button was pressed {0} times", count);
+				logger.log(Level.INFO, "Next Card Button was pressed.");
+				logger.log(Level.INFO, "Next Card Button was pressed {0} times", count);
 				setVisible(false);
 				// buttonEditor.setEnabled(false);
 				// buttonPanel.setVisible(false);
@@ -1221,8 +1301,10 @@ public class AuthoringViewerTest {
 			}
 		};
 		btnNextCard.setAction(buttonAction);
-		// Keyboard Shortcut Ctrl + right arrow ( -> ) works only when Window or Next Card button is in focus.
-		btnNextCard.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, ActionEvent.CTRL_MASK), "Next Card");
+		// Keyboard Shortcut Ctrl + right arrow ( -> ) works only when Window or
+		// Next Card button is in focus.
+		btnNextCard.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, ActionEvent.CTRL_MASK), "Next Card");
 		btnNextCard.getActionMap().put("Next Card", buttonAction);
 	}
 
@@ -1662,7 +1744,9 @@ public class AuthoringViewerTest {
 			}
 		});
 		generalCellPanel.add(rspReset);
-		generalCellPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{responseCellLabel, button_6, rspFour, cellPanel, rspOne, rspTwo, rspThree, rspFive, rspSix, rspSeven, rspEight, button_7, rspRaisePins, rspReset}));
+		generalCellPanel.setFocusTraversalPolicy(
+				new FocusTraversalOnArray(new Component[] { responseCellLabel, button_6, rspFour, cellPanel, rspOne,
+						rspTwo, rspThree, rspFive, rspSix, rspSeven, rspEight, button_7, rspRaisePins, rspReset }));
 	}
 
 	private void createPromptCell() {
@@ -1781,14 +1865,21 @@ public class AuthoringViewerTest {
 		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
 		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		btnRaisePins = new JButton("Raise Pins");
-		btnRaisePins.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
+		Action buttonActionRaise = new AbstractAction("Raise Pins") {
+			int count = 0;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				count++;
+				logger.log(Level.INFO, "Raise Pins to Prompt Button was pressed.");
+				logger.log(Level.INFO, "Raise Pins to Prompt Button was pressed {0} times", count);
 				String inputValue = updateResponseCell();
 				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell + 1) + ": " + inputValue);
 				updateResponseCell();
 				updatePrompt();
 			}
-		});
+		};
+		btnRaisePins.setAction(buttonActionRaise);
 		btnRaisePins.setBounds(54, 165, 114, 23);
 		generalCellPanel_1.add(btnRaisePins);
 
@@ -1796,16 +1887,25 @@ public class AuthoringViewerTest {
 		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		btnReset = new JButton("Reset");
 		btnReset.setBounds(54, 195, 114, 23);
-		btnReset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
+		Action buttonActionReset = new AbstractAction("Reset") {
+			int count = 0;
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				count++;
+				logger.log(Level.INFO, "Reset to Prompt Button was pressed.");
+				logger.log(Level.INFO, "Reset to Prompt Button was pressed {0} times", count);
 				String inputValue = resetCurrCellPins();
 				setPromptText(promptTextField.getText() + "\n/Clear all pins");
 				updateCell();
 				updatePrompt();
 			}
-		});
+		};
+		btnReset.setAction(buttonActionReset);
 		generalCellPanel_1.add(btnReset);
-		generalCellPanel_1.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{promptCellLabel, cellPanel_1, button_8, pOne, pTwo, pThree, pFour, pFive, pSix, pSeven, pEight, button_9, btnRaisePins, btnReset}));
+		generalCellPanel_1.setFocusTraversalPolicy(
+				new FocusTraversalOnArray(new Component[] { promptCellLabel, cellPanel_1, button_8, pOne, pTwo, pThree,
+						pFour, pFive, pSix, pSeven, pEight, button_9, btnRaisePins, btnReset }));
 	}
 
 	private void createPromptTextField() {
@@ -2296,7 +2396,7 @@ public class AuthoringViewerTest {
 		boolean checkChar = false;
 		String input = null;
 		while (!checkChar) {
-			String inputValue = JOptionPane.showInputDialog("Enter a character");
+			String inputValue = JOptionPane.showInputDialog("Enter a letter \nNumber NOT Allowed");
 			if (inputValue == null)
 				checkChar = true;
 			else {
@@ -2305,7 +2405,7 @@ public class AuthoringViewerTest {
 					input = inputValue;
 				} else {
 					JOptionPane.showMessageDialog(null,
-							"Error, enter one character. If you wish to display a string use that option");
+							"Error, enter one letter. If you wish to display a string use that option. For further assistance consult user manual");
 				}
 			}
 
@@ -2354,7 +2454,7 @@ public class AuthoringViewerTest {
 					if (!Character.isLetter(inputValue.charAt(i))) {
 						checkStr = false;
 						input = null;
-						JOptionPane.showMessageDialog(null, "Error, string must consist of letters and numbers only");
+						JOptionPane.showMessageDialog(null, "Error, string must consist of letters only");
 					}
 				}
 			}
