@@ -87,6 +87,7 @@ import javax.swing.BoxLayout;
 import java.lang.Object;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JSplitPane;
@@ -993,24 +994,30 @@ public class AuthoringViewerTest {
 				if (path.equals("")) {
 					JOptionPane.showMessageDialog(null, "Please save first", "Alert", JOptionPane.ERROR_MESSAGE);
 				} else {
-					updateButton();
-					updatePrompt();
-					updateCell();
-					CardsToFileParser a = new CardsToFileParser(cards, numButtons, numCells, initialPrompt,
-							endingPrompt);
-					a.createBody();
-					ScenarioWriter sW = new ScenarioWriter(path);
-					try {
-						sW.write(a.getText());
-						new Thread(new Runnable() {
-							@Override
-							public void run() {
-								ScenarioParser s = new ScenarioParser(true);
-								s.setScenarioFile(path);
-							}
-						}).start();
-					} catch (IOException e1) {
-						System.out.println("failed to print");
+					int option = JOptionPane.showConfirmDialog(null, "This will overwrite you current save, do you wish to continue?",
+							"Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+					if (option == JOptionPane.YES_OPTION) {
+						updateButton();
+						updatePrompt();
+						updateCell();
+						CardsToFileParser a = new CardsToFileParser(cards, numButtons, numCells, initialPrompt,
+								endingPrompt);
+						a.createBody();
+						ScenarioWriter sW = new ScenarioWriter(path);
+						try {
+							sW.write(a.getText());
+							new Thread(new Runnable() {
+								@Override
+								public void run() {
+									ScenarioParser s = new ScenarioParser(true);
+									s.setScenarioFile(path);
+								}
+							}).start();
+						} catch (IOException e1) {
+							System.out.println("failed to print");
+						}
+					} else {
+						// do nothing
 					}
 				}
 
@@ -2364,9 +2371,16 @@ public class AuthoringViewerTest {
 						buttonEditor.setText("");
 						buttonEdit = true;
 					}
-					setButtonText(buttonEditor.getText() + "\n/Play sound file " + (temp));
-					updateButton();
-					cards.get(currCard).getButtonList().get(currButton).setAudio(temp);
+					try {
+						Files.copy(fc.getSelectedFile().toPath(), new File("." + File.separator + "FactoryScenarios" + File.separator + "AudioFiles" + File.separator + temp).toPath());
+						setButtonText(buttonEditor.getText() + "\n/Play sound file " + (temp));
+						updateButton();
+						cards.get(currCard).getButtonList().get(currButton).setAudio(temp);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, "Failed to copy file. Please try again.", "Alert",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Please select a .wav file", "Alert", JOptionPane.ERROR_MESSAGE);
@@ -2409,8 +2423,16 @@ public class AuthoringViewerTest {
 					JOptionPane.showMessageDialog(null, "Please select a .wav file", "Alert",
 							JOptionPane.ERROR_MESSAGE);
 				} else {
-					setPromptText(promptTextField.getText() + "\n/Play sound file " + (temp));
-					cards.get(currCard).setSound(temp);
+					try {
+						Files.copy(fc.getSelectedFile().toPath(), new File("." + File.separator + "FactoryScenarios" + File.separator + "AudioFiles" + File.separator + temp).toPath());
+						setPromptText(promptTextField.getText() + "\n/Play sound file " + (temp));
+						updatePrompt();
+						cards.get(currCard).setSound(temp);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, "Failed to copy file. Please try again.", "Alert",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					
 				}
 			} else {
 				JOptionPane.showMessageDialog(null, "Please select a .wav file", "Alert", JOptionPane.ERROR_MESSAGE);

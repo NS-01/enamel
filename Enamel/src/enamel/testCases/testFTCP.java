@@ -30,7 +30,7 @@ public class testFTCP {
 		FileToCardsParser f = new FileToCardsParser();
 		assertEquals(new ArrayList<Card>(), f.getCards());
 	}
-	
+
 	@Test
 	public void testCheckNumLines() throws IOException {
 		FileWriter write = new FileWriter(currPath, false);
@@ -155,7 +155,7 @@ public class testFTCP {
 
 	@Test
 	public void testCommands() throws IOException {
-		//test insertPause
+		// test insertPause
 		FileWriter write = new FileWriter(currPath, false);
 		PrintWriter print = new PrintWriter(write);
 		String text = "Cell 1\r\n" + "Button 4";
@@ -164,61 +164,49 @@ public class testFTCP {
 		FileToCardsParser f = new FileToCardsParser();
 		write = new FileWriter(currPath, false);
 		print = new PrintWriter(write);
-		text = "Cell 5\r\n" + "Button 7\r\n" + "\r\n" + "/~pause:2\r\n"
-				+ "/~skip-button:0 ONEE\r\n" + "/~skip-button:1 TWOO\r\n" + "/~user-input\r\n" + "/~ONEE\r\n"
-				+ "/~pause:1\r\n" + "/~skip:NEXTT\r\n" + "/~TWOO";
+		text = "Cell 5\r\n" + "Button 7\r\n" + "\r\n" + "/~pause:2\r\n" + "/~skip-button:0 ONEE\r\n"
+				+ "/~skip-button:1 TWOO\r\n" + "/~user-input\r\n" + "/~ONEE\r\n" + "/~pause:1\r\n" + "/~skip:NEXTT\r\n"
+				+ "/~TWOO";
 		print.printf("%s" + "%n", text);
 		print.close();
 		f = new FileToCardsParser();
 		f.setFile(currPath);
 		ArrayList<Card> cards = f.getCards();
-		assertEquals(
-				"/Wait for 2 second(s)",
-				cards.get(0).getText());
-		assertEquals(
-				"/Wait for 1 second(s)",
-				cards.get(0).getButtonList().get(0).getText());
-		
-		
-		//test dispCellChar
+		assertEquals("/Wait for 2 second(s)", cards.get(0).getText());
+		assertEquals("/Wait for 1 second(s)", cards.get(0).getButtonList().get(0).getText());
+
+		// test dispCellChar
 		write = new FileWriter(currPath, false);
 		print = new PrintWriter(write);
-		text = "Cell 5\r\n" + "Button 7\r\n" + "\r\n" + "/~disp-cell-char:0 a\r\n"
-				+ "/~skip-button:0 ONEE\r\n" + "/~skip-button:1 TWOO\r\n" + "/~user-input\r\n" + "/~ONEE\r\n"
-				+ "/~disp-cell-char:0 b\r\n" + "/~skip:NEXTT\r\n" + "/~TWOO";
+		text = "Cell 5\r\n" + "Button 7\r\n" + "\r\n" + "/~disp-cell-char:0 a\r\n" + "/~skip-button:0 ONEE\r\n"
+				+ "/~skip-button:1 TWOO\r\n" + "/~user-input\r\n" + "/~ONEE\r\n" + "/~disp-cell-char:0 b\r\n"
+				+ "/~skip:NEXTT\r\n" + "/~TWOO";
 		print.printf("%s" + "%n", text);
 		print.close();
 		f = new FileToCardsParser();
 		f.setFile(currPath);
 		cards = f.getCards();
-		assertEquals(
-				"/Display character a on cell 1",
-				cards.get(0).getText());
-		assertEquals(
-				"/Display character b on cell 1",
-				cards.get(0).getButtonList().get(0).getText());
-		
-		//test dispString
-				write = new FileWriter(currPath, false);
-				print = new PrintWriter(write);
-				text = "Cell 5\r\n" + "Button 7\r\n" + "\r\n" + "/~disp-string:asdf\r\n"
-						+ "/~skip-button:0 ONEE\r\n" + "/~skip-button:1 TWOO\r\n" + "/~user-input\r\n" + "/~ONEE\r\n"
-						+ "/~disp-string:qwer\r\n" + "/~skip:NEXTT\r\n" + "/~TWOO";
-				print.printf("%s" + "%n", text);
-				print.close();
-				f = new FileToCardsParser();
-				f.setFile(currPath);
-				cards = f.getCards();
-				assertEquals(
-						"/Display string asdf",
-						cards.get(0).getText());
-				assertEquals(
-						"/Display string qwer",
-						cards.get(0).getButtonList().get(0).getText());
-		
-		
+		assertEquals("/Display character a on cell 1", cards.get(0).getText());
+		assertEquals("/Display character b on cell 1", cards.get(0).getButtonList().get(0).getText());
+
+		// test dispString
+		write = new FileWriter(currPath, false);
+		print = new PrintWriter(write);
+		text = "Cell 5\r\n" + "Button 7\r\n" + "\r\n" + "/~disp-string:asdf\r\n" + "/~skip-button:0 ONEE\r\n"
+				+ "/~skip-button:1 TWOO\r\n" + "/~skip-button:2 THREEE\r\n" + "/~skip-button:3 FOURR\r\n"
+				+ "/~skip-button:4 FIVEE\r\n" + "/~skip-button:6 SIXX\r\n" + "/~user-input\r\n" + "/~ONEE\r\n"
+				+ "/~disp-string:qwer\r\n" + "/~skip:NEXTT\r\n" + "/~TWOO\r\n" + "/~THREEE\r\n" + "/~FOURR\r\n"
+				+ "/~FIVEE\r\n" + "/~SIXX";
+		print.printf("%s" + "%n", text);
+		print.close();
+		f = new FileToCardsParser();
+		f.setFile(currPath);
+		cards = f.getCards();
+		assertEquals("/Display string asdf", cards.get(0).getText());
+		assertEquals("/Display string qwer", cards.get(0).getButtonList().get(0).getText());
+
 	}
-	
+
 	@Test
 	public void testGetCards() {
 		FileToCardsParser f = new FileToCardsParser();
@@ -252,7 +240,8 @@ public class testFTCP {
 						+ "What pins are up right now? Are they the pins 1 and 4, or are they the pins 3 and 6?\n"
 						+ "Press the button 1 for pins 1 and 4, or press button 2 for pins 3 and 6.",
 				cards.get(2).getText());
-		assertEquals("/Play sound file correct.wav\nThat's correct! The pins being displayed are 3 and 6, which are the two bottom pins.",
+		assertEquals(
+				"/Play sound file correct.wav\nThat's correct! The pins being displayed are 3 and 6, which are the two bottom pins.",
 				cards.get(2).getButtonList().get(1).getText());
 		assertEquals(false, cards.get(2).getCells().get(0).getPinState(0));
 		assertEquals(false, cards.get(2).getCells().get(0).getPinState(1));
@@ -268,7 +257,9 @@ public class testFTCP {
 		f.setFile("./FactoryScenarios/Scenario_1.txt");
 		cards = f.getCards();
 
-		assertEquals("Directional orientation\n/Pins on 1: 11100000\nThese are pins 1, 2 and 3, the 3 pins on the left side. \n" + "Press button 1 to continue.",
+		assertEquals(
+				"Directional orientation\n/Pins on 1: 11100000\nThese are pins 1, 2 and 3, the 3 pins on the left side. \n"
+						+ "Press button 1 to continue.",
 				cards.get(0).getText());
 
 		assertEquals("/Wait for 1 second(s)", cards.get(0).getButtonList().get(0).getText());
@@ -282,10 +273,10 @@ public class testFTCP {
 		assertEquals(false, cards.get(0).getCells().get(0).getPinState(6));
 		assertEquals(false, cards.get(0).getCells().get(0).getPinState(7));// testing card 0 (Scenario_2.txt)
 
-		assertEquals("/Pins on 1: 11000000\nThese are pins 1 and 2, the top two pins on the left side. \n" + "Press button 1 to continue.",
-				cards.get(2).getText());
+		assertEquals("/Pins on 1: 11000000\nThese are pins 1 and 2, the top two pins on the left side. \n"
+				+ "Press button 1 to continue.", cards.get(2).getText());
 		assertEquals("/Wait for 1 second(s)", cards.get(2).getButtonList().get(0).getText());
-		
+
 		assertEquals(true, cards.get(2).getCells().get(0).getPinState(0));
 		assertEquals(true, cards.get(2).getCells().get(0).getPinState(1));
 		assertEquals(false, cards.get(2).getCells().get(0).getPinState(2));
