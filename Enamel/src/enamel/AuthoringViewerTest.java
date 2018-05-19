@@ -85,6 +85,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import java.awt.CardLayout;
 import javax.swing.ImageIcon;
+import org.eclipse.wb.swing.FocusTraversalOnArray;
 
 /**
  *
@@ -155,6 +156,42 @@ public class AuthoringViewerTest {
 	private JPanel undoRedoResponsePanel;
 	private JList actionList;
 	private DefaultListModel<String> actionListModel;
+	private JScrollPane promptPane;
+	private JLabel lblPrompt;
+	private JPanel generalCellPanel_1;
+	private JButton button_8;
+	private JButton button_9;
+	private JLabel nameLabel;
+	private JPanel cellPanel_1;
+	private JButton btnRaisePins;
+	private JButton btnReset;
+	private JPanel listPanel;
+	private JScrollPane listScroller;
+	private JLabel lblOrder;
+	private JPanel listButtonPanel;
+	private JButton btnCardUp;
+	private JButton btnCardDown;
+	private JPanel cardNamePanel;
+	private JPanel buttonLabelPanel;
+	private JLabel lblButtons;
+	private JScrollPane buttonPane;
+	private JButton button_6;
+	private JButton button_7;
+	private JPanel cellPanel;
+	private JButton rspRaisePins;
+	private JButton rspReset;
+	private JPanel secondaryPrevNextPanel;
+	private JPanel prevAndNextPanel;
+	private JButton btnPreviousCard;
+	private JButton btnNextCard_1;
+	private JButton btnEnableUserResponse;
+	private JScrollPane actionListScroller;
+	private JPanel undoRedoPanel;
+	private JButton btnUndo_1;
+	private JButton btnRedo_1;
+	private JButton btnPause_1;
+	private JComboBox comboBox_1;
+	private JMenuItem mntmToButton;
 
 	// public static void main(String[] args) {
 	// EventQueue.invokeLater(new Runnable() {
@@ -184,6 +221,7 @@ public class AuthoringViewerTest {
 
 		if (initialPrompt == null || initialPrompt.equals("")) {
 			this.initialPrompt = "New Scenario";
+			//this.initialPrompt = "";
 			this.title = this.initialPrompt;
 		} else {
 			this.initialPrompt = initialPrompt;
@@ -197,7 +235,10 @@ public class AuthoringViewerTest {
 
 		this.numCells = numCells;
 		this.cards = new ArrayList<Card>(cards);
-		if (this.cards.get(0).getButtonList().isEmpty()) {
+		if(this.cards.size()==0){
+			
+		}
+		else if (this.cards.get(0).getButtonList().isEmpty()) {
 			this.cards.get(0).getButtonList().add(new DataButton(0));
 		}
 		this.path = "";
@@ -254,13 +295,14 @@ public class AuthoringViewerTest {
 		 */
 		// end new commit
 
-		JButton btnEnableUserResponse = new JButton("Enable User Response");
+		btnEnableUserResponse = new JButton("Enable User Response");
 		btnEnableUserResponse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// on button Press Enable the button panel and button pane
 				// buttonEditor.setEnabled(true);
 				// buttonPanel.setVisible(true);
 				// generalCellPanel.setVisible(true);
+				//mntmToButton.setEnabled(true);
 				cards.get(currCard).setEnabled(true);
 				setVisible(true);
 			}
@@ -273,7 +315,7 @@ public class AuthoringViewerTest {
 		container.add(btnEnableUserResponse, gbc_btnEnableUserResponse);
 
 		// Actions List View
-		JScrollPane actionListScroller = new JScrollPane((Component) null);
+		actionListScroller = new JScrollPane((Component) null);
 		GridBagConstraints gbc_actionListScroller = new GridBagConstraints();
 		gbc_actionListScroller.insets = new Insets(0, 0, 5, 0);
 		gbc_actionListScroller.fill = GridBagConstraints.BOTH;
@@ -297,7 +339,7 @@ public class AuthoringViewerTest {
 	 * Undo redo pause and other actions
 	 *************************************************************/
 	private void createUndoRedoPanelButtons() {
-		JPanel undoRedoPanel = new JPanel();
+		undoRedoPanel = new JPanel();
 		GridBagConstraints gbc_undoRedoPanel = new GridBagConstraints();
 		gbc_undoRedoPanel.insets = new Insets(0, 10, 5, 5);
 		gbc_undoRedoPanel.fill = GridBagConstraints.BOTH;
@@ -307,32 +349,32 @@ public class AuthoringViewerTest {
 
 		Icon undoIcon = new ImageIcon("Images/undo-16.png");
 		undoRedoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		JButton btnUndo = new JButton("Undo", undoIcon);
-		btnUndo.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnUndo_1 = new JButton("Undo", undoIcon);
+		btnUndo_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		// btnUndo.setSelectedIcon(new
 		// ImageIcon("Images/undo-16.png"),JButton.LEFT);
-		undoRedoPanel.add(btnUndo);
+		undoRedoPanel.add(btnUndo_1);
 
 		Icon redoIcon = new ImageIcon("Images/redo-16.png");
-		JButton btnRedo = new JButton("Redo", redoIcon);
-		btnRedo.setFont(new Font("Tahoma", Font.BOLD, 14));
-		undoRedoPanel.add(btnRedo);
+		btnRedo_1 = new JButton("Redo", redoIcon);
+		btnRedo_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		undoRedoPanel.add(btnRedo_1);
 
-		JButton btnPause = new JButton("Pause", null);
-		btnPause.setFont(new Font("Tahoma", Font.BOLD, 14));
-		undoRedoPanel.add(btnPause);
+		btnPause_1 = new JButton("Pause", null);
+		btnPause_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		undoRedoPanel.add(btnPause_1);
 
-		pauseAction(btnPause);
+		pauseAction(btnPause_1);
 
-		JComboBox comboBox = new JComboBox();
-		comboBox.setRenderer(new CustomComboBoxRenderer("INSERT ACTION"));
-		comboBox.setModel(
+		comboBox_1 = new JComboBox();
+		comboBox_1.setRenderer(new CustomComboBoxRenderer("INSERT ACTION"));
+		comboBox_1.setModel(
 				new DefaultComboBoxModel(new String[] { "Play Audio File", "Display Character", "Display String" }));
-		comboBox.setFont(new Font("Tahoma", Font.BOLD, 14));
-		comboBox.setSelectedIndex(-1);
-		undoRedoPanel.add(comboBox);
+		comboBox_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		comboBox_1.setSelectedIndex(-1);
+		undoRedoPanel.add(comboBox_1);
 
-		comboBox.addItemListener(new ItemListener() {
+		comboBox_1.addItemListener(new ItemListener() {
 			int count = 0;
 
 			public void itemStateChanged(ItemEvent itemEvent) {
@@ -346,16 +388,16 @@ public class AuthoringViewerTest {
 				if (state == 1) {
 					promptTextField.requestFocus();
 					promptTextField.transferFocus();
-					System.out.println(comboBox.getSelectedIndex());
-					if (comboBox.getSelectedIndex() == 0) {
+					System.out.println(comboBox_1.getSelectedIndex());
+					if (comboBox_1.getSelectedIndex() == 0) {
 						// Put stuff for play sound here
 						// ********************************************************************
 						// comboBox.setSelectedIndex(-1);
 						addAudioToPrompt();
-					} else if (comboBox.getSelectedIndex() == 1) {
-						displayCharacter(comboBox);
-					} else if (comboBox.getSelectedIndex() == 2) {
-						displayString(comboBox);
+					} else if (comboBox_1.getSelectedIndex() == 1) {
+						displayCharacter(comboBox_1);
+					} else if (comboBox_1.getSelectedIndex() == 2) {
+						displayString(comboBox_1);
 					}
 					updatePrompt();
 				}
@@ -378,13 +420,13 @@ public class AuthoringViewerTest {
 			}
 		});
 		// Add ActionListeners
-		btnUndo.addActionListener((ActionEvent e) -> {
+		btnUndo_1.addActionListener((ActionEvent e) -> {
 			try {
 				undoManager.undo();
 			} catch (CannotUndoException cue) {
 			}
 		});
-		btnRedo.addActionListener((ActionEvent e) -> {
+		btnRedo_1.addActionListener((ActionEvent e) -> {
 			try {
 				undoManager.redo();
 			} catch (CannotRedoException cre) {
@@ -456,6 +498,15 @@ public class AuthoringViewerTest {
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 14));
 		comboBox.setSelectedIndex(-1);
 		undoRedoResponsePanel.add(comboBox);
+		/*container.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[] { cardNamePanel, nameLabel,
+				txtCardName, promptPane, generalCellPanel_1, promptTextField, button_8, button_9, lblPrompt,
+				cellPanel_1, pOne, pFour, pTwo, pFive, pThree, pSix, pSeven, pEight, promptCellLabel, btnRaisePins,
+				btnReset, listPanel, listScroller, list, lblOrder, listButtonPanel, btnCardUp, btnCardDown,
+				buttonLabelPanel, lblButtons, buttonPanel, buttonPane, buttonEditor, generalCellPanel, button_6,
+				button_7, cellPanel, rspOne, rspFour, rspTwo, rspFive, rspThree, rspSix, rspSeven, rspEight,
+				responseCellLabel, rspRaisePins, rspReset, secondaryPrevNextPanel, prevAndNextPanel, btnPreviousCard,
+				btnNextCard_1, btnEnableUserResponse, actionListScroller, actionList, undoRedoPanel, btnUndo_1,
+				btnRedo_1, btnPause_1, comboBox_1, undoRedoResponsePanel, btnUndo, btnRedo, btnPause, comboBox }));*/
 
 		comboBox.addItemListener(new ItemListener() {
 			int count = 0;
@@ -963,7 +1014,8 @@ public class AuthoringViewerTest {
 		mntmFullscreen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
+				aViewFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+				aViewFrame.setUndecorated(true);
 			}
 		});
 
@@ -987,7 +1039,8 @@ public class AuthoringViewerTest {
 			}
 		});
 
-		JMenuItem mntmToButton = new JMenuItem("to Button");
+		mntmToButton = new JMenuItem("to Button");
+		mntmToButton.setEnabled(false);
 		mnInsert.add(mntmToButton);
 		mntmToButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -1063,11 +1116,48 @@ public class AuthoringViewerTest {
 	}
 
 	private void createPrevNextButtons() {
-		JButton btnPreviousCard = new JButton("Previous Card");
+		btnPreviousCard = new JButton("Previous Card");
 		btnPreviousCard.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnPreviousCard.getAccessibleContext().setAccessibleDescription("Click to switch to the previus card");
-		btnPreviousCard.addActionListener(new ActionListener() {
+		goToPrevCard(btnPreviousCard);
+
+		btnNextCard_1 = new JButton("Next Card");
+		btnNextCard_1.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnNextCard_1.getAccessibleContext().setAccessibleDescription("Click to switch to the next card");
+		goToNextCard(btnNextCard_1);
+
+		prevAndNextPanel = new JPanel();
+		prevAndNextPanel.setBackground(new Color(217, 217, 217));
+		GridBagConstraints gbc_secondaryPrevNextPanel = new GridBagConstraints();
+		gbc_secondaryPrevNextPanel.fill = GridBagConstraints.BOTH;
+		gbc_secondaryPrevNextPanel.insets = new Insets(10, 5, 10, 10);
+		gbc_secondaryPrevNextPanel.gridx = 2;
+		gbc_secondaryPrevNextPanel.gridy = 5;
+		prevAndNextPanel.setLayout(new BorderLayout(5, 5));
+
+		secondaryPrevNextPanel = new JPanel();
+		secondaryPrevNextPanel.setBackground(new Color(217, 217, 217));
+		secondaryPrevNextPanel.setLayout(new BorderLayout(0, 0));
+		secondaryPrevNextPanel.add(prevAndNextPanel, BorderLayout.SOUTH);
+
+		prevAndNextPanel.add(btnPreviousCard, BorderLayout.NORTH);
+		prevAndNextPanel.add(btnNextCard_1, BorderLayout.SOUTH);
+		container.add(secondaryPrevNextPanel, gbc_secondaryPrevNextPanel);
+	}
+	
+	/**
+	 * 
+	 * @param btnNextCard
+	 */
+	private void goToPrevCard(JButton btnPrevCard) {
+		Action buttonAction = new AbstractAction("Previous Card") {
+			int count = 0;
+
+			@Override
 			public void actionPerformed(ActionEvent e) {
+				count++;
+				//logger.log(Level.INFO, "Previous Card Button was pressed.");
+				//logger.log(Level.INFO, "Previous Card Button was pressed {0} times", count);
 				if (currCard == 0) {
 					JOptionPane.showMessageDialog(null, "You are already at the first card", "Alert",
 							JOptionPane.ERROR_MESSAGE);
@@ -1075,13 +1165,25 @@ public class AuthoringViewerTest {
 					prevCard();
 				}
 			}
-		});
+		};
+		btnPrevCard.setAction(buttonAction);
+		// Keyboard Shortcut Ctrl + left arrow ( <- ) works only when Window or Previous Card button is in focus.
+		btnPrevCard.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, ActionEvent.CTRL_MASK), "Previous Card");
+		btnPrevCard.getActionMap().put("Previous Card", buttonAction);
+	}
+	
+	/**
+	 * @param btnNextCard
+	 */
+	private void goToNextCard(JButton btnNextCard) {
+		Action buttonAction = new AbstractAction("Next Card") {
+			int count = 0;
 
-		JButton btnNextCard = new JButton("Next Card");
-		btnNextCard.setFont(new Font("Tahoma", Font.BOLD, 14));
-		btnNextCard.getAccessibleContext().setAccessibleDescription("Click to switch to the next card");
-		btnNextCard.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
+				count++;
+				//logger.log(Level.INFO, "Next Card Button was pressed.");
+				//logger.log(Level.INFO, "Next Card Button was pressed {0} times", count);
 				setVisible(false);
 				// buttonEditor.setEnabled(false);
 				// buttonPanel.setVisible(false);
@@ -1098,34 +1200,20 @@ public class AuthoringViewerTest {
 					nextCard();
 				}
 			}
-		});
-
-		JPanel prevAndNextPanel = new JPanel();
-		prevAndNextPanel.setBackground(new Color(217, 217, 217));
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.insets = new Insets(10, 5, 10, 10);
-		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 5;
-		prevAndNextPanel.setLayout(new BorderLayout(5, 5));
-
-		JPanel secondaryPrevNextPanel = new JPanel();
-		secondaryPrevNextPanel.setBackground(new Color(217, 217, 217));
-		secondaryPrevNextPanel.setLayout(new BorderLayout(0, 0));
-		secondaryPrevNextPanel.add(prevAndNextPanel, BorderLayout.SOUTH);
-
-		prevAndNextPanel.add(btnPreviousCard, BorderLayout.NORTH);
-		prevAndNextPanel.add(btnNextCard, BorderLayout.SOUTH);
-		container.add(secondaryPrevNextPanel, gbc_panel);
+		};
+		btnNextCard.setAction(buttonAction);
+		// Keyboard Shortcut Ctrl + right arrow ( -> ) works only when Window or Next Card button is in focus.
+		btnNextCard.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, ActionEvent.CTRL_MASK), "Next Card");
+		btnNextCard.getActionMap().put("Next Card", buttonAction);
 	}
 
 	private void createResponsePanel() {
 		JPanel panel = new JPanel();
-		GridBagConstraints responseText = new GridBagConstraints();
-		responseText.insets = new Insets(10, 10, 10, 5);
-		responseText.fill = GridBagConstraints.BOTH;
-		responseText.gridx = 0;
-		responseText.gridy = 5;
+		GridBagConstraints gbc_buttonPane = new GridBagConstraints();
+		gbc_buttonPane.insets = new Insets(10, 10, 10, 5);
+		gbc_buttonPane.fill = GridBagConstraints.BOTH;
+		gbc_buttonPane.gridx = 0;
+		gbc_buttonPane.gridy = 5;
 
 		buttonEditor = new JEditorPane();
 		buttonEditor.setEnabled(false);
@@ -1146,21 +1234,21 @@ public class AuthoringViewerTest {
 			}
 		});
 
-		JScrollPane buttonPane = new JScrollPane(buttonEditor, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+		buttonPane = new JScrollPane(buttonEditor, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		container.add(buttonPane, responseText);
+		container.add(buttonPane, gbc_buttonPane);
 	}
 
 	private void createButtonLabelPanel() {
 
-		JPanel cardNamePanel = new JPanel();
+		cardNamePanel = new JPanel();
 		cardNamePanel.setBackground(new Color(217, 217, 217));
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(10, 5, 5, 10);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 0;
-		container.add(cardNamePanel, gbc_panel_1);
+		GridBagConstraints gbc_cardNamePanel = new GridBagConstraints();
+		gbc_cardNamePanel.insets = new Insets(10, 5, 5, 10);
+		gbc_cardNamePanel.fill = GridBagConstraints.BOTH;
+		gbc_cardNamePanel.gridx = 0;
+		gbc_cardNamePanel.gridy = 0;
+		container.add(cardNamePanel, gbc_cardNamePanel);
 
 		txtCardName = new JTextField();
 		txtCardName.setColumns(3);
@@ -1177,7 +1265,7 @@ public class AuthoringViewerTest {
 			}
 		});
 		cardNamePanel.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
-		JLabel nameLabel = new JLabel("Card Name: ");
+		nameLabel = new JLabel("Card Name: ");
 		nameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		cardNamePanel.add(nameLabel);
 
@@ -1186,7 +1274,7 @@ public class AuthoringViewerTest {
 		txtCardName.setColumns(10);
 		cardNamePanel.add(txtCardName);
 
-		JPanel buttonLabelPanel = new JPanel();
+		buttonLabelPanel = new JPanel();
 		GridBagConstraints gbc_buttonLabelPanel = new GridBagConstraints();
 		gbc_buttonLabelPanel.insets = new Insets(20, 10, 5, 5);
 		gbc_buttonLabelPanel.fill = GridBagConstraints.BOTH;
@@ -1195,7 +1283,7 @@ public class AuthoringViewerTest {
 		container.add(buttonLabelPanel, gbc_buttonLabelPanel);
 		buttonLabelPanel.setLayout(new BorderLayout(0, 5));
 
-		JLabel lblButtons = new JLabel("BUTTONS");
+		lblButtons = new JLabel("BUTTONS");
 		lblButtons.setFont(new Font("Tahoma", Font.BOLD, 14));
 		buttonLabelPanel.add(lblButtons, BorderLayout.NORTH);
 		buttonLabelPanel.setBackground(new Color(217, 217, 217));
@@ -1263,7 +1351,7 @@ public class AuthoringViewerTest {
 	}
 
 	private void createListPanel() {
-		JPanel listPanel = new JPanel();
+		listPanel = new JPanel();
 		listPanel.setBackground(new Color(217, 217, 217));
 		// panel3.setBounds(50,10,200,100);
 		GridBagConstraints gbc_listPanel = new GridBagConstraints();
@@ -1306,12 +1394,12 @@ public class AuthoringViewerTest {
 			}
 		});
 
-		JScrollPane listScroller = new JScrollPane(list);
+		listScroller = new JScrollPane(list);
 		listPanel.add(listScroller);
-		JLabel lblOrder = new JLabel("ORDER");
+		lblOrder = new JLabel("ORDER");
 		listScroller.setColumnHeaderView(lblOrder);
 
-		JButton btnCardUp = new JButton("Card Up");
+		btnCardUp = new JButton("Card Up");
 		btnCardUp.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCardUp.getAccessibleContext().setAccessibleDescription("Press to move selected card up in card list order");
 		btnCardUp.addActionListener(new ActionListener() {
@@ -1335,7 +1423,7 @@ public class AuthoringViewerTest {
 			}
 		});
 
-		JButton btnCardDown = new JButton("Card Down");
+		btnCardDown = new JButton("Card Down");
 		btnCardDown.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCardDown.getAccessibleContext()
 				.setAccessibleDescription("Press to move selected card down in card list order");
@@ -1359,7 +1447,7 @@ public class AuthoringViewerTest {
 			}
 		});
 
-		JPanel listButtonPanel = new JPanel();
+		listButtonPanel = new JPanel();
 		listButtonPanel.setBackground(new Color(217, 217, 217));
 		listButtonPanel.setLayout(new BorderLayout(5, 5));
 		listPanel.add(listButtonPanel, BorderLayout.SOUTH);
@@ -1395,7 +1483,7 @@ public class AuthoringViewerTest {
 		container.setLayout(gridBagLayout);
 		JScrollPane jsp = new JScrollPane(container);
 		// aViewFrame.getContentPane().add(jsp);
-		aViewFrame.add(jsp);
+		aViewFrame.getContentPane().add(jsp);
 	}
 
 	private void createResponseCell() {
@@ -1406,7 +1494,7 @@ public class AuthoringViewerTest {
 		generalCellPanel.setLayout(null);
 		// generalCellPanel.setEnabled(enable);
 
-		JButton button_6 = new JButton("<");
+		button_6 = new JButton("<");
 		button_6.setFont(new Font("Tahoma", Font.BOLD, 14));
 		button_6.getAccessibleContext().setAccessibleDescription("Go to previous cell to change raised pins");
 		button_6.setToolTipText("Left Cell Button");
@@ -1428,7 +1516,7 @@ public class AuthoringViewerTest {
 		button_6.setBounds(5, 70, 60, 40);
 		generalCellPanel.add(button_6);
 
-		JButton button_7 = new JButton(">");
+		button_7 = new JButton(">");
 		// button_7.setEnabled(enable);
 		button_7.setFont(new Font("Tahoma", Font.BOLD, 14));
 		button_7.getAccessibleContext().setAccessibleDescription("Go to Next cell within button to change raised pins");
@@ -1462,7 +1550,7 @@ public class AuthoringViewerTest {
 		button_7.setBounds(150, 70, 60, 40);
 		generalCellPanel.add(button_7);
 
-		JPanel cellPanel = new JPanel();
+		cellPanel = new JPanel();
 		cellPanel.setBounds(70, 20, 75, 140);
 		generalCellPanel.add(cellPanel);
 		cellPanel.setLayout(null);
@@ -1530,7 +1618,7 @@ public class AuthoringViewerTest {
 
 		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
 		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		JButton rspRaisePins = new JButton("Raise Pins");
+		rspRaisePins = new JButton("Raise Pins");
 		rspRaisePins.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
 				String inputValue = updateResponseCell();
@@ -1544,7 +1632,7 @@ public class AuthoringViewerTest {
 
 		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
 		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		JButton rspReset = new JButton("Reset");
+		rspReset = new JButton("Reset");
 		rspReset.setBounds(54, 195, 114, 23);
 		rspReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1555,19 +1643,20 @@ public class AuthoringViewerTest {
 			}
 		});
 		generalCellPanel.add(rspReset);
+		generalCellPanel.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{responseCellLabel, button_6, rspFour, cellPanel, rspOne, rspTwo, rspThree, rspFive, rspSix, rspSeven, rspEight, button_7, rspRaisePins, rspReset}));
 	}
 
 	private void createPromptCell() {
-		JPanel generalCellPanel = new JPanel();
-		generalCellPanel.setBackground(new Color(217, 217, 217));
-		container.add(generalCellPanel);
-		generalCellPanel.setLayout(null);
+		generalCellPanel_1 = new JPanel();
+		generalCellPanel_1.setBackground(new Color(217, 217, 217));
+		container.add(generalCellPanel_1);
+		generalCellPanel_1.setLayout(null);
 
-		JButton button_6 = new JButton("<");
-		button_6.setFont(new Font("Tahoma", Font.BOLD, 14));
-		button_6.getAccessibleContext().setAccessibleDescription("Go to previous cell to change raised pins");
-		button_6.setToolTipText("Left Cell Button");
-		button_6.addActionListener(new ActionListener() {
+		button_8 = new JButton("<");
+		button_8.setFont(new Font("Tahoma", Font.BOLD, 14));
+		button_8.getAccessibleContext().setAccessibleDescription("Go to previous cell to change raised pins");
+		button_8.setToolTipText("Left Cell Button");
+		button_8.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (currCell == 0) {
 					JOptionPane.showMessageDialog(null, "You are already at the first cell", "Alert",
@@ -1580,14 +1669,14 @@ public class AuthoringViewerTest {
 				}
 			}
 		});
-		button_6.setBounds(5, 70, 60, 40);
-		generalCellPanel.add(button_6);
+		button_8.setBounds(5, 70, 60, 40);
+		generalCellPanel_1.add(button_8);
 
-		JButton button_7 = new JButton(">");
-		button_7.setFont(new Font("Tahoma", Font.BOLD, 14));
-		button_7.getAccessibleContext().setAccessibleDescription("Go to Next cell to change raised pins");
-		button_7.setToolTipText("Right Cell Button");
-		button_7.addActionListener(new ActionListener() {
+		button_9 = new JButton(">");
+		button_9.setFont(new Font("Tahoma", Font.BOLD, 14));
+		button_9.getAccessibleContext().setAccessibleDescription("Go to Next cell to change raised pins");
+		button_9.setToolTipText("Right Cell Button");
+		button_9.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (currCell + 1 == numCells) {
 					JOptionPane.showMessageDialog(null, "You are already at the last cell", "Alert",
@@ -1611,68 +1700,68 @@ public class AuthoringViewerTest {
 
 			}
 		});
-		button_7.setBounds(150, 70, 60, 40);
-		generalCellPanel.add(button_7);
+		button_9.setBounds(150, 70, 60, 40);
+		generalCellPanel_1.add(button_9);
 
-		JPanel cellPanel = new JPanel();
-		cellPanel.setBounds(70, 20, 75, 140);
-		generalCellPanel.add(cellPanel);
-		cellPanel.setLayout(null);
+		cellPanel_1 = new JPanel();
+		cellPanel_1.setBounds(70, 20, 75, 140);
+		generalCellPanel_1.add(cellPanel_1);
+		cellPanel_1.setLayout(null);
 
 		pOne = new JRadioButton("");
 		pOne.setToolTipText("Pin One");
 		pOne.setBounds(6, 6, 28, 23);
-		cellPanel.add(pOne);
+		cellPanel_1.add(pOne);
 
 		pFour = new JRadioButton("");
 		pFour.setToolTipText("Pin Four");
 		pFour.setBounds(46, 6, 28, 23);
-		cellPanel.add(pFour);
+		cellPanel_1.add(pFour);
 
 		pTwo = new JRadioButton("");
 		pTwo.setToolTipText("Pin  Two");
 		pTwo.setBounds(6, 41, 28, 23);
-		cellPanel.add(pTwo);
+		cellPanel_1.add(pTwo);
 
 		pFive = new JRadioButton("");
 		pFive.setToolTipText("Pin  Five");
 		pFive.setBounds(46, 41, 28, 23);
-		cellPanel.add(pFive);
+		cellPanel_1.add(pFive);
 
 		pThree = new JRadioButton("");
 		pThree.setToolTipText("Pin  Three");
 		pThree.setBounds(6, 76, 28, 23);
-		cellPanel.add(pThree);
+		cellPanel_1.add(pThree);
 
 		pSix = new JRadioButton("");
 		pSix.setToolTipText("Pin  Six");
 		pSix.setBounds(46, 76, 28, 23);
-		cellPanel.add(pSix);
+		cellPanel_1.add(pSix);
 
 		pSeven = new JRadioButton("");
 		pSeven.setToolTipText("Pin  Seven");
 		pSeven.setBounds(6, 111, 28, 23);
-		cellPanel.add(pSeven);
+		cellPanel_1.add(pSeven);
 
 		pEight = new JRadioButton("");
 		pEight.setToolTipText("Pin  Eight");
 		pEight.setBounds(46, 111, 28, 23);
-		cellPanel.add(pEight);
+		cellPanel_1.add(pEight);
 
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(10, 5, 5, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 1;
-		container.add(generalCellPanel, gbc_panel);
+		GridBagConstraints gbc_generalCellPanel_1 = new GridBagConstraints();
+		gbc_generalCellPanel_1.insets = new Insets(10, 5, 5, 5);
+		gbc_generalCellPanel_1.fill = GridBagConstraints.BOTH;
+		gbc_generalCellPanel_1.gridx = 1;
+		gbc_generalCellPanel_1.gridy = 1;
+		container.add(generalCellPanel_1, gbc_generalCellPanel_1);
 		promptCellLabel = new JLabel("CELL: 1/" + this.numCells);
 		promptCellLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		promptCellLabel.setBounds(70, 0, 98, 15);
-		generalCellPanel.add(promptCellLabel);
+		generalCellPanel_1.add(promptCellLabel);
 
 		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
 		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		JButton btnRaisePins = new JButton("Raise Pins");
+		btnRaisePins = new JButton("Raise Pins");
 		btnRaisePins.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
 				String inputValue = updateResponseCell();
@@ -1682,11 +1771,11 @@ public class AuthoringViewerTest {
 			}
 		});
 		btnRaisePins.setBounds(54, 165, 114, 23);
-		generalCellPanel.add(btnRaisePins);
+		generalCellPanel_1.add(btnRaisePins);
 
 		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
 		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-		JButton btnReset = new JButton("Reset");
+		btnReset = new JButton("Reset");
 		btnReset.setBounds(54, 195, 114, 23);
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1696,15 +1785,16 @@ public class AuthoringViewerTest {
 				updatePrompt();
 			}
 		});
-		generalCellPanel.add(btnReset);
+		generalCellPanel_1.add(btnReset);
+		generalCellPanel_1.setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{promptCellLabel, cellPanel_1, button_8, pOne, pTwo, pThree, pFour, pFive, pSix, pSeven, pEight, button_9, btnRaisePins, btnReset}));
 	}
 
 	private void createPromptTextField() {
-		GridBagConstraints promptText = new GridBagConstraints();
-		promptText.insets = new Insets(10, 10, 5, 5);
-		promptText.fill = GridBagConstraints.BOTH;
-		promptText.gridx = 0;
-		promptText.gridy = 1;
+		GridBagConstraints gbc_promptPane = new GridBagConstraints();
+		gbc_promptPane.insets = new Insets(10, 10, 5, 5);
+		gbc_promptPane.fill = GridBagConstraints.BOTH;
+		gbc_promptPane.gridx = 0;
+		gbc_promptPane.gridy = 1;
 		promptTextField = new JEditorPane();
 		promptTextField.setText(cards.get(currCard).getText());
 		if (promptTextField.getText().equals(""))
@@ -1721,11 +1811,11 @@ public class AuthoringViewerTest {
 				updatePrompt();
 			}
 		});
-		JScrollPane promptPane = new JScrollPane(promptTextField);
+		promptPane = new JScrollPane(promptTextField);
 		promptPane.setBounds(10, 50, 450, 300);
-		container.add(promptPane, promptText);
+		container.add(promptPane, gbc_promptPane);
 
-		JLabel lblPrompt = new JLabel("PROMPT");
+		lblPrompt = new JLabel("PROMPT");
 		lblPrompt.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblPrompt.setBounds(10, 40, 30, 30);
 		promptPane.setColumnHeaderView(lblPrompt);
@@ -2038,6 +2128,7 @@ public class AuthoringViewerTest {
 	}
 
 	private void setVisible(Boolean b) {
+		mntmToButton.setEnabled(b);
 		buttonEditor.setEnabled(b);
 		if (b)
 			buttonEditor.setBackground(Color.WHITE);

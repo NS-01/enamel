@@ -295,6 +295,8 @@ public class InitialView {
 						if (fc.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
 							FileToCardsParser f = new FileToCardsParser();
 							f.setFile(fc.getSelectedFile().getPath());
+							String s = "";
+							System.out.println("---->"+f.getCards().size());//Error here when card list empty
 							AuthoringViewerTest av = new AuthoringViewerTest(f.getCells(), f.getButtons(), f.getCards(),
 									fc.getSelectedFile().getName().substring(0, fc.getSelectedFile().getName().length()-4), ""); // newActionListener(){public void
 							// actionPerformed(ActionEvente2) {}});

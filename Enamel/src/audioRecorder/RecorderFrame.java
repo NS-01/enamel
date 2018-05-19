@@ -73,7 +73,7 @@ public class RecorderFrame {
 	private JPanel contentPane;
 	private JTextField textField;
 	private JLabel lblTimer;
-	private JLabel lblTimer_1;
+	private JLabel lblHelpMenu;
 	JEditorPane tViewHelp;
 	JButton recordNewButton;
 	JButton stopRecordingButton;
@@ -92,7 +92,8 @@ public class RecorderFrame {
 
 	private String path;
 	private JButton resetButton;
-	private final JButton btnPlay = new JButton("PLAY");
+	private JButton btnPlay = new JButton("PLAY");
+	WavPlayer wavePlayer;
 	
 	//Menu
 	private JMenuItem mntmRecordNew;
@@ -132,7 +133,7 @@ public class RecorderFrame {
 	private void initialize() {
 		// settings for the frame
 		recorderFrame = new JFrame();
-		recorderFrame.setResizable(false);
+		//recorderFrame.setResizable(false);
 		recorderFrame.setTitle("Audio Recorder");
 		recorderFrame.getAccessibleContext().setAccessibleDescription("Use this tool to record and save an audio file");
 		recorderFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -279,18 +280,28 @@ public class RecorderFrame {
 				tViewHelp.setBounds(109, 20, 592, 149);
 				tViewHelp.setText("Welcome to \"Audio Recorder\". Below are the instructions to use it: \r\n -     Press \"RECORD\" or \"CTRL+SHIFT+R\" to start a new recording\r\n -     Press \"STOP & SAVE\" or  \"CTRL+SHIFT+S\" to save recorded audio as \".wav\" file\r\n -     \"STATUS\" indicates that audio is being recorded\r\n\t- (record timer will be added in next build)\r\n -     You can \"RESET\" the recorder to start a new recording\r\n\t- NOTE: Unsaved Recording will be deiscarded, while the saved files will not be deleted\r\n -     Press \"PLAY\" or \"CTRL+SHIFT+P\" to play the recently saved audio file \r\n\t- (you can not play a previously saved audio file yet)");
 				contentPane.add(tViewHelp);
-		btnPlay.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				playSound(path);
-			}
-		});
+		
+			btnPlay.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					playSound(path);
+					/*wavePlayer = new WavPlayer("file:"+path);
+					if(btnPlay.getText() == "Play"){					
+						wavePlayer.play();
+						btnPlay.setText("Stop");
+					}
+					if(btnPlay.getText() == "Stop"){
+						wavePlayer.stop();
+						btnPlay.setText("Play");
+					}*/
+				}
+			});
 		
 		JScrollPane scrollPane = new JScrollPane(tViewHelp);
 		scrollPane.setBounds(20, 5, 877, 132);
 		contentPane.add(scrollPane);
 		
-		lblTimer_1 = new JLabel("Timer");
-		scrollPane.setColumnHeaderView(lblTimer_1);
+		lblHelpMenu = new JLabel("Instructions To Use");
+		scrollPane.setColumnHeaderView(lblHelpMenu);
 
 		if (textField.getText() == "Ready") {
 			recorderFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -350,8 +361,6 @@ public class RecorderFrame {
 
 		});
 		record.start();
-		audioTimer = new audioTimer(lblTimer_1);
-		audioTimer.start();
 	}
 
 	/**
@@ -554,7 +563,7 @@ public class RecorderFrame {
 				Thread.sleep(10);
 			}
 			
-			while (!donePlaying) {
+			/*while (!donePlaying) {
 				// wait for the audio playback to be done
 				btnPlay.setText("Stop");
 				btnPlay.setEnabled(true);
@@ -577,10 +586,10 @@ public class RecorderFrame {
 						break;
 					}
 				}
-			}
-			//while (clip.isRunning()){
+			}*/
+			while (clip.isRunning()){
 				//Thread.sleep(10);
-				//btnPlay.repaint();
+				btnPlay.repaint();
 			/*	btnPlay.setText("Stop");
 				btnPlay.setEnabled(true);
 				btnPlay.addActionListener(new ActionListener() {
@@ -598,7 +607,7 @@ public class RecorderFrame {
 						}
 					}
 				});*/
-			//}
+			}
 			clip.close();
 			
 
