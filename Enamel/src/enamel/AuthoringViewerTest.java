@@ -192,6 +192,7 @@ public class AuthoringViewerTest {
 	private JButton btnPause_1;
 	private JComboBox comboBox_1;
 	private JMenuItem mntmToButton;
+	private JMenuItem mntmUserManual;
 
 	// public static void main(String[] args) {
 	// EventQueue.invokeLater(new Runnable() {
@@ -1061,6 +1062,24 @@ public class AuthoringViewerTest {
 
 		JMenuItem mntmTutorial = new JMenuItem("Tutorial");
 		mnHelp.add(mntmTutorial);
+		
+		mntmUserManual = new JMenuItem("User Manual");
+		mnHelp.add(mntmUserManual);
+		mntmUserManual.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// launch browser to [INSERT USER MANUAL]
+				// Update to latest Manual Required.
+				if (Desktop.isDesktopSupported()) {
+					try {
+						Desktop.getDesktop().browse(new URI("https://github.com/NS-01/forked_enamel/blob/master/Documentation/2311%20-%20User%20Manual%20%5BMidterm%20Submission%5D.pdf"));
+					} catch (IOException | URISyntaxException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+		
 		mntmTutorial.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
