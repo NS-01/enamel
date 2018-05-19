@@ -42,6 +42,16 @@ public class testCard {
 		test1.setText(null);
 		assertEquals(test1.getText(), null);
 	}
+	
+	@Test
+	public void testSetEnabled() {
+		Card test1 = new Card(10, "Card 1", "A", false);
+		assertEquals(test1.getEnbled(), false);
+		test1.setEnabled(true);
+		assertEquals(test1.getEnbled(), true);
+		test1.setEnabled(false);
+		assertEquals(test1.getEnbled(), false);
+	}
 
 	@Test
 	public void testAddText() {

@@ -512,7 +512,6 @@ public class ScenarioForm {
 		av.setCardList();
 		av.setPromptText(cards.get(0).getText());
 		av.setCurrCellPins(cards.get(0).getCells().get(0));
-		av.setResponseCellPins(cards.get(0).getButtonList().get(0).getCells().get(0));
 		av.setButtonText(cards.get(0).getButtonList().get(0).getText());
 		av.setCardList();
 		av.setEdited();

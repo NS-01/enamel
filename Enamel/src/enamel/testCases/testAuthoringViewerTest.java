@@ -6,12 +6,12 @@ import java.util.ArrayList;
 
 import org.junit.*;
 
-import enamel.AuthoringViewer;
+import enamel.AuthoringViewerTest;
 import enamel.Card;
 
-public class testAuthoringView {
+public class testAuthoringViewerTest {
 
-	private AuthoringViewer aw;
+	private AuthoringViewerTest aw;
 	private ArrayList<Card> array;
 	private Card card;
 
@@ -23,7 +23,7 @@ public class testAuthoringView {
 		card = new Card(0, "", "", false);//*********************************************
 		array = new ArrayList<Card>();
 		array.add(card);
-		aw = new AuthoringViewer(0, 0, array, null, null);
+		aw = new AuthoringViewerTest(0, 0, array, null, null);
 	}
 
 	/*
@@ -39,7 +39,7 @@ public class testAuthoringView {
 	 */
 	@Test
 	public void testMultipleGUIs() {
-		AuthoringViewer fw = new AuthoringViewer(0, 0, array, null, null);
+		AuthoringViewerTest fw = new AuthoringViewerTest(0, 0, array, null, null);
 		assertNotSame(aw, fw);
 	}
 }

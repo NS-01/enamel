@@ -23,7 +23,6 @@ public class FileToCardsParser {
 	private String title;
 	private int numLines;
 	private int start;
-	private boolean lastRemoved;
 	private boolean inButton;
 	private String fileLine;
 	private int cardNum;
@@ -50,7 +49,6 @@ public class FileToCardsParser {
 			checkNumLines(scenarioFile);
 			checkButtonsAndCells();
 			parse();
-//			checkLast();
 			print();
 		} catch (Exception e) {
 			System.out.println("Incorrect File Name");
@@ -123,7 +121,7 @@ public class FileToCardsParser {
 			throw new IllegalArgumentException();
 		}
 		// Checks title
-		fileLine = fileScanner.nextLine();
+//		fileLine = fileScanner.nextLine();
 		// if (fileLine.length() >= 1) {
 		title = initialPrompt;
 		// } else {
@@ -225,7 +223,7 @@ public class FileToCardsParser {
 							}
 							cells.add(currCell);
 						}
-						currCard.addText("/Display character " + dispChar + " on cell " + paramIndex + 1);
+						currCard.addText("/Display character " + dispChar + " on cell " + (paramIndex + 1));
 					}
 
 				} catch (InterruptedException e1) {
@@ -240,7 +238,7 @@ public class FileToCardsParser {
 				if (paramIndex > numCells - 1 || paramIndex < 0 || param[1].length() > 1) {
 					System.out.println("Incorrect format of /~disp-cell-char");
 				} else {
-					currButton.addText("/Display character " + dispChar + " on cell " + paramIndex + 1);
+					currButton.addText("/Display character " + dispChar + " on cell " + (paramIndex + 1));
 				}
 			}
 			// if (inButton) {
@@ -263,27 +261,6 @@ public class FileToCardsParser {
 	}
 
 	/**
-	 * This is if the file wants to display a string Sets the pins for the letter
-	 * Currently not implemented for if they do this in a button
-	 */
-	private void dispString() {
-		if (!inButton) {
-			try {
-				currCell = new BrailleCell();
-				currCell.displayCharacter(fileLine.charAt(14));
-				try {
-					cells.set(Character.getNumericValue(fileLine.charAt(17)), currCell);
-				} catch (Exception e) {
-					cells.add(currCell);
-				}
-
-			} catch (Exception e) {
-				System.out.println("Not a Char");
-			}
-		}
-	}
-
-	/**
 	 * sets the cell pins depending on if they are in the button or not
 	 */
 	private void dispCellPins() {
@@ -303,21 +280,6 @@ public class FileToCardsParser {
 		} else {
 			currButton.addText("\n/Pins on " + (Character.getNumericValue(fileLine.charAt(17)) + 1) + ": "
 					+ fileLine.substring(19));
-		}
-	}
-
-	/**
-	 * sets the pause depending on if they are in the button or not
-	 */
-	private void insertPause() {
-		if (!inButton) {
-			// type in prompt section
-			currCard.addText("/Pause for " + (Character.getNumericValue(fileLine.charAt(8)) + 1) + ": "
-					+ fileLine.substring(10));
-		} else {
-			// type in button section
-			currButton.addText("\n/Pins on " + (Character.getNumericValue(fileLine.charAt(8)) + 1) + ": "
-					+ fileLine.substring(10));
 		}
 	}
 
@@ -396,42 +358,10 @@ public class FileToCardsParser {
 		return this.numButtons;
 	}
 
-	public String getTitle() {
-		return this.title;
-	}
-
 	public ArrayList<Card> getCards() {
 		return this.cards;
 	}
 
-	public String getInitial() {
-		return this.initialPrompt;
-	}
-
-	public String getEnding() {
-		return this.endingPrompt;
-	}
-
-	/**
-	 * this checks the last card and if it's empty it will remove it I think we will
-	 * remove this method and change something
-	 */
-	public void checkLast() {
-		if (cards.size() > 0) {
-			Card temp = cards.get(cards.size() - 1);
-			if (temp.getCells().isEmpty() && temp.getButtonList().get(0).getText() == "" && temp.getText() == null) {
-				// this.endingPrompt = temp.getText();
-				cards.remove(temp);
-				this.lastRemoved = true;
-			} else {
-				this.lastRemoved = false;
-			}
-		}
-	}
-
-	public boolean getLastRemoved() {
-		return this.lastRemoved;
-	}
 
 	/**
 	 * This method just prints out the information stored in the cards It is just

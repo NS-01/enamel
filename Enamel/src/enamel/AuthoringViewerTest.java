@@ -352,6 +352,7 @@ public class AuthoringViewerTest {
 						// ********************************************************************
 						// comboBox.setSelectedIndex(-1);
 						addAudioToPrompt();
+						comboBox.setSelectedIndex(-1);
 					} else if (comboBox.getSelectedIndex() == 1) {
 						displayCharacter(comboBox);
 					} else if (comboBox.getSelectedIndex() == 2) {
@@ -474,6 +475,7 @@ public class AuthoringViewerTest {
 					if (comboBox.getSelectedIndex() == 0) {
 						// comboBox.setSelectedIndex(-1);
 						addAudioToButton();
+						comboBox.setSelectedIndex(-1);
 					} else if (comboBox.getSelectedIndex() == 1) {
 						boolean checkChar = false;
 						String input = null;
@@ -858,7 +860,7 @@ public class AuthoringViewerTest {
 							FileToCardsParser f = new FileToCardsParser();
 							f.setFile(fc.getSelectedFile().getPath());
 							AuthoringViewerTest ap = new AuthoringViewerTest(f.getCells(), f.getButtons(), f.getCards(),
-									f.getInitial(), f.getEnding()); // new
+									fc.getSelectedFile().getName().substring(0, fc.getSelectedFile().getName().length()-4), ""); // new
 																	// ActionListener()
 																	// {public
 																	// void

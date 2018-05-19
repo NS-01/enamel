@@ -118,33 +118,13 @@ public class CardsToFileParser {
 		return result;
 	}
 
-	/**
-	 * this was a previous way we had for checking audio
-	 * 
-	 * @param result
-	 * @param audioPath
-	 * @return
-	 */
-	private String checkAudio(String result, String audioPath) {
-		if (!audioPath.equals("")) {
-			int slashPos = 0;
-			for (int j = 0; j < audioPath.length(); j++) {
-				if (audioPath.charAt(j) == '\\') {
-					slashPos = j;
-				}
-			}
-			if (slashPos == 0) {
-				result += "\n/~sound:" + audioPath;
-			} else {
-				result += "\n/~sound:" + audioPath.substring(slashPos + 1);
-			}
-
-		}
-		return result;
-	}
+	
 
 	private String writeTextAndCheckCells(Card currCard, String result, String input, int buttonNum) {
 		System.out.println(input);
+		if (input == null) {
+			return result;
+		}
 		String[] arr = input.split("\n");
 		for (int j = 0; j < arr.length; j++) {
 			// this was our previous indicator
@@ -230,29 +210,6 @@ public class CardsToFileParser {
 		return result;
 	}
 
-	/**
-	 * writes the cells
-	 * 
-	 * @param currCard
-	 *            - which card to write from
-	 * @param result
-	 *            - method adds to this string and returns it
-	 * @return
-	 */
-	private String writeCells(Card currCard, String result) {
-		ArrayList<BrailleCell> cells = currCard.getCells();
-		for (int i = 0; i < cells.size(); i++) {
-			String pins = "";
-			if (cells.get(i) != null) {
-				for (int j = 0; j < cells.get(i).getNumberOfPins(); j++) {
-					pins += cells.get(i).getPinState(j) ? "1" : "0";
-				}
-				result += "\n/~disp-cell-pins:" + i + " " + pins;
-			}
-
-		}
-		return result;
-	}
 
 	/**
 	 * returns the text - this is the whole text for the file

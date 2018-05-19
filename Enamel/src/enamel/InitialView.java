@@ -32,7 +32,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
-import enamel.ToyAuthoring;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
@@ -229,7 +228,7 @@ public class InitialView {
 		 * //frmAuthoringApp.setFocusable(true); Action exAction = new AbstractAction()
 		 * {
 		 * 
-		 * @Override public void actionPerformed(ActionEvent e) { // TODO Auto-generated
+		 * @Override public void actionPerformed(ActionEvent e) {
 		 * method stub testExtract(exitButton); } };
 		 * exitButton.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_Q,
 		 * ActionEvent.CTRL_MASK), "exiting"); exitButton.getActionMap().put("exiting",
@@ -330,8 +329,6 @@ public class InitialView {
 				count++;
 				logger.log(Level.INFO, "Test Button was pressed.");
 				logger.log(Level.INFO, "Test Button was pressed {0} times", count);
-				// ToyAuthoring ta = new ToyAuthoring();
-				// ta.launchToyAuthoring();
 				// ta.main(null);
 
 				// frame.dispose();

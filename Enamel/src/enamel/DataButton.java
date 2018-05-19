@@ -90,15 +90,6 @@ public class DataButton {
 	public String getText() {
 		return this.text;
 	}
-	
-	/**
-	 * Method to get pause associated with button
-	 * 
-	 * @return int text
-	 */
-	public int getPause() {
-		return this.pause;
-	}	
 
 	// change methods
 	/**
@@ -134,13 +125,4 @@ public class DataButton {
 		this.text = newText;
 	}
 
-	/**
-	 * Method to overwrite existing pause with newPause
-	 * 
-	 * @param newPause
-	 */
-	public void setPause(int newPause) {
-		this.pause = newPause;
-	}
-	
 }

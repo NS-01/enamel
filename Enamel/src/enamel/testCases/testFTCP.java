@@ -29,8 +29,6 @@ public class testFTCP {
 	public void testCtor() {
 		FileToCardsParser f = new FileToCardsParser();
 		assertEquals(new ArrayList<Card>(), f.getCards());
-		assertEquals("", f.getInitial());
-		assertEquals("", f.getEnding());
 	}
 	
 	@Test
@@ -156,66 +154,71 @@ public class testFTCP {
 	}
 
 	@Test
-	public void testCheckLast() {
-		FileToCardsParser f = new FileToCardsParser();
-
-		f = new FileToCardsParser();
-		f.setFile("./FactoryScenarios/Scenario_1.txt");
-		assertFalse(f.getLastRemoved()); // should be false for scenario 1
-
-		f = new FileToCardsParser();
-		f.setFile("./FactoryScenarios/Scenario_2.txt");
-		assertTrue(f.getLastRemoved()); // should be true for 2 and 3
-
-		f = new FileToCardsParser();
-		f.setFile("./FactoryScenarios/Scenario_3.txt");
-		assertTrue(f.getLastRemoved());
-	}
-
-	@Test
-	public void testInitial() {
-		FileToCardsParser f = new FileToCardsParser();
-
-		f = new FileToCardsParser();
-		f.setFile("./FactoryScenarios/Scenario_1.txt");
-		assertEquals("Directional orientation", f.getInitial());
-
-		f = new FileToCardsParser();
-		f.setFile("./FactoryScenarios/Scenario_2.txt");
-		assertEquals("Orientation questions. Questions with two pins", f.getInitial());
-
-		f = new FileToCardsParser();
-		f.setFile("./FactoryScenarios/Scenario_3.txt");
-		assertEquals("Simple alphabet questions", f.getInitial());
-	}
-
-	@Test
-	public void testEnding() throws IOException {
-		FileToCardsParser f = new FileToCardsParser();
-
+	public void testCommands() throws IOException {
+		//test insertPause
 		FileWriter write = new FileWriter(currPath, false);
 		PrintWriter print = new PrintWriter(write);
 		String text = "Cell 1\r\n" + "Button 4";
 		print.printf("%s" + "%n", text);
 		print.close();
-
+		FileToCardsParser f = new FileToCardsParser();
+		write = new FileWriter(currPath, false);
+		print = new PrintWriter(write);
+		text = "Cell 5\r\n" + "Button 7\r\n" + "\r\n" + "/~pause:2\r\n"
+				+ "/~skip-button:0 ONEE\r\n" + "/~skip-button:1 TWOO\r\n" + "/~user-input\r\n" + "/~ONEE\r\n"
+				+ "/~pause:1\r\n" + "/~skip:NEXTT\r\n" + "/~TWOO";
+		print.printf("%s" + "%n", text);
+		print.close();
 		f = new FileToCardsParser();
-		f.setFile("./FactoryScenarios/test.txt");
-		String test1 = f.getEnding();
-		System.out.println("asdf " + test1);
-		assertEquals("", f.getEnding()); // test doesn't have ending
-
+		f.setFile(currPath);
+		ArrayList<Card> cards = f.getCards();
+		assertEquals(
+				"/Wait for 2 second(s)",
+				cards.get(0).getText());
+		assertEquals(
+				"/Wait for 1 second(s)",
+				cards.get(0).getButtonList().get(0).getText());
+		
+		
+		//test dispCellChar
+		write = new FileWriter(currPath, false);
+		print = new PrintWriter(write);
+		text = "Cell 5\r\n" + "Button 7\r\n" + "\r\n" + "/~disp-cell-char:0 a\r\n"
+				+ "/~skip-button:0 ONEE\r\n" + "/~skip-button:1 TWOO\r\n" + "/~user-input\r\n" + "/~ONEE\r\n"
+				+ "/~disp-cell-char:0 b\r\n" + "/~skip:NEXTT\r\n" + "/~TWOO";
+		print.printf("%s" + "%n", text);
+		print.close();
 		f = new FileToCardsParser();
-		f.setFile("./FactoryScenarios/Scenario_2.txt");
-		assertEquals("That's all for now! Thank you for playing two pin questions!\n" + "Have a nice day!",
-				f.getEnding());
-
-		f = new FileToCardsParser();
-		f.setFile("./FactoryScenarios/Scenario_3.txt");
-		assertEquals("That's the end!", f.getEnding());
-
+		f.setFile(currPath);
+		cards = f.getCards();
+		assertEquals(
+				"/Display character a on cell 1",
+				cards.get(0).getText());
+		assertEquals(
+				"/Display character b on cell 1",
+				cards.get(0).getButtonList().get(0).getText());
+		
+		//test dispString
+				write = new FileWriter(currPath, false);
+				print = new PrintWriter(write);
+				text = "Cell 5\r\n" + "Button 7\r\n" + "\r\n" + "/~disp-string:asdf\r\n"
+						+ "/~skip-button:0 ONEE\r\n" + "/~skip-button:1 TWOO\r\n" + "/~user-input\r\n" + "/~ONEE\r\n"
+						+ "/~disp-string:qwer\r\n" + "/~skip:NEXTT\r\n" + "/~TWOO";
+				print.printf("%s" + "%n", text);
+				print.close();
+				f = new FileToCardsParser();
+				f.setFile(currPath);
+				cards = f.getCards();
+				assertEquals(
+						"/Display string asdf",
+						cards.get(0).getText());
+				assertEquals(
+						"/Display string qwer",
+						cards.get(0).getButtonList().get(0).getText());
+		
+		
 	}
-
+	
 	@Test
 	public void testGetCards() {
 		FileToCardsParser f = new FileToCardsParser();
@@ -223,16 +226,16 @@ public class testFTCP {
 		ArrayList<Card> cards = f.getCards();
 
 		assertEquals(
-				"Here's the first question:\n"
+				"Orientation questions. Questions with two pins\n/Pins on 1: 10100000\nHere's the first question:\n"
 						+ "What pins are up right now? Are they the pins 1 and 3, or are they the pins 4 and 6?\n"
 						+ "Press the button 1 for pins 1 and 3, or press button 2 for pins 4 and 6.",
 				cards.get(0).getText());
 		assertEquals(
-				"/~sound:correct.wav\nThat's correct! The pins being displayed are 1 and 3, which are the top and bottom pins on the left side of the cell.",
+				"/Play sound file correct.wav\nThat's correct! The pins being displayed are 1 and 3, which are the top and bottom pins on the left side of the cell.",
 				cards.get(0).getButtonList().get(0).getText());
 		assertEquals(
-				"/~sound:wrong.wav\nI'm sorry! That's incorrect. The pins being displayed are 1 and 3, which are the top and bottom pins on the left side of the cell, \n"
-						+ "and not 4 and 6,\n" + "\n" + "/Pins on 0: 00010100\n"
+				"/Play sound file wrong.wav\nI'm sorry! That's incorrect. The pins being displayed are 1 and 3, which are the top and bottom pins on the left side of the cell, \n"
+						+ "and not 4 and 6,\n" + "\n" + "/Pins on 1: 00010100\n"
 						+ "which are on the right side of the cell.",
 				cards.get(0).getButtonList().get(1).getText());
 		assertEquals(true, cards.get(0).getCells().get(0).getPinState(0));
@@ -245,11 +248,11 @@ public class testFTCP {
 		assertEquals(false, cards.get(0).getCells().get(0).getPinState(7));// testing card 0 (Scenario_2.txt)
 
 		assertEquals(
-				"Here's the third question:\n"
+				"/Pins on 1: 00100100\nHere's the third question:\n"
 						+ "What pins are up right now? Are they the pins 1 and 4, or are they the pins 3 and 6?\n"
 						+ "Press the button 1 for pins 1 and 4, or press button 2 for pins 3 and 6.",
 				cards.get(2).getText());
-		assertEquals("/~sound:correct.wav\nThat's correct! The pins being displayed are 3 and 6, which are the two bottom pins.",
+		assertEquals("/Play sound file correct.wav\nThat's correct! The pins being displayed are 3 and 6, which are the two bottom pins.",
 				cards.get(2).getButtonList().get(1).getText());
 		assertEquals(false, cards.get(2).getCells().get(0).getPinState(0));
 		assertEquals(false, cards.get(2).getCells().get(0).getPinState(1));
@@ -265,10 +268,10 @@ public class testFTCP {
 		f.setFile("./FactoryScenarios/Scenario_1.txt");
 		cards = f.getCards();
 
-		assertEquals("These are pins 1, 2 and 3, the 3 pins on the left side. \n" + "Press button 1 to continue.",
+		assertEquals("Directional orientation\n/Pins on 1: 11100000\nThese are pins 1, 2 and 3, the 3 pins on the left side. \n" + "Press button 1 to continue.",
 				cards.get(0).getText());
 
-		assertEquals("", cards.get(0).getButtonList().get(0).getText());
+		assertEquals("/Wait for 1 second(s)", cards.get(0).getButtonList().get(0).getText());
 
 		assertEquals(true, cards.get(0).getCells().get(0).getPinState(0));
 		assertEquals(true, cards.get(0).getCells().get(0).getPinState(1));
@@ -279,9 +282,9 @@ public class testFTCP {
 		assertEquals(false, cards.get(0).getCells().get(0).getPinState(6));
 		assertEquals(false, cards.get(0).getCells().get(0).getPinState(7));// testing card 0 (Scenario_2.txt)
 
-		assertEquals("These are pins 1 and 2, the top two pins on the left side. \n" + "Press button 1 to continue.",
+		assertEquals("/Pins on 1: 11000000\nThese are pins 1 and 2, the top two pins on the left side. \n" + "Press button 1 to continue.",
 				cards.get(2).getText());
-		assertEquals("", cards.get(2).getButtonList().get(0).getText());
+		assertEquals("/Wait for 1 second(s)", cards.get(2).getButtonList().get(0).getText());
 		
 		assertEquals(true, cards.get(2).getCells().get(0).getPinState(0));
 		assertEquals(true, cards.get(2).getCells().get(0).getPinState(1));
