@@ -93,7 +93,7 @@ public class RecorderFrame {
 	private String path;
 	private JButton resetButton;
 	private JButton btnPlay = new JButton("PLAY");
-	WavPlayer wavePlayer;
+//	WavPlayer wavePlayer;
 	
 	//Menu
 	private JMenuItem mntmRecordNew;
@@ -163,7 +163,6 @@ public class RecorderFrame {
 		mntmSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				stopRecording();
 			}
 		});
@@ -222,7 +221,6 @@ public class RecorderFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				stopRecording();
 			}
 		});
@@ -337,7 +335,6 @@ public class RecorderFrame {
 
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
 				// set isRecording boolean to true
 				isRecording = true;
 				recordNewButton.setEnabled(false);//new button
@@ -353,7 +350,6 @@ public class RecorderFrame {
 					try {
 						start();
 					} catch (LineUnavailableException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -572,7 +568,6 @@ public class RecorderFrame {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
 						btnPlay.setText("Play");
 						stopPlayBack = true;
 					}
@@ -596,13 +591,11 @@ public class RecorderFrame {
 					
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						// TODO Auto-generated method stub
 						btnPlay.setText("Play");
 						try {
 							clip.close();
 							stop();
 						} catch (IOException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 					}
