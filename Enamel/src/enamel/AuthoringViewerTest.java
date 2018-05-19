@@ -1210,6 +1210,31 @@ public class AuthoringViewerTest {
 				}
 			}
 		});
+		//New File Ctrl+New
+		mntmNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+		//Save File Ctrl+S
+		mntmSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		//Test Scenario Ctrl + T
+		mntmTest.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK));
+		//Open a File to edit ctrl + O
+		mntmOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+		//Edit Scenario form to update cells and buttons
+		mntmScenarioForm.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+		//Exit a Scenario ctrl + X 
+		mntmExit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
+		//Tutorial Video ctrl + shift + T
+		mntmTutorial.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, ActionEvent.CTRL_MASK+ActionEvent.SHIFT_MASK));
+		//User Manual ctrl + shift + U
+		mntmUserManual.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_R, ActionEvent.CTRL_MASK+ActionEvent.SHIFT_MASK));
+		//Audio to Prompt alt + P
+		mntmToPrompt.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.ALT_MASK));
+		//Audio to Button alt + B
+		mntmToButton.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.ALT_MASK));
+		
+		//Github ALT+g <-using alt so user does not accidently uses this shortcut
+		mntmGithub.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, ActionEvent.ALT_MASK));
+		//Course Website ctrl+W <-using alt so user does not accidently uses this shortcut
+		mntmCourseWebsite.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.ALT_MASK));
 	}
 
 	private void createPrevNextButtons() {
