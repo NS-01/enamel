@@ -99,7 +99,7 @@ import javax.swing.ImageIcon;
  *         implemented.
  *
  */
-//New Updates
+// New Updates
 @SuppressWarnings({ "unused", "rawtypes", "unchecked" })
 public class AuthoringViewerTest {
 
@@ -246,8 +246,8 @@ public class AuthoringViewerTest {
 		 * @Override public void focusGained(FocusEvent e) { // do nothing }
 		 * 
 		 * @Override public void focusLost(FocusEvent e) {
-		 * cards.get(currCard).setName(txtCardName.getText()); setCardList(); } });
-		 * txtCardName.setToolTipText("Enter a name for the card");
+		 * cards.get(currCard).setName(txtCardName.getText()); setCardList(); }
+		 * }); txtCardName.setToolTipText("Enter a name for the card");
 		 * txtCardName.setText(cards.get(currCard).getName());
 		 * txtCardName.setColumns(10); cardNamePanel.add(txtCardName,
 		 * BorderLayout.NORTH);
@@ -327,11 +327,11 @@ public class AuthoringViewerTest {
 		JComboBox comboBox = new JComboBox();
 		comboBox.setRenderer(new CustomComboBoxRenderer("INSERT ACTION"));
 		comboBox.setModel(
-				new DefaultComboBoxModel(new String[] {"Play Audio File", "Display Character", "Display String"}));
+				new DefaultComboBoxModel(new String[] { "Play Audio File", "Display Character", "Display String" }));
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 14));
 		comboBox.setSelectedIndex(-1);
 		undoRedoPanel.add(comboBox);
-		
+
 		comboBox.addItemListener(new ItemListener() {
 			int count = 0;
 
@@ -339,7 +339,8 @@ public class AuthoringViewerTest {
 				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
 					// count++;
 					// logger.log(Level.INFO, "Cell Combo Box was used.");
-					// logger.log(Level.INFO, "Cell Combo Box was used {0} times", count);
+					// logger.log(Level.INFO, "Cell Combo Box was used {0}
+					// times", count);
 				}
 				int state = itemEvent.getStateChange();
 				if (state == 1) {
@@ -349,7 +350,7 @@ public class AuthoringViewerTest {
 					if (comboBox.getSelectedIndex() == 0) {
 						// Put stuff for play sound here
 						// ********************************************************************
-						//comboBox.setSelectedIndex(-1);
+						// comboBox.setSelectedIndex(-1);
 						addAudioToPrompt();
 					} else if (comboBox.getSelectedIndex() == 1) {
 						displayCharacter(comboBox);
@@ -463,17 +464,17 @@ public class AuthoringViewerTest {
 				if (itemEvent.getStateChange() == ItemEvent.SELECTED) {
 					// count++;
 					// logger.log(Level.INFO, "Cell Combo Box was used.");
-					// logger.log(Level.INFO, "Cell Combo Box was used {0} times", count);
+					// logger.log(Level.INFO, "Cell Combo Box was used {0}
+					// times", count);
 				}
 				int state = itemEvent.getStateChange();
 				if (state == 1) {
 					buttonEditor.requestFocus();
 					buttonEditor.transferFocus();
 					if (comboBox.getSelectedIndex() == 0) {
-						//comboBox.setSelectedIndex(-1);
+						// comboBox.setSelectedIndex(-1);
 						addAudioToButton();
-					}
-					else if (comboBox.getSelectedIndex() == 1) {
+					} else if (comboBox.getSelectedIndex() == 1) {
 						boolean checkChar = false;
 						String input = null;
 						while (!checkChar) {
@@ -496,7 +497,8 @@ public class AuthoringViewerTest {
 								boolean checkNumber = false;
 								int cellNum = -1;
 								while (!checkNumber) {
-									String inputValue = JOptionPane.showInputDialog("Please input which cell to dispay it on");
+									String inputValue = JOptionPane
+											.showInputDialog("Please input which cell to dispay it on");
 									if (inputValue == null)
 										checkNumber = true;
 									else {
@@ -505,20 +507,24 @@ public class AuthoringViewerTest {
 											if (cellNum >= 1 && cellNum <= numCells) {
 												checkNumber = true;
 											} else {
-												JOptionPane.showMessageDialog(null, "Error, enter a number between 1 and the number of cells.");
+												JOptionPane.showMessageDialog(null,
+														"Error, enter a number between 1 and the number of cells.");
 											}
 										} catch (NumberFormatException exception) {
 											// error
-											JOptionPane.showMessageDialog(null, "Error, not a integer. Please try again.");
+											JOptionPane.showMessageDialog(null,
+													"Error, not a integer. Please try again.");
 										}
 									}
 
 								}
 								if (cellNum != -1) {
-									setButtonText(buttonEditor.getText() + "\n/Display character " + input + " on cell " + cellNum);
+									setButtonText(buttonEditor.getText() + "\n/Display character " + input + " on cell "
+											+ cellNum);
 								}
 							}
-//							setButtonText(buttonEditor.getText() + "\n/Display character " + input);
+							// setButtonText(buttonEditor.getText() +
+							// "\n/Display character " + input);
 						}
 						comboBox.setSelectedIndex(-1);
 					} else if (comboBox.getSelectedIndex() == 2) {
@@ -552,9 +558,9 @@ public class AuthoringViewerTest {
 			}
 		});
 		// KeyBoard Shortcut "Ctrl+Shift+Z" for Undo on Response Section
-		KeyStroke undoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK|Event.SHIFT_MASK);
+		KeyStroke undoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Z, Event.CTRL_MASK | Event.SHIFT_MASK);
 		// KeyBoard Shortcut "Ctrl+Shift+Y" for Redo on Response Section
-		KeyStroke redoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK|Event.SHIFT_MASK);
+		KeyStroke redoKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_Y, Event.CTRL_MASK | Event.SHIFT_MASK);
 
 		UndoManager undoManager = new UndoManager();
 		Document document = buttonEditor.getDocument();
@@ -604,7 +610,7 @@ public class AuthoringViewerTest {
 		});
 
 	}
-	
+
 	private void pauseAction(JButton btnPause) {
 		Action buttonAction = new AbstractAction("Pause") {
 			int count = 0;
@@ -653,7 +659,7 @@ public class AuthoringViewerTest {
 				.put(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_MASK), "Pause");
 		btnPause.getActionMap().put("Pause", buttonAction);
 	}
-	
+
 	private void pauseActionResponse(JButton btnPause) {
 		Action buttonAction = new AbstractAction("Pause") {
 			int count = 0;
@@ -974,6 +980,8 @@ public class AuthoringViewerTest {
 		mnInsert.add(mntmToPrompt);
 		mntmToPrompt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				promptTextField.requestFocus();
+				promptTextField.transferFocus();
 				addAudioToPrompt();
 			}
 		});
@@ -985,7 +993,7 @@ public class AuthoringViewerTest {
 				addAudioToButton();
 			}
 		});
-		
+
 		mntmRecord.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1074,10 +1082,10 @@ public class AuthoringViewerTest {
 		btnNextCard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
-//				buttonEditor.setEnabled(false);
-//				buttonPanel.setVisible(false);
-//				generalCellPanel.setVisible(false);
-//				undoRedoPanel.setVisible(false);
+				// buttonEditor.setEnabled(false);
+				// buttonPanel.setVisible(false);
+				// generalCellPanel.setVisible(false);
+				// undoRedoPanel.setVisible(false);
 				if (cards.size() > currCard + 1) {
 					nextCard();
 				} else {
@@ -1171,12 +1179,12 @@ public class AuthoringViewerTest {
 		JLabel nameLabel = new JLabel("Card Name: ");
 		nameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		cardNamePanel.add(nameLabel);
-		
+
 		txtCardName.setToolTipText("Enter a name for the card");
 		txtCardName.setText(cards.get(currCard).getName());
 		txtCardName.setColumns(10);
 		cardNamePanel.add(txtCardName);
-		
+
 		JPanel buttonLabelPanel = new JPanel();
 		GridBagConstraints gbc_buttonLabelPanel = new GridBagConstraints();
 		gbc_buttonLabelPanel.insets = new Insets(20, 10, 5, 5);
@@ -1276,28 +1284,27 @@ public class AuthoringViewerTest {
 		list.setVisibleRowCount(-1);
 		list.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
-		        JList list = (JList)evt.getSource();
-		        if (evt.getClickCount() == 2) {
-		        	int index = list.locationToIndex(evt.getPoint());
-		        	if (currCard < index) {
-		        		for (int i = currCard; i < index; i++) {
-			        		nextCard();
-			        	}
-		        	} else {
-		        		for (int i = currCard; i > index; i--) {
-			        		prevCard();
-			        	}
-		        	}
-		        	
-		            
-		        } else if (evt.getClickCount() == 3) {
+				JList list = (JList) evt.getSource();
+				if (evt.getClickCount() == 2) {
+					int index = list.locationToIndex(evt.getPoint());
+					if (currCard < index) {
+						for (int i = currCard; i < index; i++) {
+							nextCard();
+						}
+					} else {
+						for (int i = currCard; i > index; i--) {
+							prevCard();
+						}
+					}
 
-		            // Triple-click detected
-		            int index = list.locationToIndex(evt.getPoint());
-		        }
-		    }
+				} else if (evt.getClickCount() == 3) {
+
+					// Triple-click detected
+					int index = list.locationToIndex(evt.getPoint());
+				}
+			}
 		});
-		
+
 		JScrollPane listScroller = new JScrollPane(list);
 		listPanel.add(listScroller);
 		JLabel lblOrder = new JLabel("ORDER");
@@ -1382,10 +1389,11 @@ public class AuthoringViewerTest {
 		gridBagLayout.columnWidths = new int[] { 500, 270, 300 };
 		gridBagLayout.rowHeights = new int[] { 20, 250, 8, 50, 100, 250, 50 };
 		gridBagLayout.columnWeights = new double[] { 1.0, Double.MIN_VALUE, 0.1 };
-		gridBagLayout.rowWeights = new double[] { Double.MIN_VALUE, 1.0, Double.MIN_VALUE, Double.MIN_VALUE, Double.MIN_VALUE, 2.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { Double.MIN_VALUE, 1.0, Double.MIN_VALUE, Double.MIN_VALUE,
+				Double.MIN_VALUE, 2.0, Double.MIN_VALUE };
 		container.setLayout(gridBagLayout);
 		JScrollPane jsp = new JScrollPane(container);
-		//aViewFrame.getContentPane().add(jsp);
+		// aViewFrame.getContentPane().add(jsp);
 		aViewFrame.add(jsp);
 	}
 
@@ -1519,7 +1527,6 @@ public class AuthoringViewerTest {
 		generalCellPanel.add(responseCellLabel);
 		generalCellPanel.setVisible(false);
 
-		
 		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
 		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		JButton rspRaisePins = new JButton("Raise Pins");
@@ -1736,8 +1743,8 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * Action for settings button
-	 *
+	 * Action for settings button. Method not in use since mid-term submission.
+	 * 
 	 * @param settingsButton
 	 */
 	private void settingsAction(JButton settingsButton) {
@@ -1828,7 +1835,7 @@ public class AuthoringViewerTest {
 		cards.get(currCard).getCells().set(currCell, temp);
 		return s;
 	}
-	
+
 	/**
 	 * Reset the braille cell and type the string to prompt text view
 	 * 
@@ -2124,8 +2131,7 @@ public class AuthoringViewerTest {
 					cards.get(currCard).getButtonList().get(currButton).setAudio(temp);
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "Please select a .wav file", "Alert",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Please select a .wav file", "Alert", JOptionPane.ERROR_MESSAGE);
 			}
 
 		}
@@ -2169,13 +2175,12 @@ public class AuthoringViewerTest {
 					cards.get(currCard).setSound(temp);
 				}
 			} else {
-				JOptionPane.showMessageDialog(null, "Please select a .wav file", "Alert",
-						JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Please select a .wav file", "Alert", JOptionPane.ERROR_MESSAGE);
 			}
 
 		}
 	}
-	
+
 	private void displayCharacter(JComboBox comboBox) {
 		boolean checkChar = false;
 		String input = null;
@@ -2207,7 +2212,8 @@ public class AuthoringViewerTest {
 						if (cellNum >= 1 && cellNum <= numCells) {
 							checkNumber = true;
 						} else {
-							JOptionPane.showMessageDialog(null, "Error, enter a number between 1 and the number of cells.");
+							JOptionPane.showMessageDialog(null,
+									"Error, enter a number between 1 and the number of cells.");
 						}
 					} catch (NumberFormatException exception) {
 						// error
@@ -2237,8 +2243,7 @@ public class AuthoringViewerTest {
 					if (!Character.isLetter(inputValue.charAt(i))) {
 						checkStr = false;
 						input = null;
-						JOptionPane.showMessageDialog(null,
-								"Error, string must consist of letters and numbers only");
+						JOptionPane.showMessageDialog(null, "Error, string must consist of letters and numbers only");
 					}
 				}
 			}
