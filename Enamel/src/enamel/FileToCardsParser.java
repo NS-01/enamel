@@ -50,7 +50,7 @@ public class FileToCardsParser {
 			checkNumLines(scenarioFile);
 			checkButtonsAndCells();
 			parse();
-			checkLast();
+//			checkLast();
 			print();
 		} catch (Exception e) {
 			System.out.println("Incorrect File Name");
@@ -63,8 +63,8 @@ public class FileToCardsParser {
 	}
 
 	/**
-	 * checks the number of lines in the file this was needed for adding the last
-	 * card It also checks where the first /~ is
+	 * checks the number of lines in the file. This was needed for adding the last
+	 * card
 	 * 
 	 * @param scenarioFile
 	 */
@@ -77,18 +77,12 @@ public class FileToCardsParser {
 			while (numLineChecker.hasNextLine()) {
 				fileLine = numLineChecker.nextLine();
 				numLines++;
-				if (fileLine.length() >= 2 && fileLine.substring(0, 2).equals("/~") && !initialFound) {
-					start = numLines;
-					initialFound = true;
-				}
 			}
 			numLineChecker.close();
-			System.out.println(numLines);
+			System.out.println(numLines + "Num Lines");
 		} catch (Exception e) {
 			System.out.println("Something went wrong");
 		}
-
-		System.out.println(start);
 
 	}
 
@@ -156,6 +150,16 @@ public class FileToCardsParser {
 					currButton.addText(fileLine);
 				} else {
 					currCard.addText(fileLine);
+				}
+			}
+			if (currLineNum == numLines-1){
+				if (currCard.getText() != null || currButton.getText() != "") {
+					// buttons.clear();
+					if (cells.isEmpty()) {
+						cells.add(new BrailleCell());
+					}
+					buttons.add(new DataButton(currButton));
+					nextCard();
 				}
 			}
 		}
@@ -254,14 +258,7 @@ public class FileToCardsParser {
 		}
 
 		checkButtons();
-		if (currLineNum == numLines){
-			// buttons.clear();
-			if (cells.isEmpty()) {
-				cells.add(new BrailleCell());
-			}
-			buttons.add(new DataButton(currButton));
-			nextCard();
-		}
+		
 
 	}
 
