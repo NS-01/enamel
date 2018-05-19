@@ -983,6 +983,7 @@ public class AuthoringViewerTest {
 				promptTextField.requestFocus();
 				promptTextField.transferFocus();
 				addAudioToPrompt();
+				updatePrompt();
 			}
 		});
 
