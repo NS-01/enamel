@@ -296,7 +296,7 @@ public class InitialView {
 							FileToCardsParser f = new FileToCardsParser();
 							f.setFile(fc.getSelectedFile().getPath());
 							AuthoringViewerTest av = new AuthoringViewerTest(f.getCells(), f.getButtons(), f.getCards(),
-									f.getInitial(), f.getEnding()); // newActionListener(){public void
+									fc.getSelectedFile().getName().substring(0, fc.getSelectedFile().getName().length()-4), ""); // newActionListener(){public void
 							// actionPerformed(ActionEvente2) {}});
 							av.setButtonText(f.getCards().get(0).getButtonList().get(0).getText());
 							av.setResponseCellPins(f.getCards().get(0).getButtonList().get(0).getCells().get(0));

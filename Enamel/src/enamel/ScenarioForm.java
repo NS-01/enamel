@@ -159,7 +159,8 @@ public class ScenarioForm {
 						formatMessage(record));
 			}
 		});
-
+		
+		this.titleTextField.setText(title);
 		/*
 		 * logger.addHandler(consoleHandler); logger.setUseParentHandlers(true);
 		 */
@@ -174,9 +175,9 @@ public class ScenarioForm {
 		// *****************************************************************************
 		findDimensions();
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 36, 144, 248, 130, 0, 0 };
+		gridBagLayout.columnWidths = new int[] { 36, 144, 248, 144, 36 };
 		gridBagLayout.rowHeights = new int[] { 30, 27, 0, 33, 21, 0, 21, 0, 27, 45, 0, 46, 11, 46, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 1.0 };
 		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				1.0, Double.MIN_VALUE };
 		sCreatorFrame.getContentPane().setLayout(gridBagLayout);
@@ -220,6 +221,7 @@ public class ScenarioForm {
 		comboCellBox.setFont(new Font("Tahoma", Font.BOLD, 14));
 		comboCellBox.setModel(new DefaultComboBoxModel<String>(new String[] { "1 Cell", "2 Cells", "3 Cells", "4 Cells",
 				"5 Cells", "6 Cells", "7 Cells", "8 Cells", "9 Cells", "10 Cells" }));
+		comboCellBox.setSelectedIndex(numCells-1);
 		GridBagConstraints gbc_comboCellBox = new GridBagConstraints();
 		gbc_comboCellBox.fill = GridBagConstraints.BOTH;
 		gbc_comboCellBox.insets = new Insets(0, 0, 5, 5);
@@ -255,6 +257,7 @@ public class ScenarioForm {
 
 		comboButtonBox.setModel(new DefaultComboBoxModel<String>(
 				new String[] { "1 Button", "2 Buttons", "3 Buttons", "4 Buttons", "5 Buttons", "6 Buttons" }));
+		comboButtonBox.setSelectedIndex(numButtons-1);
 		GridBagConstraints gbc_comboButtonBox = new GridBagConstraints();
 		gbc_comboButtonBox.fill = GridBagConstraints.BOTH;
 		gbc_comboButtonBox.insets = new Insets(0, 0, 5, 5);

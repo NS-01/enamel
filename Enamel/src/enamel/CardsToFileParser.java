@@ -36,7 +36,7 @@ public class CardsToFileParser {
 	public void createBody() {
 		body += "Cell " + numCells;
 		body += "\nButton " + numButtons;
-		body += "\n" + initialPrompt;
+//		body += "\n" + initialPrompt;
 		// write stuff for each card
 		for (Card currCard : cards) {
 			body += "\n" + writeCard(currCard);
@@ -181,6 +181,10 @@ public class CardsToFileParser {
 				result += "\n/~pause:" + arr[j].charAt(10);
 			} else if (arr[j].length() >= 15 && arr[j].substring(0, 15).equals("/Clear all pins")) {
 				result += "\n/~disp-clearAll";
+			} else if (arr[j].length() >= 29 && arr[j].substring(0, 19).equals("/Display character ")) {
+				result += "\n/~disp-cell-char:" + (Character.getNumericValue(arr[j].charAt(29)) - 1) + " " + arr[j].charAt(19 );
+			} else if (arr[j].length() >= 16 && arr[j].substring(0, 16).equals("/Display string ")) {
+				result += "\n/~disp-string:" + arr[j].substring(16);
 			} else {
 				result += "\n" + arr[j];
 			}
