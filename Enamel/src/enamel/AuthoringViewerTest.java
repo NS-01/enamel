@@ -1014,7 +1014,7 @@ public class AuthoringViewerTest {
 				// launch browser to [INSERT YOUTUBE TUTORIAL LINK]
 				if (Desktop.isDesktopSupported()) {
 					try {
-						Desktop.getDesktop().browse(new URI("https://youtube.com"));
+						Desktop.getDesktop().browse(new URI("https://youtu.be/cIADGmL0yfI"));
 					} catch (IOException | URISyntaxException e1) {
 						e1.printStackTrace();
 					}

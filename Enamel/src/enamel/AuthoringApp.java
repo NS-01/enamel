@@ -259,7 +259,7 @@ public class AuthoringApp {
 					EventQueue.invokeLater(new Runnable() {
 						public void run() {
 							try {
-								ScenarioForm window = new ScenarioForm(cards, numCells, numButtons);
+								ScenarioForm window = new ScenarioForm(cards, numCells, numButtons, "");
 								window.sCreatorFrame.setVisible(true);
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -465,7 +465,7 @@ public class AuthoringApp {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							ScenarioForm window = new ScenarioForm(cards, numCells, numButtons);
+							ScenarioForm window = new ScenarioForm(cards, numCells, numButtons, "");
 							window.sCreatorFrame.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -2300,7 +2300,7 @@ public class AuthoringApp {
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
-							ScenarioForm window = new ScenarioForm(cards, numCells, numButtons);
+							ScenarioForm window = new ScenarioForm(cards, numCells, numButtons, "");
 							window.sCreatorFrame.setVisible(true);
 						} catch (Exception e) {
 							e.printStackTrace();
