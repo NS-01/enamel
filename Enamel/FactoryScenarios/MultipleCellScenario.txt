@@ -6,3 +6,9 @@ Button 4
 /~disp-cell-pins:1 11000000
 /~disp-cell-pins:2 11100000
 /~disp-cell-pins:3 00011100
+
+/~pause:2
+/~disp-string:abcdef
+
+/~pause:2
+/~disp-cell-char:0 g

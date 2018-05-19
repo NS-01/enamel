@@ -449,8 +449,12 @@ public class ScenarioForm {
 				count++;
 				logger.log(Level.INFO, "Create a Scenario Button was pressed.");
 				logger.log(Level.INFO, "Create a Scenario Button was pressed {0} times", count);
-				if (titleTextField.getText().isEmpty() || titleTextField.getText().trim().length() == 0
-						|| !validName(titleTextField.getText())) {
+				//add the if condition below to avoid getting empty scenario title.
+				//titleTextField.getText().isEmpty() || titleTextField.getText().trim().length() == 0
+				if(titleTextField.getText().isEmpty()){
+					
+				}
+				else if (!validName(titleTextField.getText())) {
 					// ||validName(titleTextField.getText()) == false){
 					Object[] buttons = { "OK" };
 					// int option = JOptionPane.showConfirmDialog(null,
