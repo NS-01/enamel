@@ -28,6 +28,7 @@ Final Documentation can be found here:
 * [Requirements Document Final](https://github.com/NS-01/forked_enamel/blob/master/Documentation/Requirements%20Document%20Final.pdf)
 * [Testing Document Final](https://github.com/NS-01/forked_enamel/blob/master/Documentation/Testing%20Documents%20%5BFinal%20Submission%5D.pdf)
 * [Design Document Final](https://github.com/NS-01/forked_enamel/blob/master/Documentation/Design%20Document.pdf)
+* [List of Shortcuts](https://github.com/NS-01/forked_enamel/blob/master/Documentation/List%20of%20Short%20Cuts.pdf)
 
 
 ## Team 9 Members 
