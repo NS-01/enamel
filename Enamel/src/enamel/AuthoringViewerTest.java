@@ -349,21 +349,7 @@ public class AuthoringViewerTest {
 		gbc_btnEnableUserResponse.gridy = 4;
 		container.add(btnEnableUserResponse, gbc_btnEnableUserResponse);
 
-		// Actions List View
-		actionListScroller = new JScrollPane((Component) null);
-		GridBagConstraints gbc_actionListScroller = new GridBagConstraints();
-		gbc_actionListScroller.insets = new Insets(0, 0, 5, 0);
-		gbc_actionListScroller.fill = GridBagConstraints.BOTH;
-		gbc_actionListScroller.gridx = 2;
-		gbc_actionListScroller.gridy = 4;
-		container.add(actionListScroller, gbc_actionListScroller);
-		actionListModel = new DefaultListModel<>();
-		actionList = new JList(actionListModel);
-		actionList.setVisibleRowCount(-1);
-		actionList.setToolTipText("List of Actions");
-		actionList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		actionList.setLayoutOrientation(JList.VERTICAL);
-		actionListScroller.setViewportView(actionList);
+		
 
 		createUndoRedoPanelButtons();
 		createResponseUndoRedoPanelButtons();
@@ -1230,7 +1216,7 @@ public class AuthoringViewerTest {
 				if (Desktop.isDesktopSupported()) {
 					try {
 						Desktop.getDesktop().browse(new URI(
-								"https://github.com/NS-01/forked_enamel/blob/master/Documentation/2311%20-%20User%20Manual.pdf"));
+								"https://github.com/NS-01/forked_enamel/blob/master/Documentation/2311%20-%20User%20Manual%20%5BFinal%20Submission%5D.pdf"));
 					} catch (IOException | URISyntaxException e1) {
 						e1.printStackTrace();
 					}
@@ -2026,9 +2012,9 @@ public class AuthoringViewerTest {
 				count++;
 				logger.log(Level.INFO, "Raise Pins to Prompt Button was pressed.");
 				logger.log(Level.INFO, "Raise Pins to Prompt Button was pressed {0} times", count);
-				String inputValue = updateResponseCell();
+				String inputValue = updateCell();
 				setPromptText(promptTextField.getText() + "\n/Pins on " + (currCell + 1) + ": " + inputValue);
-				updateResponseCell();
+				updateCell();
 				updatePrompt();
 			}
 		};
