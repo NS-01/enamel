@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import javax.swing.JTextArea;
@@ -356,8 +358,15 @@ public class InitialView {
 						JFileChooser fc = new JFileChooser();
 						makeFileChooser(fc, open);
 						if (fc.showOpenDialog(open) == JFileChooser.APPROVE_OPTION) {
-							ScenarioParser s = new ScenarioParser(true);
-							s.setScenarioFile(fc.getSelectedFile().getPath());
+							int visualPlayer = JOptionPane.showConfirmDialog(null, "Do you want a visual player?",
+									"Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+							if (visualPlayer == JOptionPane.YES_OPTION) {
+								ScenarioParser s = new ScenarioParser(true);
+								s.setScenarioFile(fc.getSelectedFile().getPath());
+							} else {
+								ScenarioParser s = new ScenarioParser(false);
+								s.setScenarioFile(fc.getSelectedFile().getPath());
+							}
 						}
 					}
 				};// ).start();
