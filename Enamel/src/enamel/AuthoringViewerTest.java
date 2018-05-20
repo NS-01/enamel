@@ -1865,8 +1865,8 @@ public class AuthoringViewerTest {
 			public void actionPerformed(ActionEvent arg0) { 
 				String inputValue = resetResponseCurrCellPins();
 				setButtonText(buttonEditor.getText() + "\n/Clear all pins");
-				updateCell();
-				updatePrompt();
+				updateResponseCell();
+				updateButton();
 			}
 		});
 		generalCellPanel.add(rspReset);
