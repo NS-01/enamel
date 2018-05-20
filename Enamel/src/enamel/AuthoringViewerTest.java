@@ -993,6 +993,8 @@ public class AuthoringViewerTest {
 					int option = JOptionPane.showConfirmDialog(null, "This will overwrite you current save, do you wish to continue?",
 							"Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 					if (option == JOptionPane.YES_OPTION) {
+						int visualPlayer = JOptionPane.showConfirmDialog(null, "Do you want a visual player?",
+								"Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 						updateButton();
 						updatePrompt();
 						updateCell();
@@ -1000,13 +1002,20 @@ public class AuthoringViewerTest {
 								endingPrompt);
 						a.createBody();
 						ScenarioWriter sW = new ScenarioWriter(path);
+						
+						
 						try {
 							sW.write(a.getText());
 							new Thread(new Runnable() {
 								@Override
 								public void run() {
-									ScenarioParser s = new ScenarioParser(true);
-									s.setScenarioFile(path);
+									if (visualPlayer == JOptionPane.YES_OPTION) {
+										ScenarioParser s = new ScenarioParser(true);
+										s.setScenarioFile(path);
+									} else {
+										ScenarioParser s = new ScenarioParser(false);
+										s.setScenarioFile(path);
+									}
 								}
 							}).start();
 						} catch (IOException e1) {
