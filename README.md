@@ -2,7 +2,7 @@
 
 This workspace is dedicated to EECS 2311 [project](https://wiki.eecs.yorku.ca/course_archive/2017-18/W/2311/proj) to build a software program called Authoring App. The Authoring App allows users (including visually impaired users) to create, edit and save scenarios for their students to help them learn how to read Braille.
 
-## First Release
+## Final Release
 Find the release Notes [here](https://github.com/NS-01/forked_enamel/blob/master/README.txt).
 
 ## Download
@@ -22,6 +22,13 @@ You may download following documents or just click them to preview.
 * [Requirements Document](https://github.com/NS-01/forked_enamel/blob/master/Documentation/Requirements%20Document%20%5BMidterm%20Submission%5D.pdf): This document describes what the system does for its client/customer. There is also a simple use case and some acceptance test cases.
 * [Testing Document](https://github.com/NS-01/forked_enamel/blob/master/Documentation/Testing%20Documents%20%5BMidterm%20Submission%5D.pdf): This document describes the test cases that have been implemented along with discussion on the derivation of these test cases. The document also describes why these test cases are
 sufficient and discusses test coverage. 
+
+Final Documentation can be found here:
+* [User Manual Final](https://github.com/NS-01/forked_enamel/blob/master/Documentation/2311%20-%20User%20Manual%20%5BFinal%20Submission%5D.pdf) 
+* [Requirements Document Final](https://github.com/NS-01/forked_enamel/blob/master/Documentation/Requirements%20Document%20Final.pdf)
+* [Testing Document Final](https://github.com/NS-01/forked_enamel/blob/master/Documentation/Testing%20Documents%20%5BFinal%20Submission%5D.pdf)
+* [Design Document Final](https://github.com/NS-01/forked_enamel/blob/master/Documentation/Design%20Document.pdf)
+
 
 ## Team 9 Members 
 
