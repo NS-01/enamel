@@ -203,25 +203,7 @@ public class AuthoringViewerTest {
 	private JMenuItem mntmToButton;
 	private JMenuItem mntmUserManual;
 
-	public Logger logger = Logger.getLogger(this.getClass().getName());// Logger.getLogger("ACTIONS_LOG");
-
-	// public static void main(String[] args) {
-	// EventQueue.invokeLater(new Runnable() {
-	// public void run() {
-	// try {
-	// ArrayList<Card> stuff = new ArrayList<Card>();
-	// Card hi = new Card(1, "Card 1", "idk");
-	// stuff.add(hi);
-	// AuthoringViewerTest window = new AuthoringViewerTest(2, 6, stuff, "Hi",
-	// "Bye");
-	// window.aViewFrame.setVisible(true);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	// });
-	//
-	// }
+	public Logger logger = Logger.getLogger(this.getClass().getName());
 
 	/**
 	 * Create the application.
@@ -340,9 +322,13 @@ public class AuthoringViewerTest {
 		 * txtCardName.setColumns(10); cardNamePanel.add(txtCardName,
 		 * BorderLayout.NORTH);
 		 */
-		// end new commit
+	
 
+		/*
+		 * Button to enable user response.
+		 */
 		btnEnableUserResponse = new JButton("Enable User Response");
+		btnEnableUserResponse.getAccessibleContext().setAccessibleDescription("Press this button to enable user response for this card.");
 		Action buttonActionResponse = new AbstractAction("Enable User Response") {
 			int count = 0;
 
@@ -351,11 +337,6 @@ public class AuthoringViewerTest {
 				count++;
 				logger.log(Level.INFO, "Enable User Response Button was pressed.");
 				logger.log(Level.INFO, "Enable User Response Button was pressed {0} times", count);
-				// on button Press Enable the button panel and button pane
-				// buttonEditor.setEnabled(true);
-				// buttonPanel.setVisible(true);
-				// generalCellPanel.setVisible(true);
-				// mntmToButton.setEnabled(true);
 				cards.get(currCard).setEnabled(true);
 				setVisible(true);
 			}
@@ -389,9 +370,9 @@ public class AuthoringViewerTest {
 		displayFrame();
 	}
 
-	/*************************************************************
-	 * Undo redo pause and other actions
-	 *************************************************************/
+	/*
+	 * Undo, Re-do, Pause, and other actions.
+	 */
 	private void createUndoRedoPanelButtons() {
 		undoRedoPanel = new JPanel();
 		GridBagConstraints gbc_undoRedoPanel = new GridBagConstraints();
@@ -404,17 +385,18 @@ public class AuthoringViewerTest {
 		Icon undoIcon = new ImageIcon("Images/undo-16.png");
 		undoRedoPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		btnUndo_1 = new JButton("Undo", undoIcon);
+		btnUndo_1.getAccessibleContext().setAccessibleDescription("Prompt Undo Button.");
 		btnUndo_1.setFont(new Font("Tahoma", Font.BOLD, 14));
-		// btnUndo.setSelectedIcon(new
-		// ImageIcon("Images/undo-16.png"),JButton.LEFT);
 		undoRedoPanel.add(btnUndo_1);
 
 		Icon redoIcon = new ImageIcon("Images/redo-16.png");
 		btnRedo_1 = new JButton("Redo", redoIcon);
+		btnRedo_1.getAccessibleContext().setAccessibleDescription("Prompt Re-do Button.");
 		btnRedo_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		undoRedoPanel.add(btnRedo_1);
 
 		btnPause_1 = new JButton("Pause", null);
+		btnPause_1.getAccessibleContext().setAccessibleDescription("Prompt Pause Button.");
 		btnPause_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		undoRedoPanel.add(btnPause_1);
 
@@ -422,6 +404,7 @@ public class AuthoringViewerTest {
 
 		comboBox_1 = new JComboBox();
 		comboBox_1.setRenderer(new CustomComboBoxRenderer("INSERT ACTION"));
+		comboBox_1.getAccessibleContext().setAccessibleDescription("More actions for this prompt.");
 		comboBox_1.setModel(
 				new DefaultComboBoxModel(new String[] { "Play Audio File", "Display Character", "Display String" }));
 		comboBox_1.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -445,7 +428,6 @@ public class AuthoringViewerTest {
 					if (comboBox_1.getSelectedIndex() == 0) {
 						// Put stuff for play sound here
 						// ********************************************************************
-						// comboBox.setSelectedIndex(-1);
 						addAudioToPrompt();
 						comboBox_1.setSelectedIndex(-1);
 					} else if (comboBox_1.getSelectedIndex() == 1) {
@@ -455,7 +437,6 @@ public class AuthoringViewerTest {
 					}
 					updatePrompt();
 				}
-				// selectedCells = comboBox.getSelectedIndex();
 			}
 		});
 
@@ -536,10 +517,12 @@ public class AuthoringViewerTest {
 
 		Icon redoIcon = new ImageIcon("Images/redo-16.png");
 		JButton btnRedo = new JButton("Redo", redoIcon);
+		btnRedo.getAccessibleContext().setAccessibleDescription("Response Re-do Button");
 		btnRedo.setFont(new Font("Tahoma", Font.BOLD, 14));
 		undoRedoResponsePanel.add(btnRedo);
 
 		JButton btnPause = new JButton("Pause", null);
+		btnPause.getAccessibleContext().setAccessibleDescription("Response Pause button.");
 		btnPause.setFont(new Font("Tahoma", Font.BOLD, 14));
 		undoRedoResponsePanel.add(btnPause);
 
@@ -547,6 +530,7 @@ public class AuthoringViewerTest {
 
 		JComboBox comboBox = new JComboBox();
 		comboBox.setRenderer(new CustomComboBoxRenderer("INSERT ACTION"));
+		comboBox.getAccessibleContext().setAccessibleDescription("More actions for the response.");
 		comboBox.setModel(
 				new DefaultComboBoxModel(new String[] { "Play Audio File", "Display Character", "Display String" }));
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -583,7 +567,6 @@ public class AuthoringViewerTest {
 					buttonEditor.requestFocus();
 					buttonEditor.transferFocus();
 					if (comboBox.getSelectedIndex() == 0) {
-						// comboBox.setSelectedIndex(-1);
 						addAudioToButton();
 						comboBox.setSelectedIndex(-1);
 					} else if (comboBox.getSelectedIndex() == 1) {
@@ -635,10 +618,9 @@ public class AuthoringViewerTest {
 											+ cellNum);
 								}
 							}
-							// setButtonText(buttonEditor.getText() +
-							// "\n/Display character " + input);
 						}
-						comboBox.setSelectedIndex(-1);
+						
+					comboBox.setSelectedIndex(-1);
 					} else if (comboBox.getSelectedIndex() == 2) {
 						boolean checkStr = false;
 						String input = null;
@@ -723,6 +705,9 @@ public class AuthoringViewerTest {
 
 	}
 
+	/*
+	 * Pause window, allows user input of a length of time in seconds to pause for.
+	 */
 	private void pauseAction(JButton btnPause) {
 		Action buttonAction = new AbstractAction("Pause") {
 			int count = 0;
@@ -771,6 +756,9 @@ public class AuthoringViewerTest {
 		btnPause.getActionMap().put("Pause", buttonAction);
 	}
 
+	/*
+	 * Pause window, allows user input of a length of time in seconds to pause for.
+	 */
 	private void pauseActionResponse(JButton btnPause) {
 		Action buttonAction = new AbstractAction("Pause") {
 			int count = 0;
@@ -782,8 +770,6 @@ public class AuthoringViewerTest {
 				count++;
 				logger.log(Level.INFO, "Pause Button for Buttton Response was pressed.");
 				logger.log(Level.INFO, "Pause Button for Button Response was pressed {0} times", count);
-				// String inputValue = JOptionPane.showInputDialog("Please input
-				// pause time in seconds");
 				boolean checkNumber = false;
 				int time = -1;
 				while (!checkNumber) {
@@ -817,33 +803,44 @@ public class AuthoringViewerTest {
 		btnPause.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
 				.put(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_MASK | KeyEvent.SHIFT_MASK), "Pause");
 		btnPause.getActionMap().put("Pause", buttonAction);
+		
+		btnPause.getAccessibleContext().setAccessibleDescription("Press this button to set the length for a pause in the prompt.");
 	}
 
-	/*************************************************************
-	 * Undo redo pause
-	 *************************************************************/
-
+	/*
+	 * Creates the menu-bar for the application.
+	 */
 	private void createMenuBar() {
 		JMenuBar menuBar = new JMenuBar();
 		aViewFrame.setJMenuBar(menuBar);
 
+		/*
+		 * Creates the file section of the menu-bar.
+		 */
 		JMenu mnFile = new JMenu("FILE");
 		menuBar.add(mnFile);
+		mnFile.getAccessibleContext().setAccessibleDescription("File menu");
 
+		/*
+		 * Creates a new scenario.
+		 */
 		JMenuItem mntmNew = new JMenuItem("New");
 		mnFile.add(mntmNew);
+		mntmNew.getAccessibleContext().setAccessibleDescription("Create a new scenario.");
 		mntmNew.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// to do: first check if unsaved work, close old window before
-				// opening
 				ScenarioForm sf = new ScenarioForm();
 				sf.displayForm();
 			}
 		});
 
+		/*
+		 * Allows user to save document.
+		 */
 		JMenuItem mntmSave = new JMenuItem("Save");
 		mnFile.add(mntmSave);
+		mntmSave.getAccessibleContext().setAccessibleDescription("Save the current scenario.");
 		mntmSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -881,9 +878,8 @@ public class AuthoringViewerTest {
 				fc.setCurrentDirectory(new java.io.File("./FactoryScenarios"));
 				fc.setDialogTitle("Save as");
 				fc.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
-				// if(!title.equals(null)){
 				fc.setSelectedFile(new File(title + ".txt"));
-				// }
+
 				FileFilter txtFilter = new FileFilter() {
 					@Override
 					public String getDescription() {
@@ -931,12 +927,13 @@ public class AuthoringViewerTest {
 			}
 		});
 
+		/*
+		 * Allows user to open a new document.
+		 */
 		JMenuItem mntmOpen = new JMenuItem("Open");
 		mnFile.add(mntmOpen);
+		mntmOpen.getAccessibleContext().setAccessibleDescription("Open a new scenario.");
 		mntmOpen.addActionListener(new ActionListener() {
-			// Currently just runs edit text from InitialView
-			// to do: check if doc is saved before opening, close old window on
-			// open
 			public void actionPerformed(ActionEvent e) {
 				new Thread(new Runnable() {
 					public void run() {
@@ -968,12 +965,7 @@ public class AuthoringViewerTest {
 							FileToCardsParser f = new FileToCardsParser();
 							f.setFile(fc.getSelectedFile().getPath());
 							AuthoringViewerTest ap = new AuthoringViewerTest(f.getCells(), f.getButtons(), f.getCards(),
-									fc.getSelectedFile().getName().substring(0, fc.getSelectedFile().getName().length()-4), ""); // new
-																	// ActionListener()
-																	// {public
-																	// void
-																	// actionPerformed(ActionEvent
-																	// e2) {}});
+									fc.getSelectedFile().getName().substring(0, fc.getSelectedFile().getName().length()-4), ""); 
 							ap.setPromptText(f.getCards().get(0).getText());
 							ap.setCurrCellPins(f.getCards().get(0).getCells().get(0));
 							ap.setButtonText(f.getCards().get(0).getButtonList().get(0).getText());
@@ -986,8 +978,12 @@ public class AuthoringViewerTest {
 			}
 		});
 
+		/*
+		 * Allows user to test a scenario.
+		 */
 		JMenuItem mntmTest = new JMenuItem("Test");
 		mnFile.add(mntmTest);
+		mntmTest.getAccessibleContext().setAccessibleDescription("Test a new scenario.");
 		mntmTest.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1024,8 +1020,12 @@ public class AuthoringViewerTest {
 			}
 		});
 
+		/*
+		 * Exits the application.
+		 */
 		JMenuItem mntmExit = new JMenuItem("Exit");
 		mnFile.add(mntmExit);
+		mntmExit.getAccessibleContext().setAccessibleDescription("Exit the application.");
 		mntmExit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1039,11 +1039,19 @@ public class AuthoringViewerTest {
 			}
 		});
 
+		/*
+		 * Creates the edit section of the menu bar.
+		 */
 		JMenu mnEdit = new JMenu("EDIT");
 		menuBar.add(mnEdit);
+		mnEdit.getAccessibleContext().setAccessibleDescription("Edit Menu");
 
+		/*
+		 * Allows user to alter the number of buttons and cells for this scenario.
+		 */
 		JMenuItem mntmScenarioForm = new JMenuItem("Scenario Form");
 		mnEdit.add(mntmScenarioForm);
+		mntmScenarioForm.getAccessibleContext().setAccessibleDescription("Allows you to edit the cells and buttons of this scenario.");
 		mntmScenarioForm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1071,11 +1079,19 @@ public class AuthoringViewerTest {
 			}
 		});
 
+		/*
+		 * Creates the view section of the menu bar.
+		 */
 		JMenu mnView = new JMenu("VIEW");
 		menuBar.add(mnView);
+		mnView.getAccessibleContext().setAccessibleDescription("View Menu.");
 
+		/*
+		 * Makes the application take up the users entire screen.
+		 */
 		JMenuItem mntmFullscreen = new JMenuItem("Fullscreen");
 		mnView.add(mntmFullscreen);
+		mntmFullscreen.getAccessibleContext().setAccessibleDescription("Puts the window in fullscreen mode.");
 		mntmFullscreen.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -1084,17 +1100,33 @@ public class AuthoringViewerTest {
 			}
 		});
 
+		/*
+		 * Creates the audio section of the menu bar.
+		 */
 		JMenu mnAudio = new JMenu("AUDIO");
+		mnAudio.getAccessibleContext().setAccessibleDescription("Audio Menu.");
 		menuBar.add(mnAudio);
 
+		/*
+		 * Launches the record window for the user.
+		 */
 		JMenuItem mntmRecord = new JMenuItem("Record");
 		mnAudio.add(mntmRecord);
+		mntmRecord.getAccessibleContext().setAccessibleDescription("Launches the Recorder Window.");
 
+		/*
+		 * Creates the insertion subsection
+		 */
 		JMenu mnInsert = new JMenu("Insert...");
 		mnAudio.add(mnInsert);
+		mnInsert.getAccessibleContext().setAccessibleDescription("Opens Insert sub-menu.");
 
+		/*
+		 * Inserts audio to the prompt.
+		 */
 		JMenuItem mntmToPrompt = new JMenuItem("to Prompt");
 		mnInsert.add(mntmToPrompt);
+		mntmToPrompt.getAccessibleContext().setAccessibleDescription("Insert an audio file into the prompt.");
 		Action buttonActionPrompt = new AbstractAction("to Prompt") {
 			int count = 0;
 
@@ -1112,9 +1144,13 @@ public class AuthoringViewerTest {
 		};
 		mntmToPrompt.addActionListener(buttonActionPrompt);
 
+		/*
+		 * Inserts audio to the button.
+		 */
 		mntmToButton = new JMenuItem("to Button");
 		mntmToButton.setEnabled(false);
 		mnInsert.add(mntmToButton);
+		mntmToButton.getAccessibleContext().setAccessibleDescription("Insert an audio file into the current button response.");
 		Action buttonActionResponse = new AbstractAction("to Button") {
 			int count = 0;
 
@@ -1129,6 +1165,9 @@ public class AuthoringViewerTest {
 		};
 		mntmToButton.addActionListener(buttonActionResponse);
 
+		/*
+		 * Launches the recorder frame.
+		 */
 		Action buttonActionRecord = new AbstractAction("Record") {
 			int count = 0;
 
@@ -1143,34 +1182,23 @@ public class AuthoringViewerTest {
 			}
 		};
 		mntmRecord.addActionListener(buttonActionRecord);
+		
+		/*
+		 * Creates the help section of the menu bar
+		 */
 		JMenu mnHelp = new JMenu("HELP");
 		menuBar.add(mnHelp);
+		mnHelp.getAccessibleContext().setAccessibleDescription("Help Menu");
 
+		/*
+		 * Takes the user to a sample of how to get started.
+		 */
 		JMenuItem mntmTutorial = new JMenuItem("Tutorial");
+		mntmTutorial.getAccessibleContext().setAccessibleDescription("Launches a quick demo of a how to begin your scenario.");
 		mnHelp.add(mntmTutorial);
-
-		mntmUserManual = new JMenuItem("User Manual");
-		mnHelp.add(mntmUserManual);
-		mntmUserManual.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// launch browser to [INSERT USER MANUAL]
-				// Update to latest Manual Required.
-				if (Desktop.isDesktopSupported()) {
-					try {
-						Desktop.getDesktop().browse(new URI(
-								"https://github.com/NS-01/forked_enamel/blob/master/Documentation/2311%20-%20User%20Manual%20%5BMidterm%20Submission%5D.pdf"));
-					} catch (IOException | URISyntaxException e1) {
-						e1.printStackTrace();
-					}
-				}
-			}
-		});
-
 		mntmTutorial.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// launch browser to [INSERT YOUTUBE TUTORIAL LINK]
 				if (Desktop.isDesktopSupported()) {
 					try {
 						Desktop.getDesktop().browse(new URI("https://youtu.be/cIADGmL0yfI"));
@@ -1181,15 +1209,42 @@ public class AuthoringViewerTest {
 			}
 		});
 
+		/*
+		 * Takes the user to the User Manual.
+		 */
+		mntmUserManual = new JMenuItem("User Manual");
+		mnHelp.add(mntmUserManual);
+		mntmUserManual.getAccessibleContext().setAccessibleDescription("Launches the user manual.");
+		mntmUserManual.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (Desktop.isDesktopSupported()) {
+					try {
+						Desktop.getDesktop().browse(new URI(
+								"https://github.com/NS-01/forked_enamel/blob/master/Documentation/2311%20-%20User%20Manual.pdf"));
+					} catch (IOException | URISyntaxException e1) {
+						e1.printStackTrace();
+					}
+				}
+			}
+		});
+
+		/*
+		 * Creates the about section of the menu bar.
+		 */
 		JMenu mnAbout = new JMenu("ABOUT");
 		menuBar.add(mnAbout);
+		mnAbout.getAccessibleContext().setAccessibleDescription("About Menu");
 
+		/*
+		 * Takes the user to the github page.
+		 */
 		JMenuItem mntmGithub = new JMenuItem("Github");
 		mnAbout.add(mntmGithub);
+		mntmGithub.getAccessibleContext().setAccessibleDescription("Launches the project's Git.");
 		mntmGithub.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// launch browser to https://github.com/NS-01/forked_enamel
 				if (Desktop.isDesktopSupported()) {
 					try {
 						Desktop.getDesktop().browse(new URI("https://github.com/NS-01/forked_enamel"));
@@ -1200,13 +1255,15 @@ public class AuthoringViewerTest {
 			}
 		});
 
+		/*
+		 * Takes the user to the course website
+		 */
 		JMenuItem mntmCourseWebsite = new JMenuItem("Course Website");
 		mnAbout.add(mntmCourseWebsite);
+		mntmCourseWebsite.getAccessibleContext().setAccessibleDescription("Launches the Course Website for 2311 @ York University.");
 		mntmCourseWebsite.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// launch browser to
-				// https://wiki.eecs.yorku.ca/course_archive/2017-18/W/2311/
 				if (Desktop.isDesktopSupported()) {
 					try {
 						Desktop.getDesktop()
@@ -1219,6 +1276,14 @@ public class AuthoringViewerTest {
 				}
 			}
 		});
+		
+		
+		/*
+		 * 
+		 * Keyboard shortcuts
+		 * 
+		 */
+		
 		//New File Ctrl+New
 		mntmNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 		//Save File Ctrl+S
@@ -1246,6 +1311,9 @@ public class AuthoringViewerTest {
 		mntmCourseWebsite.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_W, ActionEvent.ALT_MASK));
 	}
 
+	/*
+	 * Creates and adds to the application the Previous and Next buttons used in card navigation.
+	 */
 	private void createPrevNextButtons() {
 		btnPreviousCard = new JButton("Previous Card");
 		btnPreviousCard.setFont(new Font("Tahoma", Font.BOLD, 14));
@@ -1277,8 +1345,9 @@ public class AuthoringViewerTest {
 	}
 
 	/**
+	 * Takes the user to the previous sequential card.
 	 * 
-	 * @param btnNextCard
+	 * @param btnNextCard - The button this action is linked to.
 	 */
 	private void goToPrevCard(JButton btnPrevCard) {
 		Action buttonAction = new AbstractAction("Previous Card") {
@@ -1306,7 +1375,9 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * @param btnNextCard
+	 * Takes the user to the next sequential card.
+	 * 
+	 * @param btnNextCard - The button this action is linked to.
 	 */
 	private void goToNextCard(JButton btnNextCard) {
 		Action buttonAction = new AbstractAction("Next Card") {
@@ -1318,10 +1389,6 @@ public class AuthoringViewerTest {
 				logger.log(Level.INFO, "Next Card Button was pressed.");
 				logger.log(Level.INFO, "Next Card Button was pressed {0} times", count);
 				setVisible(false);
-				// buttonEditor.setEnabled(false);
-				// buttonPanel.setVisible(false);
-				// generalCellPanel.setVisible(false);
-				// undoRedoPanel.setVisible(false);
 				if (cards.size() > currCard + 1) {
 					nextCard();
 				} else {
@@ -1335,6 +1402,7 @@ public class AuthoringViewerTest {
 			}
 		};
 		btnNextCard.setAction(buttonAction);
+		
 		// Keyboard Shortcut Ctrl + right arrow ( -> ) works only when Window or
 		// Next Card button is in focus.
 		btnNextCard.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
@@ -1342,6 +1410,9 @@ public class AuthoringViewerTest {
 		btnNextCard.getActionMap().put("Next Card", buttonAction);
 	}
 
+	/*
+	 * Creates the panel for taking user response in the scenario.
+	 */
 	private void createResponsePanel() {
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_buttonPane = new GridBagConstraints();
@@ -1374,6 +1445,9 @@ public class AuthoringViewerTest {
 		container.add(buttonPane, gbc_buttonPane);
 	}
 
+	/*
+	 * Creates the panel containing the Buttons of the scenario.
+	 */
 	private void createButtonLabelPanel() {
 
 		cardNamePanel = new JPanel();
@@ -1403,7 +1477,7 @@ public class AuthoringViewerTest {
 		nameLabel = new JLabel("Card Name: ");
 		nameLabel.setFont(new Font("Tahoma", Font.BOLD, 14));
 		cardNamePanel.add(nameLabel);
-
+		txtCardName.getAccessibleContext().setAccessibleDescription("Enter a name for the card.");
 		txtCardName.setToolTipText("Enter a name for the card");
 		txtCardName.setText(cards.get(currCard).getName());
 		txtCardName.setColumns(10);
@@ -1425,6 +1499,7 @@ public class AuthoringViewerTest {
 
 		buttonPanel = new JPanel();
 		buttonPanel.setVisible(false);
+		buttonPanel.getAccessibleContext().setAccessibleDescription("Cycle through this container to alter the response for each button.");
 		buttonLabelPanel.add(buttonPanel, BorderLayout.CENTER);
 		buttonPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 15));
 
@@ -1436,6 +1511,7 @@ public class AuthoringViewerTest {
 				}
 			});
 			buttonPanel.add(button);
+			button.getAccessibleContext().setAccessibleDescription("Button One");
 		}
 		if (this.numButtons >= 2) {
 			JButton button_1 = new JButton("     2     ");
@@ -1446,6 +1522,7 @@ public class AuthoringViewerTest {
 
 			});
 			buttonPanel.add(button_1);
+			button_1.getAccessibleContext().setAccessibleDescription("Button Two");
 		}
 		if (this.numButtons >= 3) {
 			JButton button_2 = new JButton("     3     ");
@@ -1455,6 +1532,7 @@ public class AuthoringViewerTest {
 				}
 			});
 			buttonPanel.add(button_2);
+			button_2.getAccessibleContext().setAccessibleDescription("Button Three");
 		}
 		if (this.numButtons >= 4) {
 			JButton button_3 = new JButton("     4     ");
@@ -1464,6 +1542,7 @@ public class AuthoringViewerTest {
 				}
 			});
 			buttonPanel.add(button_3);
+			button_3.getAccessibleContext().setAccessibleDescription("Button Four");
 		}
 		if (this.numButtons >= 5) {
 			JButton button_4 = new JButton("     5     ");
@@ -1473,6 +1552,7 @@ public class AuthoringViewerTest {
 				}
 			});
 			buttonPanel.add(button_4);
+			button_4.getAccessibleContext().setAccessibleDescription("Button Five");
 		}
 		if (this.numButtons >= 6) {
 			JButton button_5 = new JButton("     6     ");
@@ -1482,13 +1562,16 @@ public class AuthoringViewerTest {
 				}
 			});
 			buttonPanel.add(button_5);
+			button_5.getAccessibleContext().setAccessibleDescription("Button Six");
 		}
 	}
 
+	/*
+	 * Creates the panel containing the list elements.
+	 */
 	private void createListPanel() {
 		listPanel = new JPanel();
 		listPanel.setBackground(new Color(217, 217, 217));
-		// panel3.setBounds(50,10,200,100);
 		GridBagConstraints gbc_listPanel = new GridBagConstraints();
 		gbc_listPanel.insets = new Insets(10, 5, 5, 10);
 		gbc_listPanel.fill = GridBagConstraints.BOTH;
@@ -1497,10 +1580,13 @@ public class AuthoringViewerTest {
 		gbc_listPanel.gridheight = 2;
 		container.add(listPanel, gbc_listPanel);
 
+		/*
+		 * Creates the list of cards in the scenario.
+		 */
 		listModel = new DefaultListModel();
 		listModel.addElement("Hello:");
 		list = new JList(listModel);
-		list.getAccessibleContext().setAccessibleDescription("Card Order List");
+		list.getAccessibleContext().setAccessibleDescription("The card list for this scenario, currently on: Card " + currCard );
 		listPanel.setLayout(new BorderLayout(10, 10));
 		list.setToolTipText("Card Order List");
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -1529,11 +1615,17 @@ public class AuthoringViewerTest {
 			}
 		});
 
+		/*
+		 * Creates the scroll bar for the list
+		 */
 		listScroller = new JScrollPane(list);
 		listPanel.add(listScroller);
 		lblOrder = new JLabel("ORDER");
 		listScroller.setColumnHeaderView(lblOrder);
 
+		/*
+		 * Creates the card up button.
+		 */
 		btnCardUp = new JButton("Card Up");
 		btnCardUp.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCardUp.getAccessibleContext().setAccessibleDescription("Press to move selected card up in card list order");
@@ -1558,6 +1650,9 @@ public class AuthoringViewerTest {
 			}
 		});
 
+		/*
+		 * Creates the card down button.
+		 */
 		btnCardDown = new JButton("Card Down");
 		btnCardDown.setFont(new Font("Tahoma", Font.BOLD, 14));
 		btnCardDown.getAccessibleContext()
@@ -1568,7 +1663,7 @@ public class AuthoringViewerTest {
 				if (selected == cards.size() - 1) {
 					JOptionPane.showMessageDialog(null, "This card is already at the bottom", "Alert",
 							JOptionPane.ERROR_MESSAGE);
-				} else {
+				} else { 
 					if (currCard == selected) {
 						currCard++;
 					} else if (currCard == selected - 1) {
@@ -1590,7 +1685,9 @@ public class AuthoringViewerTest {
 		listButtonPanel.add(btnCardDown, BorderLayout.SOUTH);
 	}
 
-	// TEST
+	/*
+	 * Creates the display frame.
+	 */
 	private void displayFrame() {
 		setVisible(cards.get(currCard).getEnbled());
 		aViewFrame.setBackground(new Color(255, 255, 255));
@@ -1603,6 +1700,9 @@ public class AuthoringViewerTest {
 		aViewFrame.setVisible(true);
 	}
 
+	/*
+	 * Sets up and organizes frame.
+	 */
 	private void setUpFrame() {
 		container = new JPanel();
 		aViewFrame = new JFrame();
@@ -1617,23 +1717,23 @@ public class AuthoringViewerTest {
 				Double.MIN_VALUE, 2.0, Double.MIN_VALUE };
 		container.setLayout(gridBagLayout);
 		JScrollPane jsp = new JScrollPane(container);
-		// aViewFrame.getContentPane().add(jsp);
 		aViewFrame.getContentPane().add(jsp);
 	}
 
+	/*
+	 * Creates the button response braille cell.
+	 */
 	private void createResponseCell() {
 		generalCellPanel = new JPanel();
 		generalCellPanel.repaint();
 		generalCellPanel.setBackground(new Color(217, 217, 217));
 		container.add(generalCellPanel);
 		generalCellPanel.setLayout(null);
-		// generalCellPanel.setEnabled(enable);
 
 		button_6 = new JButton("<");
 		button_6.setFont(new Font("Tahoma", Font.BOLD, 14));
 		button_6.getAccessibleContext().setAccessibleDescription("Go to previous cell to change raised pins");
 		button_6.setToolTipText("Left Cell Button");
-		// button_6.setEnabled(enable);
 		button_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (responseCell == 0) {
@@ -1652,7 +1752,6 @@ public class AuthoringViewerTest {
 		generalCellPanel.add(button_6);
 
 		button_7 = new JButton(">");
-		// button_7.setEnabled(enable);
 		button_7.setFont(new Font("Tahoma", Font.BOLD, 14));
 		button_7.getAccessibleContext().setAccessibleDescription("Go to Next cell within button to change raised pins");
 		button_7.setToolTipText("Right Cell Button");
@@ -1689,55 +1788,55 @@ public class AuthoringViewerTest {
 		cellPanel.setBounds(70, 20, 75, 140);
 		generalCellPanel.add(cellPanel);
 		cellPanel.setLayout(null);
-		// cellPanel.setEnabled(enable);
+		cellPanel.getAccessibleContext().setAccessibleDescription("Response Cell Panel.");
 
 		rspOne = new JRadioButton("");
 		rspOne.setToolTipText("Pin One");
+		rspOne.getAccessibleContext().setAccessibleDescription("Pin One");
 		rspOne.setBounds(6, 6, 28, 23);
 		cellPanel.add(rspOne);
-		// rspOne.setEnabled(enable);
 
 		rspFour = new JRadioButton("");
 		rspFour.setToolTipText("Pin Four");
+		rspFour.getAccessibleContext().setAccessibleDescription("Pin Four");
 		rspFour.setBounds(46, 6, 28, 23);
 		cellPanel.add(rspFour);
-		// rspFour.setEnabled(enable);
 
 		rspTwo = new JRadioButton("");
 		rspTwo.setToolTipText("Pin  Two");
+		rspTwo.getAccessibleContext().setAccessibleDescription("Pin Two");
 		rspTwo.setBounds(6, 41, 28, 23);
 		cellPanel.add(rspTwo);
-		// rspTwo.setEnabled(enable);
 
 		rspFive = new JRadioButton("");
 		rspFive.setToolTipText("Pin  Five");
+		rspFive.getAccessibleContext().setAccessibleDescription("Pin Five");
 		rspFive.setBounds(46, 41, 28, 23);
 		cellPanel.add(rspFive);
-		// rspFive.setEnabled(enable);
 
 		rspThree = new JRadioButton("");
 		rspThree.setToolTipText("Pin  Three");
+		rspThree.getAccessibleContext().setAccessibleDescription("Pin Three");
 		rspThree.setBounds(6, 76, 28, 23);
 		cellPanel.add(rspThree);
-		// rspThree.setEnabled(enable);
 
 		rspSix = new JRadioButton("");
 		rspSix.setToolTipText("Pin  Six");
+		rspSix.getAccessibleContext().setAccessibleDescription("Pin Six");
 		rspSix.setBounds(46, 76, 28, 23);
 		cellPanel.add(rspSix);
-		// rspSix.setEnabled(enable);
 
 		rspSeven = new JRadioButton("");
 		rspSeven.setToolTipText("Pin  Seven");
+		rspSeven.getAccessibleContext().setAccessibleDescription("Pin Seven");
 		rspSeven.setBounds(6, 111, 28, 23);
 		cellPanel.add(rspSeven);
-		// rspSeven.setEnabled(enable);
 
 		rspEight = new JRadioButton("");
 		rspEight.setToolTipText("Pin  Eight");
+		rspEight.getAccessibleContext().setAccessibleDescription("Pin Eight");
 		rspEight.setBounds(46, 111, 28, 23);
 		cellPanel.add(rspEight);
-		// rspEight.setEnabled(enable);
 
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(10, 5, 0, 5);
@@ -1751,11 +1850,10 @@ public class AuthoringViewerTest {
 		generalCellPanel.add(responseCellLabel);
 		generalCellPanel.setVisible(false);
 
-		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
-		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		rspRaisePins = new JButton("Raise Pins");
 		rspRaisePins.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
+			public void actionPerformed(ActionEvent arg0) { 
 				String inputValue = updateResponseCell();
 				setButtonText(buttonEditor.getText() + "\n/Pins on " + (responseCell + 1) + ": " + inputValue);
 				updateResponseCell();
@@ -1765,12 +1863,11 @@ public class AuthoringViewerTest {
 		rspRaisePins.setBounds(54, 165, 114, 23);
 		generalCellPanel.add(rspRaisePins);
 
-		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
-		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		rspReset = new JButton("Reset");
 		rspReset.setBounds(54, 195, 114, 23);
 		rspReset.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) { ////////////////////////////////////////////////////////////////////////////////////////////////
+			public void actionPerformed(ActionEvent arg0) { 
 				String inputValue = resetResponseCurrCellPins();
 				setButtonText(buttonEditor.getText() + "\n/Clear all pins");
 				updateCell();
@@ -1783,6 +1880,9 @@ public class AuthoringViewerTest {
 						rspTwo, rspThree, rspFive, rspSix, rspSeven, rspEight, button_7, rspRaisePins, rspReset }));
 	}
 
+	/*
+	 * Creates the cell containing the prompt Braille Cell.
+	 */
 	private void createPromptCell() {
 		generalCellPanel_1 = new JPanel();
 		generalCellPanel_1.setBackground(new Color(217, 217, 217));
@@ -1844,44 +1944,53 @@ public class AuthoringViewerTest {
 		cellPanel_1.setBounds(70, 20, 75, 140);
 		generalCellPanel_1.add(cellPanel_1);
 		cellPanel_1.setLayout(null);
+		cellPanel_1.getAccessibleContext().setAccessibleDescription("Prompt Cell Panel");
 
 		pOne = new JRadioButton("");
 		pOne.setToolTipText("Pin One");
+		pOne.getAccessibleContext().setAccessibleDescription("Prompt Pin One");
 		pOne.setBounds(6, 6, 28, 23);
 		cellPanel_1.add(pOne);
 
 		pFour = new JRadioButton("");
 		pFour.setToolTipText("Pin Four");
+		pFour.getAccessibleContext().setAccessibleDescription("Prompt Pin Four");
 		pFour.setBounds(46, 6, 28, 23);
 		cellPanel_1.add(pFour);
 
 		pTwo = new JRadioButton("");
 		pTwo.setToolTipText("Pin  Two");
+		pTwo.getAccessibleContext().setAccessibleDescription("Prompt Pin Two");
 		pTwo.setBounds(6, 41, 28, 23);
 		cellPanel_1.add(pTwo);
 
 		pFive = new JRadioButton("");
 		pFive.setToolTipText("Pin  Five");
+		pFive.getAccessibleContext().setAccessibleDescription("Prompt Pin Five");
 		pFive.setBounds(46, 41, 28, 23);
 		cellPanel_1.add(pFive);
 
 		pThree = new JRadioButton("");
 		pThree.setToolTipText("Pin  Three");
+		pThree.getAccessibleContext().setAccessibleDescription("Prompt Pin Three");
 		pThree.setBounds(6, 76, 28, 23);
 		cellPanel_1.add(pThree);
 
 		pSix = new JRadioButton("");
 		pSix.setToolTipText("Pin  Six");
+		pSix.getAccessibleContext().setAccessibleDescription("Prompt Pin Six");
 		pSix.setBounds(46, 76, 28, 23);
 		cellPanel_1.add(pSix);
 
 		pSeven = new JRadioButton("");
 		pSeven.setToolTipText("Pin  Seven");
+		pSeven.getAccessibleContext().setAccessibleDescription("Prompt Pin Seven");
 		pSeven.setBounds(6, 111, 28, 23);
 		cellPanel_1.add(pSeven);
 
 		pEight = new JRadioButton("");
 		pEight.setToolTipText("Pin  Eight");
+		pEight.getAccessibleContext().setAccessibleDescription("Prompt Pin Eight");
 		pEight.setBounds(46, 111, 28, 23);
 		cellPanel_1.add(pEight);
 
@@ -1899,6 +2008,7 @@ public class AuthoringViewerTest {
 		// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<NEW: TESTING
 		// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 		btnRaisePins = new JButton("Raise Pins");
+		btnRaisePins.getAccessibleContext().setAccessibleDescription("Press this to write the current cell into the scenario.");
 		Action buttonActionRaise = new AbstractAction("Raise Pins") {
 			int count = 0;
 
@@ -1942,6 +2052,9 @@ public class AuthoringViewerTest {
 						pFour, pFive, pSix, pSeven, pEight, button_9, btnRaisePins, btnReset }));
 	}
 
+	/*
+	 * Creates the text field for the prompt.
+	 */
 	private void createPromptTextField() {
 		GridBagConstraints gbc_promptPane = new GridBagConstraints();
 		gbc_promptPane.insets = new Insets(10, 10, 5, 5);
@@ -1949,6 +2062,7 @@ public class AuthoringViewerTest {
 		gbc_promptPane.gridx = 0;
 		gbc_promptPane.gridy = 1;
 		promptTextField = new JEditorPane();
+		promptTextField.getAccessibleContext().setAccessibleDescription("Enter the script for this prompt here.");
 		promptTextField.setText(cards.get(currCard).getText());
 		if (promptTextField.getText().equals(""))
 			promptTextField.setText("Enter a Prompt for this card");
@@ -1974,6 +2088,9 @@ public class AuthoringViewerTest {
 		promptPane.setColumnHeaderView(lblPrompt);
 	}
 
+	/*
+	 * Pop-up to confirm the closing of the application.
+	 */
 	private class confirmClose extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			int option = JOptionPane.showConfirmDialog(null, "Do you want to EXIT? \nNo changes will be saved!!!",
@@ -1987,55 +2104,18 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * Action for settings button. Method not in use since mid-term submission.
-	 * 
-	 * @param settingsButton
-	 */
-	private void settingsAction(JButton settingsButton) {
-		Action buttonAction = new AbstractAction("Settings") {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (buttonEdit == false) {
-					buttonEditor.setText("");
-				}
-				if (promptEdit == false) {
-					promptTextField.setText("");
-				}
-				updateButton();
-				updatePrompt();
-				updateCell();
-				EventQueue.invokeLater(new Runnable() {
-					public void run() {
-						try {
-							ScenarioForm window = new ScenarioForm(cards, numCells, numButtons, title);
-							window.sCreatorFrame.setVisible(true);
-						} catch (Exception e) {
-							e.printStackTrace();
-						}
-					}
-				});
-				aViewFrame.dispose();
-			}
-		};
-		settingsButton.setAction(buttonAction);
-		settingsButton.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW)
-				.put(KeyStroke.getKeyStroke(KeyEvent.VK_N, KeyEvent.CTRL_DOWN_MASK), "Settings");
-		settingsButton.getActionMap().put("Settings", buttonAction);
-	}
-
-	/**
 	 * Method to set Prompt text
 	 *
-	 * @param text
+	 * @param text - The String of text to be written as the cards prompt.
 	 */
 	public void setPromptText(String text) {
 		promptTextField.setText(text);
 	}
 
 	/**
-	 * Method to set the pins of braille cell
+	 * Method to set the pins of braille cell.
 	 *
-	 * @param cell
+	 * @param cell - The cell to be set.
 	 */
 	public void setCurrCellPins(BrailleCell cell) {
 		pOne.setSelected(cell.getPinState(0));
@@ -2081,9 +2161,9 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * Reset the braille cell and type the string to prompt text view
+	 * Reset the braille cell and type the string to prompt text view.
 	 * 
-	 * @return
+	 * @return s - The String of to be written.
 	 */
 	public String resetResponseCurrCellPins() {
 		BrailleCell temp = new BrailleCell();
@@ -2113,7 +2193,7 @@ public class AuthoringViewerTest {
 	/**
 	 * Method to set the pins of braille cell on response cell
 	 *
-	 * @param cell
+	 * @param cell - The cell to raise the pins of.
 	 */
 	public void setResponseCellPins(BrailleCell cell) {
 		rspOne.setSelected(cell.getPinState(0));
@@ -2129,14 +2209,14 @@ public class AuthoringViewerTest {
 	/**
 	 * Method to set button text
 	 *
-	 * @param text
+	 * @param text - The String of text to be written to the button response.
 	 */
 	public void setButtonText(String text) {
 		buttonEditor.setText(text);
 	}
 
 	/**
-	 * Method to set card list
+	 * Method to set card list.
 	 */
 
 	public void setCardList() {
@@ -2148,9 +2228,9 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * Method to show button text
+	 * Method to show button text.
 	 *
-	 * @param buttonNum
+	 * @param buttonNum - The button to be used.
 	 */
 	public void showButtonText(int buttonNum) { // ButtonNum 0-5
 		if (currButton != buttonNum) {
@@ -2175,7 +2255,7 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * Method to update button
+	 * Method to update button.
 	 */
 	public void updateButton() {
 		if (cards.get(currCard).getButtonList().isEmpty()) {
@@ -2186,7 +2266,7 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * Method to update prompt
+	 * Method to update prompt.
 	 */
 	public void updatePrompt() {
 		cards.get(currCard).setText(promptTextField.getText());
@@ -2195,7 +2275,7 @@ public class AuthoringViewerTest {
 	// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<Changed: TESTING
 	// REQUIRED>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	/**
-	 * Method to update braille cell
+	 * Method to update braille cell.
 	 */
 	public String updateCell() {
 		BrailleCell temp = new BrailleCell();
@@ -2217,7 +2297,7 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * Method to update response braille cell
+	 * Method to update response braille cell.
 	 */
 	public String updateResponseCell() {
 		BrailleCell temp = new BrailleCell();
@@ -2239,14 +2319,14 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * Method to show prompt
+	 * Method to show prompt.
 	 */
 	public void showPrompt() {
 		setPromptText(cards.get(currCard).getText());
 	}
 
 	/**
-	 * Method to go to next card
+	 * Method to go to next card.
 	 */
 	public void nextCard() {
 		if (buttonEdit == false) {
@@ -2280,6 +2360,9 @@ public class AuthoringViewerTest {
 		setVisible(cards.get(currCard).getEnbled());
 	}
 
+	/*
+	 * Method used to toggle the visibility of multiple elements.
+	 */
 	private void setVisible(Boolean b) {
 		mntmToButton.setEnabled(b);
 		buttonEditor.setEnabled(b);
@@ -2293,7 +2376,7 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * Method to go to previous card
+	 * Method to go to previous card.
 	 */
 	public void prevCard() {
 		updateButton();
@@ -2318,7 +2401,7 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * Method to set edited booleans
+	 * Method to set edited booleans.
 	 */
 	public void setEdited() {
 		this.buttonEdit = true;
@@ -2334,7 +2417,7 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * Adds action to insert an audio file to a button
+	 * Adds action to insert an audio file to a button.
 	 */
 	private void addAudioToButton() {
 		JFileChooser fc = new JFileChooser();
@@ -2390,7 +2473,7 @@ public class AuthoringViewerTest {
 	}
 
 	/**
-	 * Adds action to insert an audio file to Prompt
+	 * Adds action to insert an audio file to Prompt.
 	 */
 	private void addAudioToPrompt() {
 		JFileChooser fc = new JFileChooser();
@@ -2441,6 +2524,9 @@ public class AuthoringViewerTest {
 		}
 	}
 
+	/*
+	 * Displays a character.
+	 */
 	private void displayCharacter(JComboBox comboBox) {
 		boolean checkChar = false;
 		String input = null;
@@ -2489,6 +2575,9 @@ public class AuthoringViewerTest {
 		comboBox.setSelectedIndex(-1);
 	}
 
+	/*
+	 * Displays a string.
+	 */
 	private void displayString(JComboBox comboBox) {
 		boolean checkStr = false;
 		String input = null;
@@ -2515,6 +2604,9 @@ public class AuthoringViewerTest {
 		comboBox.setSelectedIndex(-1);
 	}
 
+	/*
+	 * Custom Combo Box Class.
+	 */
 	class CustomComboBoxRenderer extends JLabel implements ListCellRenderer {
 		private String _title;
 
