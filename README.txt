@@ -1,5 +1,5 @@
 Authoring App 
-Version 1.0.0 Release Notes
+Version 1.0.0.0 Release Notes
 
 Authots: Jeremy Winkler, Nisha Sharma, Tyler Thomson
 
@@ -18,5 +18,4 @@ functionality, it is suggested to keep the AuthoringApp.jar in the same folder
 with the other libraries and jars. Please consult the documents in Documentation 
 folder for further details.
 
-An updated version with improved functionality and features is under 
-construction. Stay tuned for next update.
+This is the realese for final Submission.
